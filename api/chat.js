@@ -1,6 +1,5 @@
-// api/chat.js – Vercel Serverless Function
+// api/chat.js – Vercel Serverless Function (compatível com Groq, OpenAI, etc.)
 export default async function handler(req, res) {
-    // Aceita apenas POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método não permitido' });
     }
@@ -12,15 +11,16 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Usa a chave da API a partir das variáveis de ambiente
         const apiKey = process.env.OPENAI_API_KEY;
         if (!apiKey) {
             throw new Error('Chave da API não configurada no servidor.');
         }
 
+        // Usa variáveis de ambiente para endpoint e modelo
+        const endpoint = process.env.AI_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
         const model = process.env.AI_MODEL || 'gpt-3.5-turbo';
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
