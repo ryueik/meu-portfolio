@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin | Portfólio Matheus Macário</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+    --bg-body:#0A0A0F; --bg-surface:#12121A; --bg-surface-alt:#1A1A25; --bg-card:#16161F;
+    --text-primary:#F0F0F5; --text-secondary:#A0A0B0; --text-muted:#6A6A7A;
+    --accent-primary:#00E5FF; --accent-secondary:#7C3AED; --accent-green:#00FF9D;
+    --accent-red:#FF4757; --accent-orange:#FF9F43; --accent-yellow:#FFD93D;
+    --border-color:#2A2A3A; --shadow:0 8px 32px rgba(0,0,0,.5);
+    --shadow-glow:0 0 40px rgba(0,229,255,.1);
+    --radius:16px; --radius-sm:10px;
+    --transition:.3s cubic-bezier(.4,0,.2,1);
+    --font:'Inter',sans-serif; --font-mono:'Space Grotesk',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:var(--font);background:var(--bg-body);color:var(--text-primary);line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg-body)}
+::-webkit-scrollbar-thumb{background:var(--accent-primary);border-radius:4px}
+button{cursor:pointer;font-family:inherit;font-size:1rem;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:.95rem;background:var(--bg-surface-alt);color:var(--text-primary);border:2px solid var(--border-color);border-radius:var(--radius-sm);padding:.7rem 1rem;width:100%;transition:border .3s,box-shadow .3s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent-primary);box-shadow:0 0 0 4px rgba(0,229,255,.1)}
+textarea{resize:vertical;min-height:90px;line-height:1.6}
+label{font-weight:600;font-size:.85rem;display:block;margin-bottom:.35rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px}
+a{color:var(--accent-primary);text-decoration:none}
+a:hover{color:var(--accent-green)}
+
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+
+/* LOGIN */
+.login-screen{position:fixed;inset:0;background:var(--bg-body);display:flex;align-items:center;justify-content:center;padding:1.5rem;z-index:100;background-image:radial-gradient(circle at 20% 30%,rgba(0,229,255,.06) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(124,58,237,.06) 0%,transparent 50%)}
+.login-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:2.5rem;max-width:420px;width:100%;box-shadow:var(--shadow)}
+.login-card .logo{font-family:var(--font-mono);font-size:1.5rem;font-weight:700;text-align:center;margin-bottom:.5rem}
+.login-card .logo span{color:var(--accent-primary)}
+.login-card h1{font-size:1.3rem;text-align:center;margin-bottom:.5rem}
+.login-card p{text-align:center;color:var(--text-secondary);font-size:.9rem;margin-bottom:2rem}
+.login-card .lock-icon{text-align:center;font-size:2.5rem;color:var(--accent-primary);margin-bottom:1rem}
+.login-card .error{color:var(--accent-red);font-size:.85rem;text-align:center;margin-top:.75rem;min-height:1.2rem}
+.login-hint{margin-top:1.5rem;padding:1rem;background:var(--bg-surface-alt);border-radius:var(--radius-sm);font-size:.8rem;color:var(--text-secondary);line-height:1.6}
+.login-hint code{background:var(--bg-body);padding:.15rem .4rem;border-radius:4px;color:var(--accent-green);font-family:var(--font-mono)}
+
+/* HEADER */
+.admin-header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-color);padding:1rem 0}
+.admin-header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.admin-header .brand{font-family:var(--font-mono);font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:.6rem}
+.admin-header .brand .badge-admin{font-size:.65rem;background:var(--accent-primary);color:var(--bg-body);padding:.15rem .5rem;border-radius:4px;font-weight:800;letter-spacing:.5px}
+.admin-header-actions{display:flex;gap:.6rem;align-items:center}
+.status-pill{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;padding:.35rem .8rem;border-radius:50px;background:var(--bg-surface-alt);border:1px solid var(--border-color);color:var(--text-secondary)}
+.status-pill.ok{border-color:rgba(0,255,157,.3);color:var(--accent-green);background:rgba(0,255,157,.08)}
+.status-pill.err{border-color:rgba(255,71,87,.3);color:var(--accent-red);background:rgba(255,71,87,.08)}
+.status-pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:50px;font-weight:600;font-size:.875rem;transition:all .3s;border:2px solid transparent;white-space:nowrap;text-decoration:none}
+.btn-primary{background:var(--accent-primary);color:var(--bg-body);border-color:var(--accent-primary)}
+.btn-primary:hover{background:transparent;color:var(--accent-primary);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,229,255,.2)}
+.btn-green{background:var(--accent-green);color:var(--bg-body);border-color:var(--accent-green)}
+.btn-green:hover{background:transparent;color:var(--accent-green);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--text-primary);border-color:var(--border-color)}
+.btn-outline:hover{border-color:var(--accent-primary);color:var(--accent-primary)}
+.btn-danger{background:transparent;color:var(--accent-red);border-color:var(--accent-red)}
+.btn-danger:hover{background:var(--accent-red);color:white}
+.btn-sm{padding:.4rem .9rem;font-size:.8rem}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:50%;justify-content:center}
+
+/* TABS */
+.tabs{display:flex;gap:.5rem;border-bottom:2px solid var(--border-color);margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem}
+.tab-btn{padding:.7rem 1.4rem;border-radius:50px;font-weight:600;font-size:.875rem;color:var(--text-secondary);border:2px solid transparent;transition:all .3s;white-space:nowrap}
+.tab-btn:hover{color:var(--text-primary);background:var(--bg-surface-alt)}
+.tab-btn.active{color:var(--accent-primary);border-color:var(--accent-primary);background:rgba(0,229,255,.06)}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* MAIN */
+main{padding:2.5rem 0 5rem}
+.page-title{font-size:1.8rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.25rem}
+.page-sub{color:var(--text-secondary);font-size:.95rem;margin-bottom:2rem}
+
+/* TOOLBAR */
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.toolbar-left{display:flex;gap:.5rem;flex-wrap:wrap}
+.search-box{position:relative;min-width:240px}
+.search-box input{padding-left:2.5rem}
+.search-box i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none}
+
+/* PROJECTS LIST */
+.project-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.25rem;margin-bottom:.75rem;display:flex;gap:1rem;align-items:flex-start;transition:all .3s}
+.project-item:hover{border-color:var(--accent-primary);box-shadow:var(--shadow-glow)}
+.project-item .thumb{width:56px;height:56px;flex-shrink:0;border-radius:12px;background:var(--bg-surface-alt);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--accent-primary);border:1px solid var(--border-color)}
+.project-item .body{flex:1;min-width:0}
+.project-item h3{font-size:1.05rem;font-weight:700;margin-bottom:.25rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.project-item .cat-tag{font-size:.65rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;letter-spacing:.5px;text-transform:uppercase}
+.cat-tag.rpa{background:rgba(0,255,157,.12);color:var(--accent-green)}
+.cat-tag.web{background:rgba(0,229,255,.12);color:var(--accent-primary)}
+.cat-tag.scripts{background:rgba(255,159,67,.12);color:var(--accent-orange)}
+.project-item .desc{color:var(--text-secondary);font-size:.875rem;margin-bottom:.5rem;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.project-item .tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.project-item .tags span{font-size:.7rem;background:var(--bg-surface-alt);padding:.15rem .55rem;border-radius:50px;color:var(--text-secondary);border:1px solid var(--border-color)}
+.project-item .actions{display:flex;gap:.4rem;flex-shrink:0}
+.empty-state{text-align:center;padding:4rem 2rem;background:var(--bg-card);border:2px dashed var(--border-color);border-radius:var(--radius);color:var(--text-secondary)}
+.empty-state i{font-size:3rem;color:var(--accent-primary);margin-bottom:1rem;opacity:.5}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;z-index:200;overflow-y:auto}
+.modal-overlay.open{display:flex;animation:fadeIn .2s}
+.modal{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius);width:100%;max-width:680px;padding:2rem;box-shadow:var(--shadow);max-height:92vh;overflow-y:auto;margin:auto}
+.modal h2{font-size:1.3rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.modal h2 button{color:var(--text-secondary);font-size:1.2rem;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal h2 button:hover{background:var(--bg-surface-alt);color:var(--accent-red)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1rem}
+.form-group small{display:block;color:var(--text-muted);font-size:.75rem;margin-top:.3rem}
+.form-actions{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border-color)}
+.cat-selector{display:flex;gap:.5rem;flex-wrap:wrap}
+.cat-selector button{padding:.5rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;border:2px solid var(--border-color);color:var(--text-secondary);background:transparent;transition:all .3s}
+.cat-selector button:hover{color:var(--text-primary)}
+.cat-selector button.active[data-cat="rpa"]{background:var(--accent-green);color:var(--bg-body);border-color:var(--accent-green)}
+.cat-selector button.active[data-cat="web"]{background:var(--accent-primary);color:var(--bg-body);border-color:var(--accent-primary)}
+.cat-selector button.active[data-cat="scripts"]{background:var(--accent-orange);color:var(--bg-body);border-color:var(--accent-orange)}
+
+/* SETTINGS */
+.settings-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.5rem}
+.settings-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.settings-card h3 i{color:var(--accent-primary)}
+.settings-card .hint{color:var(--text-secondary);font-size:.85rem;margin-bottom:1.5rem;line-height:1.7}
+.settings-card .hint a{font-weight:600}
+.info-box{background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);border-radius:var(--radius-sm);padding:1rem;font-size:.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem}
+.info-box strong{color:var(--accent-primary)}
+.info-box code{background:var(--bg-body);padding:.15rem .4rem;border-radius:4px;color:var(--accent-green);font-family:var(--font-mono);font-size:.85em}
+.info-box ol{margin:.5rem 0 0 1.25rem}
+.info-box li{margin-bottom:.35rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg-card);border:1px solid var(--border-color);border-left:4px solid var(--accent-green);padding:1rem 1.25rem;border-radius:var(--radius-sm);box-shadow:var(--shadow);z-index:9999;transform:translateY(150%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:380px;font-weight:500;font-size:.9rem;display:flex;align-items:center;gap:.75rem}
+.toast.show{transform:translateY(0)}
+.toast.error{border-left-color:var(--accent-red)}
+.toast.info{border-left-color:var(--accent-primary)}
+.toast i{font-size:1.1rem}
+.toast.success i{color:var(--accent-green)}
+.toast.error i{color:var(--accent-red)}
+.toast.info i{color:var(--accent-primary)}
+
+/* LOADING */
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:768px){
+    .form-row{grid-template-columns:1fr}
+    .project-item{flex-wrap:wrap}
+    .project-item .actions{width:100%;justify-content:flex-end}
+    .modal{padding:1.5rem}
+    .toast{left:1rem;right:1rem;bottom:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-card">
+        <div class="lock-icon"><i class="fas fa-shield-halved"></i></div>
+        <div class="logo">MM<span>.</span>admin</div>
+        <h1>Painel Administrativo</h1>
+        <p>Gestão de projetos do portfólio</p>
+        <div class="form-group">
+            <label for="loginPassword">Senha</label>
+            <input type="password" id="loginPassword" placeholder="Digite a senha" autocomplete="current-password" />
+        </div>
+        <div class="error" id="loginError"></div>
+        <button class="btn btn-primary" id="loginBtn" style="width:100%;justify-content:center;margin-top:1rem">
+            <i class="fas fa-sign-in-alt"></i> Entrar
+        </button>
+        <div class="login-hint">
+            <strong>Primeira vez?</strong> Senha padrão: <code>admin123</code><br>
+            Você poderá alterá-la na aba <strong>Configurações</strong>.
+        </div>
+    </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" style="display:none">
+
+    <header class="admin-header">
+        <div class="container admin-header-inner">
+            <div class="brand">
+                <i class="fas fa-terminal" style="color:var(--accent-primary)"></i>
+                Matheus Macário <span class="badge-admin">ADMIN</span>
+            </div>
+            <div class="admin-header-actions">
+                <span class="status-pill" id="syncStatus">
+                    <span class="dot"></span> Verificando...
+                </span>
+                <a href="index.html" target="_blank" class="btn btn-outline btn-sm">
+                    <i class="fas fa-external-link-alt"></i> Ver site
+                </a>
+                <button class="btn btn-outline btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">Gestão de Projetos</h1>
+            <p class="page-sub">Adicione, edite e remova projetos. As mudanças são salvas no GitHub e aparecem no portfólio.</p>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="projects"><i class="fas fa-folder"></i> Projetos</button>
+                <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Configurações</button>
+            </div>
+
+            <!-- ===== TAB PROJETOS ===== -->
+            <div class="tab-content active" id="tab-projects">
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn btn-primary" id="newProjectBtn">
+                            <i class="fas fa-plus"></i> Novo Projeto
+                        </button>
+                        <button class="btn btn-outline" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i> Recarregar
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar projeto..." />
+                    </div>
+                </div>
+                <div id="projectsList"></div>
+            </div>
+
+            <!-- ===== TAB CONFIGURAÇÕES ===== -->
+            <div class="tab-content" id="tab-settings">
+
+                <div class="settings-card">
+                    <h3><i class="fab fa-github"></i> Conexão com GitHub</h3>
+                    <p class="hint">Configure o token e o repositório onde os projetos serão salvos.</p>
+
+                    <div class="info-box">
+                        <strong>Como obter um token:</strong>
+                        <ol>
+                            <li>Acesse <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a></li>
+                            <li>Clique em <strong>Generate new token</strong></li>
+                            <li>Em <strong>Repository access</strong>, selecione apenas o repositório do portfólio</li>
+                            <li>Em <strong>Permissions → Repository permissions → Contents</strong>, marque <code>Read and write</code></li>
+                            <li>Gere o token e cole no campo abaixo</li>
+                        </ol>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ghToken">Personal Access Token</label>
+                        <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off" />
+                        <small>O token fica salvo apenas no seu navegador (localStorage).</small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ghOwner">Usuário / Organização</label>
+                            <input type="text" id="ghOwner" placeholder="ryueik" />
+                        </div>
+                        <div class="form-group">
+                            <label for="ghRepo">Repositório</label>
+                            <input type="text" id="ghRepo" placeholder="Projetos" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ghBranch">Branch</label>
+                            <input type="text" id="ghBranch" placeholder="main" />
+                        </div>
+                        <div class="form-group">
+                            <label for="ghPath">Caminho do arquivo JSON</label>
+                            <input type="text" id="ghPath" placeholder="data/projects.json" />
+                        </div>
+                    </div>
+                    <div class="form-actions" style="justify-content:flex-start;border:none;padding-top:.5rem;margin-top:.5rem">
+                        <button class="btn btn-primary" id="saveGhConfigBtn"><i class="fas fa-save"></i> Salvar Configurações</button>
+                        <button class="btn btn-outline" id="testGhBtn"><i class="fas fa-vial"></i> Testar Conexão</button>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-lock"></i> Senha do Painel</h3>
+                    <p class="hint">Altere a senha de acesso a este painel.</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newPassword">Nova Senha</label>
+                            <input type="password" id="newPassword" placeholder="Mínimo 4 caracteres" />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmar Senha</label>
+                            <input type="password" id="confirmPassword" placeholder="Repita a senha" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="changePasswordBtn"><i class="fas fa-key"></i> Alterar Senha</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-file-export"></i> Backup & Importação</h3>
+                    <p class="hint">Exporte seus projetos em JSON ou importe de um arquivo existente.</p>
+                    <div class="form-actions" style="justify-content:flex-start;border:none;padding-top:.5rem;margin-top:.5rem">
+                        <button class="btn btn-outline" id="exportBtn"><i class="fas fa-download"></i> Exportar JSON</button>
+                        <label class="btn btn-outline" style="margin:0">
+                            <i class="fas fa-upload"></i> Importar JSON
+                            <input type="file" id="importInput" accept=".json" style="display:none" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-card" style="border-color:rgba(255,71,87,.3)">
+                    <h3 style="color:var(--accent-red)"><i class="fas fa-exclamation-triangle"></i> Zona de Perigo</h3>
+                    <p class="hint">Ações irreversíveis. Use com cautela.</p>
+                    <button class="btn btn-danger" id="resetAllBtn"><i class="fas fa-trash-alt"></i> Limpar todos os dados locais</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ============ MODAL PROJETO ============ -->
+<div class="modal-overlay" id="projectModal">
+    <div class="modal">
+        <h2>
+            <span id="modalTitle">Novo Projeto</span>
+            <button id="modalCloseBtn" aria-label="Fechar"><i class="fas fa-times"></i></button>
+        </h2>
+        <form id="projectForm">
+            <input type="hidden" id="projectId" />
+
+            <div class="form-group">
+                <label for="fTitle">Título *</label>
+                <input type="text" id="fTitle" placeholder="Ex: Pipeline de Importação SharePoint" required />
+            </div>
+
+            <div class="form-group">
+                <label for="fDesc">Descrição *</label>
+                <textarea id="fDesc" placeholder="Descreva o objetivo e a solução..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Categoria *</label>
+                <div class="cat-selector" id="catSelector">
+                    <button type="button" data-cat="rpa" class="active">Automação & RPA</button>
+                    <button type="button" data-cat="web">Web & APIs</button>
+                    <button type="button" data-cat="scripts">Scripts & DevOps</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fTags">Tecnologias (separadas por vírgula)</label>
+                <input type="text" id="fTags" placeholder="Python, Power Automate, REST API" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fIcon">Ícone (classe Font Awesome)</label>
+                    <input type="text" id="fIcon" placeholder="fas fa-robot" />
+                    <small>Ex: <code>fas fa-robot</code>, <code>fas fa-cloud</code>, <code>fab fa-github</code></small>
+                </div>
+                <div class="form-group">
+                    <label for="fLink">Link (opcional)</label>
+                    <input type="url" id="fLink" placeholder="https://..." />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" id="cancelBtn">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="saveProjectBtn">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg"></span>
+</div>
+
+<script>
+/* ================================================================
+   CONFIG & STATE
+   ================================================================ */
+const CONFIG_KEY = 'portfolio_admin_config';
+const PASSWORD_KEY = 'portfolio_admin_password';
+const CACHE_KEY = 'portfolio_projects_cache';
+const DEFAULT_PASSWORD = 'admin123';
+const DEFAULT_CONFIG = {
+    token: '',
+    owner: 'ryueik',
+    repo: 'Projetos',
+    branch: 'main',
+    path: 'data/projects.json'
+};
+
+let state = {
+    projects: [],
+    sha: null,          // SHA do arquivo no GitHub (necessário para update)
+    config: { ...DEFAULT_CONFIG },
+    editingId: null,
+    selectedCategory: 'rpa',
+    isDirty: false
+};
+
+/* ================================================================
+   HELPERS
+   ================================================================ */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function uid() {
+    return 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function toBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+}
+function fromBase64(b64) {
+    const bin = atob(b64.replace(/\s/g, ''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+}
+
+function showToast(msg, type = 'success') {
+    const t = $('#toast');
+    const icon = t.querySelector('i');
+    t.className = 'toast ' + type;
+    icon.className = type === 'error' ? 'fas fa-times-circle'
+                   : type === 'info' ? 'fas fa-info-circle'
+                   : 'fas fa-check-circle';
+    $('#toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function setSyncStatus(status, text) {
+    const el = $('#syncStatus');
+    el.className = 'status-pill ' + (status || '');
+    el.innerHTML = `<span class="dot"></span> ${text}`;
+}
+
+function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+}
+
+/* ================================================================
+   GITHUB API
+   ================================================================ */
+async function ghGetFile() {
+    const { token, owner, repo, branch, path } = state.config;
+    if (!token || !owner || !repo) throw new Error('Configure o token, usuário e repositório.');
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&t=${Date.now()}`;
+    const res = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Cache-Control': 'no-cache'
+        }
+    });
+
+    if (res.status === 404) {
+        // Arquivo não existe ainda — será criado no primeiro save
+        return { projects: [], sha: null };
+    }
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Erro ${res.status} ao buscar arquivo`);
+    }
+    const data = await res.json();
+    const content = fromBase64(data.content);
+    let parsed;
+    try { parsed = JSON.parse(content); }
+    catch { parsed = { projects: [] }; }
+    return { projects: parsed.projects || [], sha: data.sha };
+}
+
+async function ghPutFile(projects, message) {
+    const { token, owner, repo, branch, path } = state.config;
+    const payload = {
+        message: message || 'Update projects',
+        content: toBase64(JSON.stringify({ projects, updatedAt: new Date().toISOString() }, null, 2)),
+        branch
+    };
+    if (state.sha) payload.sha = state.sha;
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        if (res.status === 409) throw new Error('Conflito: o arquivo foi modificado. Recarregue e tente novamente.');
+        if (res.status === 401) throw new Error('Token inválido ou expirado.');
+        if (res.status === 403) throw new Error('Sem permissão. Verifique se o token tem "Contents: Read and write".');
+        throw new Error(err.message || `Erro ${res.status}`);
+    }
+    const data = await res.json();
+    state.sha = data.content.sha;
+}
+
+/* ================================================================
+   LOAD & SAVE
+   ================================================================ */
+async function loadFromGitHub(silent = false) {
+    if (!silent) setSyncStatus('', 'Carregando...');
+    try {
+        const { projects, sha } = await ghGetFile();
+        state.projects = projects;
+        state.sha = sha;
+        state.isDirty = false;
+        cacheLocally();
+        setSyncStatus('ok', sha ? 'Sincronizado' : 'Aguardando 1º save');
+        if (!silent) showToast(`Carregados ${projects.length} projeto(s) do GitHub.`, 'info');
+        renderProjects();
+        return true;
+    } catch (e) {
+        console.warn('Erro GitHub:', e.message);
+        // Fallback: cache local
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            try {
+                state.projects = JSON.parse(cached);
+                renderProjects();
+            } catch {}
+        }
+        setSyncStatus('err', 'Offline');
+        if (!silent) showToast('Erro: ' + e.message, 'error');
+        return false;
+    }
+}
+
+async function saveToGitHub(message) {
+    const btn = $('#saveProjectBtn');
+    if (btn) btn.disabled = true;
+    setSyncStatus('', 'Salvando...');
+    try {
+        await ghPutFile(state.projects, message);
+        state.isDirty = false;
+        cacheLocally();
+        setSyncStatus('ok', 'Sincronizado');
+        showToast('Projetos salvos no GitHub!', 'success');
+        return true;
+    } catch (e) {
+        setSyncStatus('err', 'Falha ao salvar');
+        showToast('Erro ao salvar: ' + e.message, 'error');
+        return false;
+    } finally {
+        if (btn) btn.disabled = false;
+    }
+}
+
+function cacheLocally() {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(state.projects)); } catch {}
+}
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+function renderProjects() {
+    const list = $('#projectsList');
+    const query = ($('#searchInput').value || '').toLowerCase().trim();
+
+    let filtered = state.projects;
+    if (query) {
+        filtered = state.projects.filter(p =>
+            (p.title || '').toLowerCase().includes(query) ||
+            (p.desc || '').toLowerCase().includes(query) ||
+            (p.tags || []).join(' ').toLowerCase().includes(query)
+        );
+    }
+
+    if (filtered.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <p style="font-size:1.1rem;font-weight:600;color:var(--text-primary);margin-bottom:.4rem">
+                    ${query ? 'Nenhum projeto encontrado' : 'Nenhum projeto cadastrado'}
+                </p>
+                <p>${query ? 'Tente outra busca.' : 'Clique em "Novo Projeto" para começar.'}</p>
+            </div>`;
+        return;
+    }
+
+    const catLabels = {
+        rpa: 'Automação & RPA',
+        web: 'Web & APIs',
+        scripts: 'Scripts & DevOps'
+    };
+
+    list.innerHTML = filtered.map(p => `
+        <div class="project-item" data-id="${p.id}">
+            <div class="thumb"><i class="${escapeHtml(p.icon || 'fas fa-code')}"></i></div>
+            <div class="body">
+                <h3>
+                    ${escapeHtml(p.title)}
+                    <span class="cat-tag ${p.category}">${catLabels[p.category] || p.category}</span>
+                </h3>
+                <p class="desc">${escapeHtml(p.desc)}</p>
+                <div class="tags">
+                    ${(p.tags || []).map(t => `<span>${escapeHtml(t)}</span>`).join('')}
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-outline btn-sm btn-icon" data-action="edit" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm btn-icon" data-action="delete" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+
+    // Delegação de eventos
+    list.querySelectorAll('.project-item').forEach(item => {
+        const id = item.dataset.id;
+        item.querySelector('[data-action="edit"]').onclick = () => openProjectModal(id);
+        item.querySelector('[data-action="delete"]').onclick = () => deleteProject(id);
+    });
+}
+
+/* ================================================================
+   MODAL PROJETO
+   ================================================================ */
+function openProjectModal(id = null) {
+    state.editingId = id;
+    const modal = $('#projectModal');
+
+    if (id) {
+        const p = state.projects.find(x => x.id === id);
+        if (!p) return;
+        $('#modalTitle').textContent = 'Editar Projeto';
+        $('#fTitle').value = p.title || '';
+        $('#fDesc').value = p.desc || '';
+        $('#fTags').value = (p.tags || []).join(', ');
+        $('#fIcon').value = p.icon || '';
+        $('#fLink').value = p.link || '';
+        setCategory(p.category || 'rpa');
+    } else {
+        $('#modalTitle').textContent = 'Novo Projeto';
+        $('#projectForm').reset();
+        setCategory('rpa');
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => $('#fTitle').focus(), 100);
+}
+
+function closeProjectModal() {
+    $('#projectModal').classList.remove('open');
+    document.body.style.overflow = '';
+    state.editingId = null;
+}
+
+function setCategory(cat) {
+    state.selectedCategory = cat;
+    $$('#catSelector button').forEach(b => {
+        b.classList.toggle('active', b.dataset.cat === cat);
+    });
+}
+
+async function deleteProject(id) {
+    const p = state.projects.find(x => x.id === id);
+    if (!p) return;
+    if (!confirm(`Excluir o projeto "${p.title}"?`)) return;
+
+    state.projects = state.projects.filter(x => x.id !== id);
+    state.isDirty = true;
+    renderProjects();
+    const ok = await saveToGitHub(`Delete project: ${p.title}`);
+    if (!ok) {
+        // rollback
+        state.projects.push(p);
+        renderProjects();
+    }
+}
+
+/* ================================================================
+   FORM SUBMIT
+   ================================================================ */
+$('#projectForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const title = $('#fTitle').value.trim();
+    const desc = $('#fDesc').value.trim();
+    const tagsRaw = $('#fTags').value.trim();
+    const icon = $('#fIcon').value.trim() || 'fas fa-code';
+    const link = $('#fLink').value.trim();
+    const category = state.selectedCategory;
+
+    if (!title || !desc) { showToast('Preencha título e descrição.', 'error'); return; }
+
+    const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+    const projectData = { title, desc, tags, icon, link, category };
+
+    if (state.editingId) {
+        const idx = state.projects.findIndex(x => x.id === state.editingId);
+        state.projects[idx] = { ...state.projects[idx], ...projectData };
+    } else {
+        state.projects.unshift({ id: uid(), ...projectData });
+    }
+
+    state.isDirty = true;
+    renderProjects();
+    closeProjectModal();
+
+    const ok = await saveToGitHub(state.editingId ? `Update project: ${title}` : `Add project: ${title}`);
+    if (ok) {
+        // Re-sync para garantir SHA atualizado
+        await loadFromGitHub(true);
+    }
+});
+
+/* ================================================================
+   LOGIN
+   ================================================================ */
+function getStoredPassword() {
+    return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+}
+
+$('#loginBtn').onclick = () => {
+    const pass = $('#loginPassword').value;
+    if (pass === getStoredPassword()) {
+        sessionStorage.setItem('portfolio_admin_auth', '1');
+        initApp();
+    } else {
+        $('#loginError').textContent = 'Senha incorreta.';
+        $('#loginPassword').value = '';
+        $('#loginPassword').focus();
+    }
+};
+$('#loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('#loginBtn').click();
+});
+
+$('#logoutBtn').onclick = () => {
+    sessionStorage.removeItem('portfolio_admin_auth');
+    location.reload();
+};
+
+/* ================================================================
+   CONFIGURAÇÕES
+   ================================================================ */
+function loadConfig() {
+    try {
+        const raw = localStorage.getItem(CONFIG_KEY);
+        if (raw) state.config = { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
+    } catch {}
+    $('#ghToken').value = state.config.token || '';
+    $('#ghOwner').value = state.config.owner || '';
+    $('#ghRepo').value = state.config.repo || '';
+    $('#ghBranch').value = state.config.branch || 'main';
+    $('#ghPath').value = state.config.path || 'data/projects.json';
+}
+
+$('#saveGhConfigBtn').onclick = async () => {
+    state.config = {
+        token: $('#ghToken').value.trim(),
+        owner: $('#ghOwner').value.trim(),
+        repo: $('#ghRepo').value.trim(),
+        branch: $('#ghBranch').value.trim() || 'main',
+        path: $('#ghPath').value.trim() || 'data/projects.json'
+    };
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
+    showToast('Configurações salvas!', 'success');
+    await loadFromGitHub();
+};
+
+$('#testGhBtn').onclick = async () => {
+    const btn = $('#testGhBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Testando...';
+    try {
+        // Salva config atual antes de testar
+        state.config = {
+            token: $('#ghToken').value.trim(),
+            owner: $('#ghOwner').value.trim(),
+            repo: $('#ghRepo').value.trim(),
+            branch: $('#ghBranch').value.trim() || 'main',
+            path: $('#ghPath').value.trim() || 'data/projects.json'
+        };
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
+        const { projects, sha } = await ghGetFile();
+        showToast(`Conexão OK! ${projects.length} projeto(s) encontrado(s).`, 'success');
+        setSyncStatus('ok', 'Conectado');
+    } catch (e) {
+        showToast('Falha: ' + e.message, 'error');
+        setSyncStatus('err', 'Erro');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-vial"></i> Testar Conexão';
+    }
+};
+
+$('#changePasswordBtn').onclick = () => {
+    const p1 = $('#newPassword').value;
+    const p2 = $('#confirmPassword').value;
+    if (!p1 || p1.length < 4) { showToast('A senha deve ter no mínimo 4 caracteres.', 'error'); return; }
+    if (p1 !== p2) { showToast('As senhas não coincidem.', 'error'); return; }
+    localStorage.setItem(PASSWORD_KEY, p1);
+    $('#newPassword').value = '';
+    $('#confirmPassword').value = '';
+    showToast('Senha alterada com sucesso!', 'success');
+};
+
+/* ================================================================
+   IMPORT / EXPORT
+   ================================================================ */
+$('#exportBtn').onclick = () => {
+    const blob = new Blob([JSON.stringify({ projects: state.projects, updatedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `projects-backup-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Backup exportado!', 'success');
+};
+
+$('#importInput').onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+        try {
+            const parsed = JSON.parse(ev.target.result);
+            const projects = Array.isArray(parsed) ? parsed : (parsed.projects || []);
+            if (!Array.isArray(projects)) throw new Error('Formato inválido');
+            if (!confirm(`Importar ${projects.length} projeto(s)? Isso substituirá a lista atual.`)) return;
+            // Garantir IDs
+            state.projects = projects.map(p => ({ id: p.id || uid(), ...p }));
+            state.isDirty = true;
+            renderProjects();
+            await saveToGitHub('Import projects');
+            await loadFromGitHub(true);
+            showToast(`${projects.length} projeto(s) importado(s)!`, 'success');
+        } catch (err) {
+            showToast('Erro ao importar: ' + err.message, 'error');
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+};
+
+$('#resetAllBtn').onclick = () => {
+    if (!confirm('Isso apagará as configurações locais (token, senha, cache). Os projetos no GitHub permanecem.')) return;
+    if (!confirm('Tem certeza?')) return;
+    localStorage.removeItem(CONFIG_KEY);
+    localStorage.removeItem(PASSWORD_KEY);
+    localStorage.removeItem(CACHE_KEY);
+    sessionStorage.removeItem('portfolio_admin_auth');
+    location.reload();
+};
+
+/* ================================================================
+   UI EVENTOS GERAIS
+   ================================================================ */
+$('#newProjectBtn').onclick = () => openProjectModal();
+$('#modalCloseBtn').onclick = closeProjectModal;
+$('#cancelBtn').onclick = closeProjectModal;
+$('#projectModal').addEventListener('click', (e) => {
+    if (e.target.id === 'projectModal') closeProjectModal();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && $('#projectModal').classList.contains('open')) closeProjectModal();
+});
+
+$$('#catSelector button').forEach(b => {
+    b.onclick = () => setCategory(b.dataset.cat);
+});
+
+$('#searchInput').addEventListener('input', renderProjects);
+
+$('#refreshBtn').onclick = async () => {
+    const btn = $('#refreshBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+    await loadFromGitHub();
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sync-alt"></i> Recarregar';
+};
+
+// Tabs
+$$('.tab-btn').forEach(btn => {
+    btn.onclick = () => {
+        $$('.tab-btn').forEach(b => b.classList.remove('active'));
+        $$('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        $('#tab-' + btn.dataset.tab).classList.add('active');
+    };
+});
+
+/* ================================================================
+   INIT
+   ================================================================ */
+async function initApp() {
+    $('#loginScreen').style.display = 'none';
+    $('#app').style.display = 'block';
+    loadConfig();
+    await loadFromGitHub();
+}
+
+// Auto-login se já autenticado nesta sessão
+if (sessionStorage.getItem('portfolio_admin_auth') === '1') {
+    initApp();
+}
+</script>
+</body>
+</html>
