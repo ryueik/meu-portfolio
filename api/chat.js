@@ -10,8 +10,11 @@ export default async function handler(req, res) {
     if (!apiKey) return res.status(500).json({ error: 'GROQ_API_KEY não configurada no Vercel' });
 
     try {
-        const { messages, model } = req.body;
+        const { messages } = req.body;
         if (!Array.isArray(messages)) return res.status(400).json({ error: 'messages inválido' });
+
+        // ⚠️ Forçamos o modelo da Groq, ignorando o que vier do front-end
+        const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -20,7 +23,7 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: model || 'llama-3.3-70b-versatile',
+                model: GROQ_MODEL,
                 messages: messages,
                 max_tokens: 500,
                 temperature: 0.7
@@ -29,13 +32,15 @@ export default async function handler(req, res) {
 
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
-            return res.status(response.status).json({ error: err.error?.message || 'Erro na Groq API' });
+            console.error('[Groq API Error]', response.status, err);
+            return res.status(response.status).json({ error: err.error?.message || `Erro ${response.status} na Groq API` });
         }
 
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content || 'Sem resposta';
         return res.status(200).json({ reply });
     } catch (e) {
+        console.error('[Chat handler error]', e);
         return res.status(500).json({ error: e.message });
     }
 }
