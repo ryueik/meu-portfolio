@@ -13,37 +13,85 @@
     "paragraph1": "Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
     "paragraph2": "Sólida experiência em Desenvolvimento Web (Python, PHP, JavaScript, APIs REST, JSON) e versionamento via Git/GitHub. Especialista em Automação de Processos (RPA / Low-Code / Scripting), atuando fortemente no ecossistema Microsoft Power Platform (Power Automate Cloud/Desktop, Power Apps e Dataverse) e scripts personalizados.",
     "stats": [
-      { "number": "10+", "label": "Projetos de Automação" },
-      { "number": "2+", "label": "Anos de Experiência" },
-      { "number": "7+", "label": "Certificações" },
-      { "number": "15+", "label": "Tecnologias" }
+      {
+        "number": "10+",
+        "label": "Projetos de Automação"
+      },
+      {
+        "number": "2+",
+        "label": "Anos de Experiência"
+      },
+      {
+        "number": "7+",
+        "label": "Certificações"
+      },
+      {
+        "number": "15+",
+        "label": "Tecnologias"
+      },
+      {
+        "number": "30+",
+        "label": "Clientes"
+      }
     ]
   },
   "techStack": [
     {
       "category": "Linguagens & Web",
       "icon": "fas fa-code",
-      "items": ["Python", "JavaScript (ES6+)", "PHP", "HTML5", "CSS3", "JSON", "APIs RESTful"]
+      "items": [
+        "Python",
+        "JavaScript (ES6+)",
+        "PHP",
+        "HTML5",
+        "CSS3",
+        "JSON",
+        "APIs RESTful"
+      ]
     },
     {
       "category": "Automação & Low-Code",
       "icon": "fas fa-robot",
-      "items": ["Power Automate Cloud", "Power Automate Desktop", "Power Apps", "Dataverse", "N8N", "IA / Agentes"]
+      "items": [
+        "Power Automate Cloud",
+        "Power Automate Desktop",
+        "Power Apps",
+        "Dataverse",
+        "N8N",
+        "IA / Agentes"
+      ]
     },
     {
       "category": "Scripting & System Level",
       "icon": "fas fa-terminal",
-      "items": ["Python", "PowerShell", "VBScript"]
+      "items": [
+        "Python",
+        "PowerShell",
+        "VBScript"
+      ]
     },
     {
       "category": "Bancos de Dados",
       "icon": "fas fa-database",
-      "items": ["SQL", "Modelagem ERD", "Dataverse", "SharePoint Lists"]
+      "items": [
+        "SQL",
+        "Modelagem ERD",
+        "Dataverse",
+        "SharePoint Lists"
+      ]
     },
     {
       "category": "DevOps & Ferramentas",
       "icon": "fas fa-tools",
-      "items": ["Git", "GitHub", "Branching Strategy", "SharePoint", "Excel Avançado", "Teams", "Metodologias Ágeis"]
+      "items": [
+        "Git",
+        "GitHub",
+        "Branching Strategy",
+        "SharePoint",
+        "Excel Avançado",
+        "Teams",
+        "Metodologias Ágeis"
+      ]
     }
   ],
   "experience": [
@@ -73,7 +121,12 @@
       "id": "p1",
       "title": "Gerador e Formatador de Planilhas para Ingestão SharePoint",
       "desc": "Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).",
-      "tags": ["Power Automate Desktop", "Python", "Excel/CSV Engine", "Data Transformation"],
+      "tags": [
+        "Power Automate Desktop",
+        "Python",
+        "Excel/CSV Engine",
+        "Data Transformation"
+      ],
       "category": "rpa",
       "icon": "fas fa-file-excel",
       "link": ""
@@ -82,7 +135,12 @@
       "id": "p2",
       "title": "Pipeline de Importação Automática para SharePoint",
       "desc": "Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.",
-      "tags": ["Power Automate Cloud", "SharePoint REST API", "Graph API", "Error Handling"],
+      "tags": [
+        "Power Automate Cloud",
+        "SharePoint REST API",
+        "Graph API",
+        "Error Handling"
+      ],
       "category": "rpa",
       "icon": "fas fa-cloud-upload-alt",
       "link": ""
@@ -91,7 +149,12 @@
       "id": "p3",
       "title": "Microsserviço de Consulta de Médicos via API",
       "desc": "Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.",
-      "tags": ["REST APIs", "JSON Parsing", "HTTP Requests", "Cloud Integration"],
+      "tags": [
+        "REST APIs",
+        "JSON Parsing",
+        "HTTP Requests",
+        "Cloud Integration"
+      ],
       "category": "web",
       "icon": "fas fa-user-md",
       "link": ""
@@ -100,7 +163,13 @@
       "id": "p4",
       "title": "Web Scraper e Extrator Cadastral de Médicos (CRM)",
       "desc": "Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.",
-      "tags": ["Web Scraping", "DOM Parsing", "XPath", "CSV Automation", "Python"],
+      "tags": [
+        "Web Scraping",
+        "DOM Parsing",
+        "XPath",
+        "CSV Automation",
+        "Python"
+      ],
       "category": "rpa",
       "icon": "fas fa-spider",
       "link": ""
@@ -109,7 +178,12 @@
       "id": "p5",
       "title": "Utilitário de Manipulação e Divisão de PDFs",
       "desc": "Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.",
-      "tags": ["Python", "PowerShell", "VBScript", "PDF Binary Processing"],
+      "tags": [
+        "Python",
+        "PowerShell",
+        "VBScript",
+        "PDF Binary Processing"
+      ],
       "category": "scripts",
       "icon": "fas fa-file-pdf",
       "link": ""
@@ -118,7 +192,12 @@
       "id": "p6",
       "title": "Sistema de Governança e Limpeza Automática de Arquivos",
       "desc": "Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.",
-      "tags": ["OS Layer Automation", "PowerShell", "Python", "File Retention Rules"],
+      "tags": [
+        "OS Layer Automation",
+        "PowerShell",
+        "Python",
+        "File Retention Rules"
+      ],
       "category": "scripts",
       "icon": "fas fa-broom",
       "link": ""
@@ -127,7 +206,11 @@
       "id": "p7",
       "title": "Módulo de Deleção em Lote para SharePoint",
       "desc": "Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.",
-      "tags": ["Power Automate Cloud", "API Rate Limit Control", "Batching Loops"],
+      "tags": [
+        "Power Automate Cloud",
+        "API Rate Limit Control",
+        "Batching Loops"
+      ],
       "category": "rpa",
       "icon": "fas fa-trash-alt",
       "link": ""
@@ -136,7 +219,11 @@
       "id": "p8",
       "title": "Sistema Automatizado de Registro de Ponto (Híbrido)",
       "desc": "Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.",
-      "tags": ["Cloud & Desktop Integration", "DateTime Logic", "Dynamic Data Binding"],
+      "tags": [
+        "Cloud & Desktop Integration",
+        "DateTime Logic",
+        "Dynamic Data Binding"
+      ],
       "category": "rpa",
       "icon": "fas fa-clock",
       "link": ""
@@ -145,7 +232,12 @@
       "id": "p9",
       "title": "Automação Web para Gestão de Status no ZEEV (BPMS)",
       "desc": "RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.",
-      "tags": ["Web Automation", "GUI Scripting", "ZEEV BPMS", "Data-Driven Automation"],
+      "tags": [
+        "Web Automation",
+        "GUI Scripting",
+        "ZEEV BPMS",
+        "Data-Driven Automation"
+      ],
       "category": "rpa",
       "icon": "fas fa-globe",
       "link": ""
@@ -154,7 +246,11 @@
       "id": "p10",
       "title": "Script de Expurgo e Cancelamento de Solicitações no ZEEV",
       "desc": "Robô de governança de processos que navega no ZEEV e cancela/exclui solicitações pendentes dinamicamente com base em parâmetros de tabelas de controle.",
-      "tags": ["Web Scraping/Automation", "Dynamic Waits (AJAX)", "ZEEV BPMS"],
+      "tags": [
+        "Web Scraping/Automation",
+        "Dynamic Waits (AJAX)",
+        "ZEEV BPMS"
+      ],
       "category": "rpa",
       "icon": "fas fa-robot",
       "link": ""
@@ -163,7 +259,12 @@
       "id": "p11",
       "title": "Portal Produtora Monteiro",
       "desc": "Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.",
-      "tags": ["Full Stack", "SEO", "Banco de Dados", "Segurança"],
+      "tags": [
+        "Full Stack",
+        "SEO",
+        "Banco de Dados",
+        "Segurança"
+      ],
       "category": "web",
       "icon": "fas fa-globe",
       "link": ""
@@ -172,7 +273,13 @@
       "id": "p12",
       "title": "Repositórios e Scripts Web",
       "desc": "Automações e utilitários em Python, JS e PHP consumindo APIs e tratando payloads JSON. Código aberto disponível no GitHub.",
-      "tags": ["Python", "JavaScript", "PHP", "APIs REST", "JSON"],
+      "tags": [
+        "Python",
+        "JavaScript",
+        "PHP",
+        "APIs REST",
+        "JSON"
+      ],
       "category": "web",
       "icon": "fab fa-github",
       "link": "https://github.com/ryueik/Projetos"
@@ -214,5 +321,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2025-01-01T00:00:00.000Z"
+  "updatedAt": "2026-09-12T23:23:57.821Z"
 }
