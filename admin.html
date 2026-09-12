@@ -268,7 +268,7 @@ main{padding:2.5rem 0 5rem}
                         </div>
                         <div class="form-group">
                             <label for="ghRepo">Repositório</label>
-                            <input type="text" id="ghRepo" placeholder="Projetos" />
+                            <input type="text" id="ghRepo" placeholder="meu-portfolio" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -398,14 +398,14 @@ const DEFAULT_PASSWORD = 'admin123';
 const DEFAULT_CONFIG = {
     token: '',
     owner: 'ryueik',
-    repo: 'Projetos',
+    repo: 'meu-portfolio',
     branch: 'main',
     path: 'data/projects.json'
 };
 
 let state = {
     projects: [],
-    sha: null,          // SHA do arquivo no GitHub (necessário para update)
+    sha: null,
     config: { ...DEFAULT_CONFIG },
     editingId: null,
     selectedCategory: 'rpa',
@@ -471,13 +471,11 @@ async function ghGetFile() {
     const res = await fetch(url, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'Cache-Control': 'no-cache'
+            'Accept': 'application/vnd.github+json'
         }
     });
 
     if (res.status === 404) {
-        // Arquivo não existe ainda — será criado no primeiro save
         return { projects: [], sha: null };
     }
     if (!res.ok) {
@@ -540,7 +538,6 @@ async function loadFromGitHub(silent = false) {
         return true;
     } catch (e) {
         console.warn('Erro GitHub:', e.message);
-        // Fallback: cache local
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
             try {
@@ -636,7 +633,6 @@ function renderProjects() {
         </div>
     `).join('');
 
-    // Delegação de eventos
     list.querySelectorAll('.project-item').forEach(item => {
         const id = item.dataset.id;
         item.querySelector('[data-action="edit"]').onclick = () => openProjectModal(id);
@@ -695,7 +691,6 @@ async function deleteProject(id) {
     renderProjects();
     const ok = await saveToGitHub(`Delete project: ${p.title}`);
     if (!ok) {
-        // rollback
         state.projects.push(p);
         renderProjects();
     }
@@ -718,20 +713,22 @@ $('#projectForm').addEventListener('submit', async (e) => {
     const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
     const projectData = { title, desc, tags, icon, link, category };
 
+    let actionMessage;
     if (state.editingId) {
         const idx = state.projects.findIndex(x => x.id === state.editingId);
         state.projects[idx] = { ...state.projects[idx], ...projectData };
+        actionMessage = `Update project: ${title}`;
     } else {
         state.projects.unshift({ id: uid(), ...projectData });
+        actionMessage = `Add project: ${title}`;
     }
 
     state.isDirty = true;
     renderProjects();
     closeProjectModal();
 
-    const ok = await saveToGitHub(state.editingId ? `Update project: ${title}` : `Add project: ${title}`);
+    const ok = await saveToGitHub(actionMessage);
     if (ok) {
-        // Re-sync para garantir SHA atualizado
         await loadFromGitHub(true);
     }
 });
@@ -796,7 +793,6 @@ $('#testGhBtn').onclick = async () => {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Testando...';
     try {
-        // Salva config atual antes de testar
         state.config = {
             token: $('#ghToken').value.trim(),
             owner: $('#ghOwner').value.trim(),
@@ -805,7 +801,7 @@ $('#testGhBtn').onclick = async () => {
             path: $('#ghPath').value.trim() || 'data/projects.json'
         };
         localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
-        const { projects, sha } = await ghGetFile();
+        const { projects } = await ghGetFile();
         showToast(`Conexão OK! ${projects.length} projeto(s) encontrado(s).`, 'success');
         setSyncStatus('ok', 'Conectado');
     } catch (e) {
@@ -852,7 +848,6 @@ $('#importInput').onchange = (e) => {
             const projects = Array.isArray(parsed) ? parsed : (parsed.projects || []);
             if (!Array.isArray(projects)) throw new Error('Formato inválido');
             if (!confirm(`Importar ${projects.length} projeto(s)? Isso substituirá a lista atual.`)) return;
-            // Garantir IDs
             state.projects = projects.map(p => ({ id: p.id || uid(), ...p }));
             state.isDirty = true;
             renderProjects();
@@ -905,7 +900,6 @@ $('#refreshBtn').onclick = async () => {
     btn.innerHTML = '<i class="fas fa-sync-alt"></i> Recarregar';
 };
 
-// Tabs
 $$('.tab-btn').forEach(btn => {
     btn.onclick = () => {
         $$('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -925,7 +919,6 @@ async function initApp() {
     await loadFromGitHub();
 }
 
-// Auto-login se já autenticado nesta sessão
 if (sessionStorage.getItem('portfolio_admin_auth') === '1') {
     initApp();
 }
