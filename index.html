@@ -1398,9 +1398,12 @@
         </div>
     </footer>
 
-   <script>
+  <script>
 /* ================================================================
-   PORTFÓLIO DINÂMICO — Lê data/portfolio.json com fallback completo
+   PORTFÓLIO DINÂMICO
+   Fonte primária: GitHub raw (sem cache do Vercel)
+   Fallback: cópia local do JSON
+   Fallback final: dados embutidos (sempre funciona)
    ================================================================ */
 
 let DATA = null;
@@ -1410,6 +1413,14 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
     '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
 }[c]));
+
+/* ================================================================
+   URLS DO JSON
+   ================================================================ */
+// 1. GitHub raw — atualiza imediatamente após cada commit
+const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/ryueik/meu-portfolio/main/data/portfolio.json';
+// 2. Cópia local (fallback caso GitHub esteja fora do ar)
+const LOCAL_JSON_URL = 'data/portfolio.json';
 
 /* ================================================================
    DADOS PADRÃO (fallback — sempre disponíveis)
@@ -1510,7 +1521,7 @@ function getDefaultData() {
 }
 
 /* ================================================================
-   MESCLA dados do JSON com o padrão (para nunca faltar campo)
+   MESCLA dados do JSON com o padrão
    ================================================================ */
 function mergeWithDefault(data) {
     const def = getDefaultData();
@@ -1519,29 +1530,61 @@ function mergeWithDefault(data) {
     merged.about    = { ...def.about,    ...(data.about    || {}) };
     merged.contact  = { ...def.contact,  ...(data.contact  || {}) };
     merged.footer   = { ...def.footer,   ...(data.footer   || {}) };
+
+    // Arrays: só substitui se o JSON tiver conteúdo
     if (!Array.isArray(merged.projects)       || merged.projects.length       === 0) merged.projects       = def.projects;
     if (!Array.isArray(merged.techStack)      || merged.techStack.length      === 0) merged.techStack      = def.techStack;
     if (!Array.isArray(merged.experience)     || merged.experience.length     === 0) merged.experience     = def.experience;
     if (!Array.isArray(merged.education)      || merged.education.length      === 0) merged.education      = def.education;
     if (!Array.isArray(merged.certifications) || merged.certifications.length === 0) merged.certifications = def.certifications;
-    if (!Array.isArray(merged.about.stats)    || merged.about.stats.length    === 0) merged.about.stats    = def.about.stats;
+
+    // Stats: sempre usa do JSON se tiver (para permitir adicionar/remover)
+    if (!Array.isArray(merged.about.stats) || merged.about.stats.length === 0) {
+        merged.about.stats = def.about.stats;
+    }
     return merged;
 }
 
 /* ================================================================
-   CARREGA O JSON (com fallback)
+   CARREGA O JSON — GitHub raw → local → padrão
    ================================================================ */
 async function loadPortfolio() {
+    console.log('%c[Portfolio] Iniciando carregamento...', 'color:#00E5FF;font-weight:bold');
+
+    // Tentativa 1: GitHub raw (sempre atualizado, sem cache)
     try {
-        const res = await fetch('data/portfolio.json?t=' + Date.now());
-        if (!res.ok) throw new Error('JSON não encontrado');
+        console.log('[Portfolio] Tentando GitHub raw:', GITHUB_RAW_URL);
+        const res = await fetch(GITHUB_RAW_URL + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('Status ' + res.status);
         const json = await res.json();
         DATA = mergeWithDefault(json);
-        console.log('✅ Dados carregados do JSON');
+        console.log('%c✅ Dados carregados do GitHub raw', 'color:#00FF9D;font-weight:bold');
+        console.log('   Projetos:', DATA.projects.length);
+        console.log('   Stats:', DATA.about.stats.map(s => `${s.number} ${s.label}`).join(' | '));
+        renderAll();
+        return;
     } catch (e) {
-        console.warn('⚠️ Usando dados padrão:', e.message);
-        DATA = getDefaultData();
+        console.warn('⚠️ GitHub raw falhou:', e.message);
     }
+
+    // Tentativa 2: cópia local (fallback)
+    try {
+        console.log('[Portfolio] Tentando arquivo local:', LOCAL_JSON_URL);
+        const res = await fetch(LOCAL_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const json = await res.json();
+        DATA = mergeWithDefault(json);
+        console.log('%c✅ Dados carregados do arquivo local', 'color:#00FF9D;font-weight:bold');
+        console.log('   Stats:', DATA.about.stats.map(s => `${s.number} ${s.label}`).join(' | '));
+        renderAll();
+        return;
+    } catch (e) {
+        console.warn('⚠️ Arquivo local falhou:', e.message);
+    }
+
+    // Tentativa 3: dados padrão embutidos
+    console.warn('%c⚠️ Usando dados padrão embutidos', 'color:#FF9F43;font-weight:bold');
+    DATA = getDefaultData();
     renderAll();
 }
 
