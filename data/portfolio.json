@@ -10,7 +10,7 @@
     "avatar": "https://cdn.pixabay.com/animation/2022/11/30/10/45/10-45-37-403_512.gif"
   },
   "about": {
-    "paragraph1": "Profission de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
+    "paragraph1": "Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
     "paragraph2": "Sólida experiência em Desenvolvimento Web (Python, PHP, JavaScript, APIs REST, JSON) e versionamento via Git/GitHub. Especialista em Automação de Processos (RPA / Low-Code / Scripting), atuando fortemente no ecossistema Microsoft Power Platform (Power Automate Cloud/Desktop, Power Apps e Dataverse) e scripts personalizados.",
     "stats": [
       {
@@ -321,5 +321,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-12T23:33:17.052Z"
+  "updatedAt": "2026-09-12T23:33:42.835Z"
 }
