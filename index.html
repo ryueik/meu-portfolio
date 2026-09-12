@@ -4,13 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matheus Macário | Desenvolvedor Web & Especialista em RPA</title>
-    <meta name="description" content="Portfólio de Matheus Macário, Tecnólogo em Gestão de TI, Desenvolvedor Web e Especialista em Automação de Processos (RPA)." />
+    <meta name="description" id="metaDescription" content="Portfólio de Matheus Macário..." />
+    <meta name="author" content="Matheus Macário" />
+    <meta name="keywords" id="metaKeywords" content="" />
+    <link rel="canonical" id="metaCanonical" href="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" id="ogTitle" content="" />
+    <meta property="og:description" id="ogDescription" content="" />
+    <meta property="og:image" id="ogImage" content="" />
+    <meta property="og:url" id="ogUrl" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" id="twTitle" content="" />
+    <meta name="twitter:description" id="twDescription" content="" />
+    <meta name="twitter:image" id="twImage" content="" />
+    <link rel="icon" id="favicon" href="" />
+    <script type="application/ld+json" id="jsonLd"></script>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+    
     <style>
         /* ============================================================
            VARIÁVEIS E RESET (DARK TECH STYLE)
@@ -1115,6 +1127,26 @@
                 animation: none;
             }
         }
+
+        /* CHATBOT */
+        .chat-btn{position:fixed;bottom:1.5rem;right:1.5rem;width:60px;height:60px;border-radius:50%;background:var(--accent-primary);color:var(--bg-body);border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 8px 32px rgba(0,229,255,.3);z-index:9997;transition:all .3s}
+        .chat-btn:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(0,229,255,.5)}
+        .chat-window{position:fixed;bottom:6rem;right:1.5rem;width:380px;max-width:calc(100vw - 2rem);height:520px;max-height:70vh;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.5);display:none;flex-direction:column;z-index:9998;overflow:hidden}
+        .chat-window.open{display:flex}
+        .chat-header{background:var(--accent-primary);color:var(--bg-body);padding:1rem;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+        .chat-header button{background:none;border:none;color:var(--bg-body);font-size:1.2rem;cursor:pointer}
+        .chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+        .chat-msg{padding:.65rem 1rem;border-radius:12px;max-width:85%;font-size:.9rem;line-height:1.5;word-wrap:break-word}
+        .chat-msg.user{background:var(--accent-primary);color:var(--bg-body);align-self:flex-end;border-bottom-right-radius:4px}
+        .chat-msg.ai{background:var(--bg-surface-alt);color:var(--text-primary);align-self:flex-start;border-bottom-left-radius:4px}
+        .chat-msg.typing{color:var(--text-secondary);font-style:italic;background:transparent}
+        .chat-input{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--border-color)}
+        .chat-input input{flex:1;padding:.6rem 1rem;border:2px solid var(--border-color);border-radius:50px;background:var(--bg-body);color:var(--text-primary)}
+        .chat-input input:focus{outline:none;border-color:var(--accent-primary)}
+        .chat-input button{background:var(--accent-primary);color:var(--bg-body);border:none;width:42px;height:42px;border-radius:50%;cursor:pointer}
+        .chat-input button:hover{background:var(--accent-green)}
+        @media(max-width:480px){.chat-window{right:.5rem;bottom:5rem}}
+        
     </style>
 </head>
 <body>
@@ -1398,12 +1430,28 @@
         </div>
     </footer>
 
+    <!-- CHATBOT -->
+<button class="chat-btn" id="chatBtn" aria-label="Abrir chat"><i class="fas fa-comments"></i></button>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <span><i class="fas fa-robot"></i> Assistente IA</span>
+        <button id="chatClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg ai">Olá! Sou o assistente virtual do Matheus. Posso responder sobre seus projetos, tecnologias e experiência.</div>
+    </div>
+    <form class="chat-input" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Pergunte algo..." autocomplete="off" />
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>
+    
   <script>
 /* ================================================================
    PORTFÓLIO DINÂMICO
-   Fonte primária: GitHub raw (sem cache do Vercel)
+   Fonte primária: jsDelivr (GitHub raw sem cache)
    Fallback: cópia local do JSON
-   Fallback final: dados embutidos (sempre funciona)
+   Fallback final: dados embutidos
    ================================================================ */
 
 let DATA = null;
@@ -1415,15 +1463,13 @@ const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
 }[c]));
 
 /* ================================================================
-   URLS DO JSON
+   URLs DO JSON
    ================================================================ */
-// 1. GitHub raw — atualiza imediatamente após cada commit
 const GITHUB_RAW_URL = 'https://cdn.jsdelivr.net/gh/ryueik/meu-portfolio@main/data/portfolio.json';
-// 2. Cópia local (fallback caso GitHub esteja fora do ar)
 const LOCAL_JSON_URL = 'data/portfolio.json';
 
 /* ================================================================
-   DADOS PADRÃO (fallback — sempre disponíveis)
+   DADOS PADRÃO
    ================================================================ */
 function getDefaultData() {
     return {
@@ -1531,14 +1577,12 @@ function mergeWithDefault(data) {
     merged.contact  = { ...def.contact,  ...(data.contact  || {}) };
     merged.footer   = { ...def.footer,   ...(data.footer   || {}) };
 
-    // Arrays: só substitui se o JSON tiver conteúdo
     if (!Array.isArray(merged.projects)       || merged.projects.length       === 0) merged.projects       = def.projects;
     if (!Array.isArray(merged.techStack)      || merged.techStack.length      === 0) merged.techStack      = def.techStack;
     if (!Array.isArray(merged.experience)     || merged.experience.length     === 0) merged.experience     = def.experience;
     if (!Array.isArray(merged.education)      || merged.education.length      === 0) merged.education      = def.education;
     if (!Array.isArray(merged.certifications) || merged.certifications.length === 0) merged.certifications = def.certifications;
 
-    // Stats: sempre usa do JSON se tiver (para permitir adicionar/remover)
     if (!Array.isArray(merged.about.stats) || merged.about.stats.length === 0) {
         merged.about.stats = def.about.stats;
     }
@@ -1546,12 +1590,11 @@ function mergeWithDefault(data) {
 }
 
 /* ================================================================
-   CARREGA O JSON — GitHub raw → local → padrão
+   CARREGA O JSON
    ================================================================ */
 async function loadPortfolio() {
     console.log('%c[Portfolio] Iniciando carregamento...', 'color:#00E5FF;font-weight:bold');
 
-    // Tentativa 1: GitHub raw (sempre atualizado, sem cache)
     try {
         console.log('[Portfolio] Tentando GitHub raw:', GITHUB_RAW_URL);
         const res = await fetch(GITHUB_RAW_URL + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1567,7 +1610,6 @@ async function loadPortfolio() {
         console.warn('⚠️ GitHub raw falhou:', e.message);
     }
 
-    // Tentativa 2: cópia local (fallback)
     try {
         console.log('[Portfolio] Tentando arquivo local:', LOCAL_JSON_URL);
         const res = await fetch(LOCAL_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1582,7 +1624,6 @@ async function loadPortfolio() {
         console.warn('⚠️ Arquivo local falhou:', e.message);
     }
 
-    // Tentativa 3: dados padrão embutidos
     console.warn('%c⚠️ Usando dados padrão embutidos', 'color:#FF9F43;font-weight:bold');
     DATA = getDefaultData();
     renderAll();
@@ -1602,6 +1643,8 @@ function renderAll() {
     renderCertifications();
     renderContact();
     renderFooter();
+    applySEO();       // ← SEO automático
+    initChatbot();    // ← Chatbot (só inicializa uma vez)
 }
 
 /* ---------- HERO ---------- */
@@ -1779,6 +1822,153 @@ function renderFooter() {
     const socials = document.querySelectorAll('.footer .socials a');
     const links = [c.github, c.linkedin, c.portfolioUrl, c.email ? `mailto:${c.email}` : ''];
     socials.forEach((a, i) => { if (links[i]) a.href = links[i]; });
+}
+
+/* ================================================================
+   SEO AUTOMÁTICO
+   ================================================================ */
+function applySEO() {
+    const p = DATA.profile || {};
+    const c = DATA.contact || {};
+    const siteUrl = c.portfolioUrl || location.origin;
+    const title = `${p.name || ''} ${p.nameHighlight || ''} | ${p.title || ''} & ${p.titleHighlight || ''}`.trim();
+    const desc = (p.bio || '').substring(0, 160);
+
+    document.title = title;
+    const setMeta = (id, value) => {
+        const el = document.getElementById(id);
+        if (!el || !value) return;
+        if (el.tagName === 'LINK') el.href = value;
+        else if (el.tagName === 'META') el.setAttribute('content', value);
+        else el.textContent = value;
+    };
+
+    setMeta('metaDescription', desc);
+    setMeta('metaKeywords', (DATA.techStack || []).flatMap(t => t.items || []).slice(0, 20).join(', '));
+    setMeta('metaCanonical', siteUrl);
+    setMeta('ogTitle', title);
+    setMeta('ogDescription', desc);
+    setMeta('ogImage', p.avatar || '');
+    setMeta('ogUrl', siteUrl);
+    setMeta('twTitle', title);
+    setMeta('twDescription', desc);
+    setMeta('twImage', p.avatar || '');
+    setMeta('favicon', p.avatar || '');
+
+    const ld = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": `${p.name || ''} ${p.nameHighlight || ''}`.trim(),
+        "jobTitle": `${p.title || ''} ${p.titleHighlight || ''}`.trim(),
+        "url": siteUrl,
+        "email": c.email,
+        "address": { "@type": "PostalAddress", "addressLocality": c.location },
+        "sameAs": [c.github, c.linkedin].filter(Boolean),
+        "knowsAbout": (DATA.techStack || []).flatMap(t => t.items || [])
+    };
+    const ldEl = document.getElementById('jsonLd');
+    if (ldEl) ldEl.textContent = JSON.stringify(ld);
+}
+
+/* ================================================================
+   CHATBOT
+   ================================================================ */
+let chatbotInitialized = false;
+
+function initChatbot() {
+    if (chatbotInitialized) return;
+    chatbotInitialized = true;
+
+    const chatBtn = document.getElementById('chatBtn');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+
+    if (!chatBtn || !chatWindow) {
+        console.warn('[Chatbot] Elementos não encontrados no HTML.');
+        return;
+    }
+
+    chatBtn.onclick = () => {
+        chatWindow.classList.toggle('open');
+        if (chatWindow.classList.contains('open')) chatInput.focus();
+    };
+    document.getElementById('chatClose').onclick = () => chatWindow.classList.remove('open');
+
+    function addChatMsg(text, role) {
+        const div = document.createElement('div');
+        div.className = `chat-msg ${role}`;
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return div;
+    }
+
+    function buildSystemPrompt() {
+        const p = DATA.profile || {};
+        const tech = (DATA.techStack || []).map(t => `${t.category}: ${t.items.join(', ')}`).join('\n');
+        const projs = (DATA.projects || []).map(x => `- ${x.title}: ${x.desc}`).join('\n');
+        const exp = (DATA.experience || []).map(x => `- ${x.role} na ${x.company} (${x.date})`).join('\n');
+        return `Você é o assistente virtual do portfólio de ${p.name} ${p.nameHighlight}.
+Responda em português, de forma educada, objetiva e profissional.
+
+PERFIL: ${p.bio}
+TÍTULO: ${p.title} | ${p.titleHighlight}
+
+TECNOLOGIAS:
+${tech}
+
+EXPERIÊNCIA:
+${exp}
+
+PROJETOS:
+${projs}
+
+Se a pergunta não for sobre o portfólio, redirecione gentilmente. Nunca invente informações.`;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        addChatMsg(text, 'user');
+        chatInput.value = '';
+        const typing = addChatMsg('digitando...', 'typing');
+
+        try {
+            const history = Array.from(chatMessages.querySelectorAll('.chat-msg'))
+                .slice(-6)
+                .map(m => {
+                    if (m.classList.contains('user')) return { role: 'user', content: m.textContent };
+                    if (m.classList.contains('ai') && !m.classList.contains('typing')) return { role: 'assistant', content: m.textContent };
+                    return null;
+                })
+                .filter(Boolean);
+
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: [
+                        { role: 'system', content: buildSystemPrompt() },
+                        ...history
+                    ]
+                })
+            });
+
+            const data = await res.json();
+            typing.remove();
+            if (!res.ok) throw new Error(data.error || 'Erro no servidor');
+            addChatMsg(data.reply, 'ai');
+        } catch (err) {
+            typing.remove();
+            addChatMsg('Desculpe, tive um problema técnico. Tente novamente em instantes.', 'ai');
+            console.error('[Chatbot] Erro:', err);
+        }
+    });
 }
 
 /* ================================================================
