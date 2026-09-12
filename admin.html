@@ -17,8 +17,14 @@
     --radius:16px; --radius-sm:10px;
     --font:'Inter',sans-serif; --font-mono:'Space Grotesk',monospace;
 }
+body.admin-light {
+    --bg-body:#F5F6FA; --bg-surface:#FFFFFF; --bg-surface-alt:#EEF0F5; --bg-card:#FFFFFF;
+    --text-primary:#1A1A25; --text-secondary:#555566; --text-muted:#8A8A9A;
+    --border-color:#DDE0E8; --shadow:0 8px 32px rgba(0,0,0,.08);
+    --shadow-glow:0 0 40px rgba(0,229,255,.15);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg-body);color:var(--text-primary);line-height:1.6;min-height:100vh}
+body{font-family:var(--font);background:var(--bg-body);color:var(--text-primary);line-height:1.6;min-height:100vh;transition:background .3s,color .3s}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:var(--accent-primary);border-radius:4px}
 button{cursor:pointer;font-family:inherit;font-size:1rem;border:none;background:none;color:inherit}
 input,textarea,select{font-family:inherit;font-size:.95rem;background:var(--bg-surface-alt);color:var(--text-primary);border:2px solid var(--border-color);border-radius:var(--radius-sm);padding:.7rem 1rem;width:100%;transition:border .3s,box-shadow .3s}
@@ -29,7 +35,6 @@ a{color:var(--accent-primary);text-decoration:none}
 a:hover{color:var(--accent-green)}
 .container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
 
-/* LOGIN */
 .login-screen{position:fixed;inset:0;background:var(--bg-body);display:flex;align-items:center;justify-content:center;padding:1.5rem;z-index:100;background-image:radial-gradient(circle at 20% 30%,rgba(0,229,255,.06) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(124,58,237,.06) 0%,transparent 50%)}
 .login-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:2.5rem;max-width:420px;width:100%;box-shadow:var(--shadow)}
 .login-card .lock-icon{text-align:center;font-size:2.5rem;color:var(--accent-primary);margin-bottom:1rem}
@@ -41,8 +46,8 @@ a:hover{color:var(--accent-green)}
 .login-hint{margin-top:1.5rem;padding:1rem;background:var(--bg-surface-alt);border-radius:var(--radius-sm);font-size:.8rem;color:var(--text-secondary);line-height:1.6}
 .login-hint code{background:var(--bg-body);padding:.15rem .4rem;border-radius:4px;color:var(--accent-green);font-family:var(--font-mono)}
 
-/* HEADER */
 .admin-header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-color);padding:1rem 0}
+body.admin-light .admin-header{background:rgba(255,255,255,.9)}
 .admin-header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .admin-header .brand{font-family:var(--font-mono);font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:.6rem}
 .admin-header .brand .badge-admin{font-size:.6rem;background:var(--accent-primary);color:var(--bg-body);padding:.15rem .5rem;border-radius:4px;font-weight:800;letter-spacing:.5px}
@@ -53,7 +58,6 @@ a:hover{color:var(--accent-green)}
 .status-pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:50px;font-weight:600;font-size:.85rem;transition:all .3s;border:2px solid transparent;white-space:nowrap;text-decoration:none}
 .btn-primary{background:var(--accent-primary);color:var(--bg-body);border-color:var(--accent-primary)}
 .btn-primary:hover{background:transparent;color:var(--accent-primary);transform:translateY(-2px)}
@@ -67,7 +71,6 @@ a:hover{color:var(--accent-green)}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 .btn-icon{width:34px;height:34px;padding:0;border-radius:50%;justify-content:center}
 
-/* TABS */
 .tabs{display:flex;gap:.4rem;border-bottom:2px solid var(--border-color);margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem}
 .tab-btn{padding:.6rem 1.2rem;border-radius:50px;font-weight:600;font-size:.82rem;color:var(--text-secondary);border:2px solid transparent;transition:all .3s;white-space:nowrap}
 .tab-btn:hover{color:var(--text-primary);background:var(--bg-surface-alt)}
@@ -80,7 +83,6 @@ main{padding:2rem 0 5rem}
 .page-title{font-size:1.6rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.25rem}
 .page-sub{color:var(--text-secondary);font-size:.9rem;margin-bottom:1.5rem}
 
-/* CARDS & FORMS */
 .card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem}
 .card h3{font-size:1rem;font-weight:700;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border-color)}
 .card h3 i{color:var(--accent-primary)}
@@ -91,7 +93,6 @@ main{padding:2rem 0 5rem}
 .form-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
 
-/* LIST ITEMS */
 .list-item{background:var(--bg-surface-alt);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:1rem;margin-bottom:.6rem;display:flex;gap:1rem;align-items:flex-start;transition:all .3s}
 .list-item:hover{border-color:var(--accent-primary)}
 .list-item .thumb{width:44px;height:44px;flex-shrink:0;border-radius:10px;background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--accent-primary);border:1px solid var(--border-color)}
@@ -103,7 +104,6 @@ main{padding:2rem 0 5rem}
 .mini-tags span{font-size:.68rem;background:var(--bg-card);padding:.15rem .5rem;border-radius:50px;color:var(--text-secondary);border:1px solid var(--border-color)}
 .empty{text-align:center;padding:2.5rem 1.5rem;color:var(--text-secondary);font-size:.9rem;border:2px dashed var(--border-color);border-radius:var(--radius-sm)}
 
-/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;z-index:200;overflow-y:auto}
 .modal-overlay.open{display:flex;animation:fadeIn .2s}
 .modal{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius);width:100%;max-width:640px;padding:1.75rem;box-shadow:var(--shadow);max-height:92vh;overflow-y:auto;margin:auto}
@@ -111,7 +111,6 @@ main{padding:2rem 0 5rem}
 .modal h2 button{color:var(--text-secondary);font-size:1.1rem;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .modal h2 button:hover{background:var(--bg-surface-alt);color:var(--accent-red)}
 
-/* TOAST */
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg-card);border:1px solid var(--border-color);border-left:4px solid var(--accent-green);padding:.9rem 1.2rem;border-radius:var(--radius-sm);box-shadow:var(--shadow);z-index:9999;transform:translateY(150%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:380px;font-weight:500;font-size:.88rem;display:flex;align-items:center;gap:.7rem}
 .toast.show{transform:translateY(0)}
 .toast.error{border-left-color:var(--accent-red)}
@@ -128,6 +127,13 @@ main{padding:2rem 0 5rem}
 .bullet-row input{flex:1}
 .bullet-row button{flex-shrink:0;width:34px;height:38px;border-radius:var(--radius-sm);background:var(--bg-card);border:2px solid var(--border-color);color:var(--accent-red);display:flex;align-items:center;justify-content:center}
 .bullet-row button:hover{border-color:var(--accent-red)}
+
+/* DRAG-DROP */
+.list-item[draggable="true"]:active{cursor:grabbing}
+.list-item.dragging{opacity:.4}
+
+/* PREVIEW */
+#previewFrame{width:100%;height:100%;border:none;background:#fff}
 
 @media(max-width:768px){
     .form-row,.form-row-3{grid-template-columns:1fr}
@@ -168,8 +174,10 @@ main{padding:2rem 0 5rem}
             </div>
             <div class="admin-header-actions">
                 <span class="status-pill" id="syncStatus"><span class="dot"></span> Verificando...</span>
+                <button class="btn btn-outline btn-sm" id="adminThemeBtn" title="Alternar tema"><i class="fas fa-sun"></i></button>
+                <button class="btn btn-outline btn-sm" id="previewBtn"><i class="fas fa-eye"></i> Preview</button>
                 <button class="btn btn-green btn-sm" id="saveAllBtn"><i class="fas fa-save"></i> Salvar Tudo</button>
-                <a href="index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i> Ver site</a>
+                <a href="index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i></a>
                 <button class="btn btn-outline btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
@@ -196,43 +204,30 @@ main{padding:2rem 0 5rem}
                 <div class="card">
                     <h3><i class="fas fa-user"></i> Hero / Perfil</h3>
                     <div class="form-row">
+                        <div class="form-group"><label>Primeiro nome</label><input type="text" id="p_name" /></div>
+                        <div class="form-group"><label>Sobrenome (destacado)</label><input type="text" id="p_nameHighlight" /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Iniciais (avatar fallback)</label><input type="text" id="p_initials" maxlength="3" /></div>
                         <div class="form-group">
-                            <label>Primeiro nome</label>
-                            <input type="text" id="p_name" />
-                        </div>
-                        <div class="form-group">
-                            <label>Sobrenome (destacado)</label>
-                            <input type="text" id="p_nameHighlight" />
+                            <label>Avatar</label>
+                            <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+                                <input type="url" id="p_avatar" placeholder="https://... ou deixe vazio" style="flex:1;min-width:180px" />
+                                <label class="btn btn-primary btn-sm" style="margin:0;cursor:pointer">
+                                    <i class="fas fa-upload"></i> Upload
+                                    <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp" style="display:none" />
+                                </label>
+                                <img id="avatarPreview" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--border-color);display:none" />
+                            </div>
+                            <small>PNG, JPG ou WebP. Máx 2MB.</small>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Iniciais (avatar fallback)</label>
-                            <input type="text" id="p_initials" maxlength="3" />
-                        </div>
-                        <div class="form-group">
-                            <label>URL do avatar (opcional)</label>
-                            <input type="url" id="p_avatar" placeholder="https://... ou deixe vazio" />
-                        </div>
+                        <div class="form-group"><label>Título profissional</label><input type="text" id="p_title" /></div>
+                        <div class="form-group"><label>Destaque do título</label><input type="text" id="p_titleHighlight" /></div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Título profissional</label>
-                            <input type="text" id="p_title" />
-                        </div>
-                        <div class="form-group">
-                            <label>Destaque do título</label>
-                            <input type="text" id="p_titleHighlight" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Badge (ex: "Disponível para oportunidades")</label>
-                        <input type="text" id="p_badge" />
-                    </div>
-                    <div class="form-group">
-                        <label>Bio (Hero)</label>
-                        <textarea id="p_bio" rows="3"></textarea>
-                    </div>
+                    <div class="form-group"><label>Badge</label><input type="text" id="p_badge" /></div>
+                    <div class="form-group"><label>Bio (Hero)</label><textarea id="p_bio" rows="3"></textarea></div>
                 </div>
             </div>
 
@@ -240,14 +235,8 @@ main{padding:2rem 0 5rem}
             <div class="tab-content" id="tab-sobre">
                 <div class="card">
                     <h3><i class="fas fa-align-left"></i> Textos</h3>
-                    <div class="form-group">
-                        <label>Parágrafo 1</label>
-                        <textarea id="a_p1" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Parágrafo 2</label>
-                        <textarea id="a_p2" rows="4"></textarea>
-                    </div>
+                    <div class="form-group"><label>Parágrafo 1</label><textarea id="a_p1" rows="4"></textarea></div>
+                    <div class="form-group"><label>Parágrafo 2</label><textarea id="a_p2" rows="4"></textarea></div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-chart-bar"></i> Estatísticas</h3>
@@ -264,7 +253,7 @@ main{padding:2rem 0 5rem}
                 <div class="card">
                     <h3><i class="fas fa-layer-group"></i> Categorias de Tecnologia</h3>
                     <div class="toolbar">
-                        <span style="color:var(--text-secondary);font-size:.85rem">Cada categoria tem um ícone e uma lista de tecnologias</span>
+                        <span style="color:var(--text-secondary);font-size:.85rem">Cada categoria tem um ícone e uma lista</span>
                         <button class="btn btn-primary btn-sm" onclick="openTechModal()"><i class="fas fa-plus"></i> Nova categoria</button>
                     </div>
                     <div id="techList"></div>
@@ -276,7 +265,7 @@ main{padding:2rem 0 5rem}
                 <div class="card">
                     <h3><i class="fas fa-briefcase"></i> Experiência Profissional</h3>
                     <div class="toolbar">
-                        <span style="color:var(--text-secondary);font-size:.85rem">Ordem de exibição: do mais recente para o mais antigo</span>
+                        <span style="color:var(--text-secondary);font-size:.85rem">Ordem: mais recente primeiro</span>
                         <button class="btn btn-primary btn-sm" onclick="openExpModal()"><i class="fas fa-plus"></i> Adicionar</button>
                     </div>
                     <div id="expList"></div>
@@ -318,55 +307,24 @@ main{padding:2rem 0 5rem}
                 <div class="card">
                     <h3><i class="fas fa-address-card"></i> Informações de Contato</h3>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>E-mail</label>
-                            <input type="email" id="c_email" />
-                        </div>
-                        <div class="form-group">
-                            <label>WhatsApp (só números, com DDI)</label>
-                            <input type="text" id="c_whatsapp" placeholder="5512974117747" />
-                            <small>Ex: 5512974117747 (55 = Brasil, 12 = DDD)</small>
-                        </div>
+                        <div class="form-group"><label>E-mail</label><input type="email" id="c_email" /></div>
+                        <div class="form-group"><label>WhatsApp (só números, com DDI)</label><input type="text" id="c_whatsapp" placeholder="5512974117747" /><small>Ex: 5512974117747</small></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>WhatsApp (exibição)</label>
-                            <input type="text" id="c_whatsappDisplay" placeholder="(12) 97411-7747" />
-                        </div>
-                        <div class="form-group">
-                            <label>Localização</label>
-                            <input type="text" id="c_location" />
-                        </div>
+                        <div class="form-group"><label>WhatsApp (exibição)</label><input type="text" id="c_whatsappDisplay" /></div>
+                        <div class="form-group"><label>Localização</label><input type="text" id="c_location" /></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>LinkedIn URL</label>
-                            <input type="url" id="c_linkedin" />
-                        </div>
-                        <div class="form-group">
-                            <label>GitHub URL</label>
-                            <input type="url" id="c_github" />
-                        </div>
+                        <div class="form-group"><label>LinkedIn URL</label><input type="url" id="c_linkedin" /></div>
+                        <div class="form-group"><label>GitHub URL</label><input type="url" id="c_github" /></div>
                     </div>
-                    <div class="form-group">
-                        <label>URL do portfólio publicado</label>
-                        <input type="url" id="c_portfolioUrl" />
-                    </div>
+                    <div class="form-group"><label>URL do portfólio publicado</label><input type="url" id="c_portfolioUrl" /></div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-bullhorn"></i> Chamada para Ação (Footer)</h3>
-                    <div class="form-group">
-                        <label>Título CTA</label>
-                        <input type="text" id="f_ctaTitle" />
-                    </div>
-                    <div class="form-group">
-                        <label>Texto CTA</label>
-                        <textarea id="f_ctaText" rows="2"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Texto do botão</label>
-                        <input type="text" id="f_ctaButtonText" />
-                    </div>
+                    <div class="form-group"><label>Título CTA</label><input type="text" id="f_ctaTitle" /></div>
+                    <div class="form-group"><label>Texto CTA</label><textarea id="f_ctaText" rows="2"></textarea></div>
+                    <div class="form-group"><label>Texto do botão</label><input type="text" id="f_ctaButtonText" /></div>
                 </div>
             </div>
 
@@ -377,7 +335,7 @@ main{padding:2rem 0 5rem}
                     <div class="form-group">
                         <label>Personal Access Token</label>
                         <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off" />
-                        <small>Fica salvo apenas no seu navegador. Token precisa de "Contents: Read and write".</small>
+                        <small>Token precisa de "Contents: Read and write".</small>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Usuário</label><input type="text" id="ghOwner" /></div>
@@ -392,7 +350,6 @@ main{padding:2rem 0 5rem}
                         <button class="btn btn-outline" id="testGhBtn"><i class="fas fa-vial"></i> Testar Conexão</button>
                     </div>
                 </div>
-
                 <div class="card">
                     <h3><i class="fas fa-lock"></i> Senha do Painel</h3>
                     <div class="form-row">
@@ -401,7 +358,6 @@ main{padding:2rem 0 5rem}
                     </div>
                     <button class="btn btn-primary" id="changePasswordBtn"><i class="fas fa-key"></i> Alterar senha</button>
                 </div>
-
                 <div class="card">
                     <h3><i class="fas fa-file-export"></i> Backup & Importação</h3>
                     <div class="form-actions">
@@ -412,7 +368,6 @@ main{padding:2rem 0 5rem}
                         </label>
                     </div>
                 </div>
-
                 <div class="card" style="border-color:rgba(255,71,87,.3)">
                     <h3 style="color:var(--accent-red)"><i class="fas fa-exclamation-triangle"></i> Zona de Perigo</h3>
                     <button class="btn btn-danger" id="resetAllBtn"><i class="fas fa-trash-alt"></i> Limpar dados locais</button>
@@ -420,6 +375,21 @@ main{padding:2rem 0 5rem}
             </div>
         </div>
     </main>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-overlay" id="previewModal" style="align-items:stretch;padding:1rem">
+    <div class="modal" style="max-width:1400px;width:100%;height:100%;padding:1rem;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem">
+            <strong><i class="fas fa-eye"></i> Preview do site</strong>
+            <div style="display:flex;gap:.5rem">
+                <button class="btn btn-green btn-sm" id="previewSaveBtn"><i class="fas fa-save"></i> Salvar & Recarregar</button>
+                <button class="btn btn-outline btn-sm" id="previewReloadBtn"><i class="fas fa-sync-alt"></i> Recarregar</button>
+                <button class="btn btn-outline btn-sm" id="previewCloseBtn"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <iframe id="previewFrame" src="about:blank"></iframe>
+    </div>
 </div>
 
 <!-- MODAL GENÉRICO -->
@@ -434,38 +404,26 @@ main{padding:2rem 0 5rem}
     </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
 <script>
-/* ================================================================
-   CONFIG
-   ================================================================ */
 const CONFIG_KEY = 'portfolio_admin_config';
 const PASSWORD_KEY = 'portfolio_admin_password';
+const ADMIN_THEME_KEY = 'portfolio_admin_theme';
 const DEFAULT_PASSWORD = 'admin123';
 const DEFAULT_CONFIG = {
-    token: '',
-    owner: 'ryueik',
-    repo: 'meu-portfolio',
-    branch: 'main',
-    path: 'data/portfolio.json'
+    token: '', owner: 'ryueik', repo: 'meu-portfolio',
+    branch: 'main', path: 'data/portfolio.json'
 };
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
 let state = {
-    data: null,
-    sha: null,
-    config: { ...DEFAULT_CONFIG },
-    dirty: false,
-    modalSave: null
+    data: null, sha: null, config: { ...DEFAULT_CONFIG },
+    dirty: false, modalSave: null
 };
 
-/* ================================================================
-   HELPERS
-   ================================================================ */
 function uid() { return 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 function toBase64(str) {
     const bytes = new TextEncoder().encode(str);
@@ -496,9 +454,6 @@ function setStatus(cls, text) {
     el.innerHTML = `<span class="dot"></span> ${text}`;
 }
 
-/* ================================================================
-   MODAL GENÉRICO
-   ================================================================ */
 function openModal(title, bodyHtml, onSave) {
     $('#modalTitle').textContent = title;
     $('#modalBody').innerHTML = bodyHtml;
@@ -515,9 +470,51 @@ $('#modalSaveBtn').onclick = () => { if (state.modalSave) state.modalSave(); };
 $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#modal').classList.contains('open')) closeModal(); });
 
-/* ================================================================
+/* ============================================================
+   TEMA
+   ============================================================ */
+function applyAdminTheme(theme) {
+    if (theme === 'light') {
+        document.body.classList.add('admin-light');
+        $('#adminThemeBtn').innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+        document.body.classList.remove('admin-light');
+        $('#adminThemeBtn').innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    localStorage.setItem(ADMIN_THEME_KEY, theme);
+}
+$('#adminThemeBtn').onclick = () => {
+    const current = localStorage.getItem(ADMIN_THEME_KEY) || 'dark';
+    applyAdminTheme(current === 'dark' ? 'light' : 'dark');
+};
+applyAdminTheme(localStorage.getItem(ADMIN_THEME_KEY) || 'dark');
+
+/* ============================================================
+   PREVIEW
+   ============================================================ */
+const PREVIEW_URL = 'https://meu-portfolio-omega-sepia.vercel.app/';
+$('#previewBtn').onclick = () => {
+    $('#previewModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    reloadPreview();
+};
+function reloadPreview() {
+    const f = $('#previewFrame');
+    f.src = 'about:blank';
+    setTimeout(() => { f.src = PREVIEW_URL + '?t=' + Date.now(); }, 100);
+}
+$('#previewCloseBtn').onclick = () => {
+    $('#previewModal').classList.remove('open');
+    document.body.style.overflow = '';
+    $('#previewFrame').src = 'about:blank';
+};
+$('#previewReloadBtn').onclick = reloadPreview;
+$('#previewSaveBtn').onclick = async () => { await saveAll(); setTimeout(reloadPreview, 800); };
+$('#previewModal').addEventListener('click', e => { if (e.target.id === 'previewModal') $('#previewCloseBtn').click(); });
+
+/* ============================================================
    GITHUB API
-   ================================================================ */
+   ============================================================ */
 async function ghGet() {
     const { token, owner, repo, branch, path } = state.config;
     if (!token || !owner || !repo) throw new Error('Configure token, usuário e repositório.');
@@ -531,9 +528,7 @@ async function ghGet() {
         throw new Error(e.message || `Erro ${res.status}`);
     }
     const j = await res.json();
-    const content = fromBase64(j.content);
-    let parsed;
-    try { parsed = JSON.parse(content); } catch { parsed = null; }
+    let parsed; try { parsed = JSON.parse(fromBase64(j.content)); } catch { parsed = null; }
     return { data: parsed, sha: j.sha };
 }
 
@@ -565,19 +560,50 @@ async function ghPut(dataObj, message) {
     state.sha = j.content.sha;
 }
 
-/* ================================================================
-   LOAD / SAVE
-   ================================================================ */
+async function uploadFileToGitHub(file, targetPath) {
+    const { token, owner, repo, branch } = state.config;
+    if (!token || !owner || !repo) throw new Error('Configure o GitHub primeiro.');
+    if (file.size > 2 * 1024 * 1024) throw new Error('Arquivo muito grande (máx 2MB).');
+    const b64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = () => reject(new Error('Erro ao ler arquivo.'));
+        reader.readAsDataURL(file);
+    });
+    let sha = null;
+    try {
+        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${targetPath}?ref=${branch}&t=${Date.now()}`, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+        });
+        if (res.ok) sha = (await res.json()).sha;
+    } catch {}
+    const payload = { message: `Upload ${targetPath}`, content: b64, branch };
+    if (sha) payload.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${targetPath}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `Erro ${res.status}`);
+    }
+    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${targetPath}?v=${Date.now()}`;
+}
+
 async function loadFromGitHub(silent) {
     if (!silent) setStatus('', 'Carregando...');
     try {
         const { data, sha } = await ghGet();
         if (!data) {
-            showToast('Arquivo não existe ainda. Usando dados padrão.', 'info');
+            showToast('Arquivo não existe. Usando dados padrão.', 'info');
             state.data = getDefaultData();
             state.sha = null;
         } else {
-            // Merge: se algum campo estiver faltando no JSON remoto, usa o default
             state.data = mergeWithDefault(data);
             state.sha = sha;
             showToast('Dados carregados do GitHub.', 'info');
@@ -632,110 +658,48 @@ async function saveAll() {
     }
 }
 
-/* ================================================================
-   DADOS PADRÃO (com todo o portfólio atual preenchido)
-   ================================================================ */
 function getDefaultData() {
     return {
-        profile: {
-            name: "Matheus",
-            nameHighlight: "Macário",
-            initials: "MM",
-            badge: "Disponível para oportunidades",
-            title: "Desenvolvedor Web",
-            titleHighlight: "Especialista em RPA & Automação",
-            bio: "Tecnólogo em Gestão de TI apaixonado por criar soluções inovadoras. Especialista em automação de processos com Microsoft Power Platform, Python e desenvolvimento web full stack.",
-            avatar: ""
-        },
-        about: {
-            paragraph1: "Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
-            paragraph2: "Sólida experiência em Desenvolvimento Web (Python, PHP, JavaScript, APIs REST, JSON) e versionamento via Git/GitHub. Especialista em Automação de Processos (RPA / Low-Code / Scripting), atuando fortemente no ecossistema Microsoft Power Platform (Power Automate Cloud/Desktop, Power Apps e Dataverse) e scripts personalizados.",
-            stats: [
-                { number: "10+", label: "Projetos de Automação" },
-                { number: "2+",  label: "Anos de Experiência" },
-                { number: "7+",  label: "Certificações" },
-                { number: "15+", label: "Tecnologias" }
-            ]
-        },
+        profile: { name:"Matheus", nameHighlight:"Macário", initials:"MM", badge:"Disponível para oportunidades", title:"Desenvolvedor Web", titleHighlight:"Especialista em RPA & Automação", bio:"Tecnólogo em Gestão de TI apaixonado por criar soluções inovadoras. Especialista em automação de processos com Microsoft Power Platform, Python e desenvolvimento web full stack.", avatar:"" },
+        about: { paragraph1:"Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.", paragraph2:"Sólida experiência em Desenvolvimento Web (Python, PHP, JavaScript, APIs REST, JSON) e versionamento via Git/GitHub. Especialista em Automação de Processos (RPA / Low-Code / Scripting), atuando fortemente no ecossistema Microsoft Power Platform (Power Automate Cloud/Desktop, Power Apps e Dataverse) e scripts personalizados.", stats:[{number:"10+",label:"Projetos de Automação"},{number:"2+",label:"Anos de Experiência"},{number:"7+",label:"Certificações"},{number:"15+",label:"Tecnologias"}] },
         techStack: [
-            { category: "Linguagens & Web",          icon: "fas fa-code",     items: ["Python","JavaScript (ES6+)","PHP","HTML5","CSS3","JSON","APIs RESTful"] },
-            { category: "Automação & Low-Code",       icon: "fas fa-robot",    items: ["Power Automate Cloud","Power Automate Desktop","Power Apps","Dataverse","N8N","IA / Agentes"] },
-            { category: "Scripting & System Level",   icon: "fas fa-terminal", items: ["Python","PowerShell","VBScript"] },
-            { category: "Bancos de Dados",            icon: "fas fa-database", items: ["SQL","Modelagem ERD","Dataverse","SharePoint Lists"] },
-            { category: "DevOps & Ferramentas",       icon: "fas fa-tools",    items: ["Git","GitHub","Branching Strategy","SharePoint","Excel Avançado","Teams","Metodologias Ágeis"] }
+            { category:"Linguagens & Web", icon:"fas fa-code", items:["Python","JavaScript (ES6+)","PHP","HTML5","CSS3","JSON","APIs RESTful"] },
+            { category:"Automação & Low-Code", icon:"fas fa-robot", items:["Power Automate Cloud","Power Automate Desktop","Power Apps","Dataverse","N8N","IA / Agentes"] },
+            { category:"Scripting & System Level", icon:"fas fa-terminal", items:["Python","PowerShell","VBScript"] },
+            { category:"Bancos de Dados", icon:"fas fa-database", items:["SQL","Modelagem ERD","Dataverse","SharePoint Lists"] },
+            { category:"DevOps & Ferramentas", icon:"fas fa-tools", items:["Git","GitHub","Branching Strategy","SharePoint","Excel Avançado","Teams","Metodologias Ágeis"] }
         ],
         experience: [
-            {
-                date: "Out 2025 — Presente",
-                role: "Estagiário de TI (GAB-AI-ESA)",
-                company: "Procuradoria-Geral do Estado do RS (PGE-RS)",
-                bullets: [
-                    "Desenvolvimento de fluxos automatizados (RPA) no Power Automate (Cloud/Desktop).",
-                    "Criação de apps operacionais no Power Apps/Dataverse.",
-                    "Programação de scripts em Python, PHP e JS para consumo de APIs REST e manipulação de payloads JSON.",
-                    "Governança de código com Git/GitHub e suporte técnico Nível 2."
-                ]
-            },
-            {
-                date: "Freelance",
-                role: "Desenvolvedor Web Full Stack & Líder de Projetos",
-                company: "Produtora Monteiro",
-                bullets: [
-                    "Concepção, programação Full Stack, otimização SEO e deploy do portal corporativo produtoramonteiro.com.",
-                    "Gestão de infraestrutura de servidores, domínios, bancos de dados e protocolos de segurança da informação."
-                ]
-            }
+            { date:"Out 2025 — Presente", role:"Estagiário de TI (GAB-AI-ESA)", company:"Procuradoria-Geral do Estado do RS (PGE-RS)", bullets:["Desenvolvimento de fluxos automatizados (RPA) no Power Automate (Cloud/Desktop).","Criação de apps operacionais no Power Apps/Dataverse.","Programação de scripts em Python, PHP e JS para consumo de APIs REST e manipulação de payloads JSON.","Governança de código com Git/GitHub e suporte técnico Nível 2."] },
+            { date:"Freelance", role:"Desenvolvedor Web Full Stack & Líder de Projetos", company:"Produtora Monteiro", bullets:["Concepção, programação Full Stack, otimização SEO e deploy do portal corporativo produtoramonteiro.com.","Gestão de infraestrutura de servidores, domínios, bancos de dados e protocolos de segurança da informação."] }
         ],
         projects: [
-            { id:"p1",  title:"Gerador e Formatador de Planilhas para Ingestão SharePoint", desc:"Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).", tags:["Power Automate Desktop","Python","Excel/CSV Engine","Data Transformation"], category:"rpa",     icon:"fas fa-file-excel",      link:"" },
-            { id:"p2",  title:"Pipeline de Importação Automática para SharePoint", desc:"Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.", tags:["Power Automate Cloud","SharePoint REST API","Graph API","Error Handling"], category:"rpa", icon:"fas fa-cloud-upload-alt", link:"" },
-            { id:"p3",  title:"Microsserviço de Consulta de Médicos via API", desc:"Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.", tags:["REST APIs","JSON Parsing","HTTP Requests","Cloud Integration"], category:"web", icon:"fas fa-user-md", link:"" },
-            { id:"p4",  title:"Web Scraper e Extrator Cadastral de Médicos (CRM)", desc:"Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.", tags:["Web Scraping","DOM Parsing","XPath","CSV Automation","Python"], category:"rpa", icon:"fas fa-spider", link:"" },
-            { id:"p5",  title:"Utilitário de Manipulação e Divisão de PDFs", desc:"Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.", tags:["Python","PowerShell","VBScript","PDF Binary Processing"], category:"scripts", icon:"fas fa-file-pdf", link:"" },
-            { id:"p6",  title:"Sistema de Governança e Limpeza Automática de Arquivos", desc:"Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.", tags:["OS Layer Automation","PowerShell","Python","File Retention Rules"], category:"scripts", icon:"fas fa-broom", link:"" },
-            { id:"p7",  title:"Módulo de Deleção em Lote para SharePoint", desc:"Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.", tags:["Power Automate Cloud","API Rate Limit Control","Batching Loops"], category:"rpa", icon:"fas fa-trash-alt", link:"" },
-            { id:"p8",  title:"Sistema Automatizado de Registro de Ponto (Híbrido)", desc:"Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.", tags:["Cloud & Desktop Integration","DateTime Logic","Dynamic Data Binding"], category:"rpa", icon:"fas fa-clock", link:"" },
-            { id:"p9",  title:"Automação Web para Gestão de Status no ZEEV (BPMS)", desc:"RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.", tags:["Web Automation","GUI Scripting","ZEEV BPMS","Data-Driven Automation"], category:"rpa", icon:"fas fa-globe", link:"" },
+            { id:"p1", title:"Gerador e Formatador de Planilhas para Ingestão SharePoint", desc:"Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).", tags:["Power Automate Desktop","Python","Excel/CSV Engine","Data Transformation"], category:"rpa", icon:"fas fa-file-excel", link:"" },
+            { id:"p2", title:"Pipeline de Importação Automática para SharePoint", desc:"Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.", tags:["Power Automate Cloud","SharePoint REST API","Graph API","Error Handling"], category:"rpa", icon:"fas fa-cloud-upload-alt", link:"" },
+            { id:"p3", title:"Microsserviço de Consulta de Médicos via API", desc:"Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.", tags:["REST APIs","JSON Parsing","HTTP Requests","Cloud Integration"], category:"web", icon:"fas fa-user-md", link:"" },
+            { id:"p4", title:"Web Scraper e Extrator Cadastral de Médicos (CRM)", desc:"Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.", tags:["Web Scraping","DOM Parsing","XPath","CSV Automation","Python"], category:"rpa", icon:"fas fa-spider", link:"" },
+            { id:"p5", title:"Utilitário de Manipulação e Divisão de PDFs", desc:"Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.", tags:["Python","PowerShell","VBScript","PDF Binary Processing"], category:"scripts", icon:"fas fa-file-pdf", link:"" },
+            { id:"p6", title:"Sistema de Governança e Limpeza Automática de Arquivos", desc:"Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.", tags:["OS Layer Automation","PowerShell","Python","File Retention Rules"], category:"scripts", icon:"fas fa-broom", link:"" },
+            { id:"p7", title:"Módulo de Deleção em Lote para SharePoint", desc:"Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.", tags:["Power Automate Cloud","API Rate Limit Control","Batching Loops"], category:"rpa", icon:"fas fa-trash-alt", link:"" },
+            { id:"p8", title:"Sistema Automatizado de Registro de Ponto (Híbrido)", desc:"Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.", tags:["Cloud & Desktop Integration","DateTime Logic","Dynamic Data Binding"], category:"rpa", icon:"fas fa-clock", link:"" },
+            { id:"p9", title:"Automação Web para Gestão de Status no ZEEV (BPMS)", desc:"RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.", tags:["Web Automation","GUI Scripting","ZEEV BPMS","Data-Driven Automation"], category:"rpa", icon:"fas fa-globe", link:"" },
             { id:"p10", title:"Script de Expurgo e Cancelamento de Solicitações no ZEEV", desc:"Robô de governança de processos que navega no ZEEV e cancela/exclui solicitações pendentes dinamicamente com base em parâmetros de tabelas de controle.", tags:["Web Scraping/Automation","Dynamic Waits (AJAX)","ZEEV BPMS"], category:"rpa", icon:"fas fa-robot", link:"" },
             { id:"p11", title:"Portal Produtora Monteiro", desc:"Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.", tags:["Full Stack","SEO","Banco de Dados","Segurança"], category:"web", icon:"fas fa-globe", link:"" },
             { id:"p12", title:"Repositórios e Scripts Web", desc:"Automações e utilitários em Python, JS e PHP consumindo APIs e tratando payloads JSON. Código aberto disponível no GitHub.", tags:["Python","JavaScript","PHP","APIs REST","JSON"], category:"web", icon:"fab fa-github", link:"https://github.com/ryueik/Projetos" }
         ],
         education: [
-            { type:"Graduação", course:"Tecnólogo em Gestão da Tecnologia da Informação", institution:"Cruzeiro do Sul Virtual",           period:"2025 — 2026" },
-            { type:"Técnico",   course:"Técnico em Informática para Internet",             institution:"ETEC Dr. Geraldo J. R. Alckmin", period:"2022 — 2024" }
+            { type:"Graduação", course:"Tecnólogo em Gestão da Tecnologia da Informação", institution:"Cruzeiro do Sul Virtual", period:"2025 — 2026" },
+            { type:"Técnico", course:"Técnico em Informática para Internet", institution:"ETEC Dr. Geraldo J. R. Alckmin", period:"2022 — 2024" }
         ],
-        certifications: [
-            "Excel Completo do Básico ao Avançado (ENAP/EV.G)",
-            "Jornada Python Automação (Hashtag)",
-            "SQL & Full-Stack (Mimo)",
-            "Automação N8N & IA (Hashtag)",
-            "IA para Todos (StartSe)",
-            "LGPD (LÚMINA/UFRGS)"
-        ],
-        contact: {
-            email: "matheusmgmgdossantos@gmail.com",
-            whatsapp: "5512974117747",
-            whatsappDisplay: "(12) 97411-7747",
-            location: "Porto Alegre - RS, Brasil",
-            linkedin: "https://linkedin.com/in/dev-matheus-macário",
-            github: "https://github.com/ryueik/Projetos",
-            portfolioUrl: "https://meu-portfolio-omega-sepia.vercel.app/"
-        },
-        footer: {
-            ctaTitle: "Vamos trabalhar juntos?",
-            ctaText: "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
-            ctaButtonText: "Fale Comigo"
-        },
+        certifications: ["Excel Completo do Básico ao Avançado (ENAP/EV.G)","Jornada Python Automação (Hashtag)","SQL & Full-Stack (Mimo)","Automação N8N & IA (Hashtag)","IA para Todos (StartSe)","LGPD (LÚMINA/UFRGS)"],
+        contact: { email:"matheusmgmgdossantos@gmail.com", whatsapp:"5512974117747", whatsappDisplay:"(12) 97411-7747", location:"Porto Alegre - RS, Brasil", linkedin:"https://linkedin.com/in/dev-matheus-macário", github:"https://github.com/ryueik/Projetos", portfolioUrl:"https://meu-portfolio-omega-sepia.vercel.app/" },
+        footer: { ctaTitle:"Vamos trabalhar juntos?", ctaText:"Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.", ctaButtonText:"Fale Comigo" },
         updatedAt: new Date().toISOString()
     };
 }
 
-/* ================================================================
-   RENDER ALL (bind de inputs)
-   ================================================================ */
 function renderAll() {
     const d = state.data;
-    // Perfil
     $('#p_name').value = d.profile.name || '';
     $('#p_nameHighlight').value = d.profile.nameHighlight || '';
     $('#p_initials').value = d.profile.initials || '';
@@ -744,12 +708,8 @@ function renderAll() {
     $('#p_titleHighlight').value = d.profile.titleHighlight || '';
     $('#p_badge').value = d.profile.badge || '';
     $('#p_bio').value = d.profile.bio || '';
-
-    // Sobre
     $('#a_p1').value = d.about.paragraph1 || '';
     $('#a_p2').value = d.about.paragraph2 || '';
-
-    // Contato
     $('#c_email').value = d.contact.email || '';
     $('#c_whatsapp').value = d.contact.whatsapp || '';
     $('#c_whatsappDisplay').value = d.contact.whatsappDisplay || '';
@@ -757,12 +717,11 @@ function renderAll() {
     $('#c_linkedin').value = d.contact.linkedin || '';
     $('#c_github').value = d.contact.github || '';
     $('#c_portfolioUrl').value = d.contact.portfolioUrl || '';
-
-    // Footer
     $('#f_ctaTitle').value = d.footer.ctaTitle || '';
     $('#f_ctaText').value = d.footer.ctaText || '';
     $('#f_ctaButtonText').value = d.footer.ctaButtonText || '';
 
+    updateAvatarPreview();
     renderStats();
     renderTech();
     renderExp();
@@ -771,17 +730,44 @@ function renderAll() {
     renderCerts();
 }
 
+function updateAvatarPreview() {
+    const url = $('#p_avatar').value.trim();
+    const prev = $('#avatarPreview');
+    if (url) {
+        prev.src = url;
+        prev.style.display = 'block';
+        prev.onerror = () => { prev.style.display = 'none'; };
+    } else prev.style.display = 'none';
+}
+$('#p_avatar').addEventListener('input', updateAvatarPreview);
+
+$('#avatarFileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+        showToast('Enviando imagem...', 'info');
+        const url = await uploadFileToGitHub(file, 'data/assets/avatar.png');
+        $('#p_avatar').value = url;
+        state.data.profile.avatar = url;
+        updateAvatarPreview();
+        markDirty();
+        showToast('Avatar enviado! Clique em "Salvar Tudo".', 'success');
+    } catch (err) {
+        showToast('Erro no upload: ' + err.message, 'error');
+    } finally {
+        e.target.value = '';
+    }
+});
+
 /* ---------- STATS ---------- */
 function renderStats() {
     const list = $('#statsList');
     const stats = state.data.about.stats || [];
-    if (stats.length === 0) { list.innerHTML = '<div class="empty">Nenhuma estatística. Clique em "Adicionar".</div>'; return; }
+    if (stats.length === 0) { list.innerHTML = '<div class="empty">Nenhuma estatística.</div>'; return; }
     list.innerHTML = stats.map((s, i) => `
         <div class="list-item">
             <div class="thumb"><i class="fas fa-hashtag"></i></div>
-            <div class="body">
-                <h4>${esc(s.number)} — ${esc(s.label)}</h4>
-            </div>
+            <div class="body"><h4>${esc(s.number)} — ${esc(s.label)}</h4></div>
             <div class="actions">
                 <button class="btn btn-outline btn-sm btn-icon" onclick="editStat(${i})"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-danger btn-sm btn-icon" onclick="delStat(${i})"><i class="fas fa-trash"></i></button>
@@ -789,11 +775,7 @@ function renderStats() {
         </div>`).join('');
 }
 function addStat() {
-    openModal('Nova Estatística', `
-        <div class="form-row">
-            <div class="form-group"><label>Número</label><input type="text" id="m_num" placeholder="10+"></div>
-            <div class="form-group"><label>Rótulo</label><input type="text" id="m_lbl" placeholder="Projetos"></div>
-        </div>`,
+    openModal('Nova Estatística', `<div class="form-row"><div class="form-group"><label>Número</label><input type="text" id="m_num" placeholder="10+"></div><div class="form-group"><label>Rótulo</label><input type="text" id="m_lbl" placeholder="Projetos"></div></div>`,
         () => {
             const n = $('#m_num').value.trim(), l = $('#m_lbl').value.trim();
             if (!n || !l) return showToast('Preencha número e rótulo.', 'error');
@@ -803,34 +785,23 @@ function addStat() {
 }
 function editStat(i) {
     const s = state.data.about.stats[i];
-    openModal('Editar Estatística', `
-        <div class="form-row">
-            <div class="form-group"><label>Número</label><input type="text" id="m_num" value="${esc(s.number)}"></div>
-            <div class="form-group"><label>Rótulo</label><input type="text" id="m_lbl" value="${esc(s.label)}"></div>
-        </div>`,
+    openModal('Editar Estatística', `<div class="form-row"><div class="form-group"><label>Número</label><input type="text" id="m_num" value="${esc(s.number)}"></div><div class="form-group"><label>Rótulo</label><input type="text" id="m_lbl" value="${esc(s.label)}"></div></div>`,
         () => {
             state.data.about.stats[i] = { number: $('#m_num').value.trim(), label: $('#m_lbl').value.trim() };
             renderStats(); closeModal(); markDirty();
         });
 }
-function delStat(i) {
-    if (!confirm('Excluir?')) return;
-    state.data.about.stats.splice(i,1);
-    renderStats(); markDirty();
-}
+function delStat(i) { if (!confirm('Excluir?')) return; state.data.about.stats.splice(i,1); renderStats(); markDirty(); }
 
 /* ---------- TECH ---------- */
 function renderTech() {
     const list = $('#techList');
     const arr = state.data.techStack || [];
-    if (arr.length === 0) { list.innerHTML = '<div class="empty">Nenhuma categoria. Clique em "Nova categoria".</div>'; return; }
+    if (arr.length === 0) { list.innerHTML = '<div class="empty">Nenhuma categoria.</div>'; return; }
     list.innerHTML = arr.map((c, i) => `
         <div class="list-item">
             <div class="thumb"><i class="${esc(c.icon || 'fas fa-code')}"></i></div>
-            <div class="body">
-                <h4>${esc(c.category)}</h4>
-                <div class="mini-tags">${(c.items||[]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
-            </div>
+            <div class="body"><h4>${esc(c.category)}</h4><div class="mini-tags">${(c.items||[]).map(t => `<span>${esc(t)}</span>`).join('')}</div></div>
             <div class="actions">
                 <button class="btn btn-outline btn-sm btn-icon" onclick="openTechModal(${i})"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-danger btn-sm btn-icon" onclick="delTech(${i})"><i class="fas fa-trash"></i></button>
@@ -841,42 +812,33 @@ function openTechModal(i = null) {
     const c = i !== null ? state.data.techStack[i] : { category:'', icon:'fas fa-code', items:[] };
     openModal(i !== null ? 'Editar Categoria' : 'Nova Categoria', `
         <div class="form-row">
-            <div class="form-group"><label>Nome da categoria</label><input type="text" id="m_cat" value="${esc(c.category)}" placeholder="Ex: Linguagens & Web"></div>
-            <div class="form-group"><label>Ícone Font Awesome</label><input type="text" id="m_icon" value="${esc(c.icon)}" placeholder="fas fa-code"></div>
+            <div class="form-group"><label>Nome da categoria</label><input type="text" id="m_cat" value="${esc(c.category)}"></div>
+            <div class="form-group"><label>Ícone Font Awesome</label><input type="text" id="m_icon" value="${esc(c.icon)}"></div>
         </div>
-        <div class="form-group">
-            <label>Tecnologias (separadas por vírgula)</label>
-            <textarea id="m_items" rows="3" placeholder="Python, JavaScript, PHP">${esc((c.items||[]).join(', '))}</textarea>
-        </div>`,
+        <div class="form-group"><label>Tecnologias (separadas por vírgula)</label><textarea id="m_items" rows="3">${esc((c.items||[]).join(', '))}</textarea></div>`,
         () => {
             const category = $('#m_cat').value.trim();
             const icon = $('#m_icon').value.trim() || 'fas fa-code';
             const items = $('#m_items').value.split(',').map(x=>x.trim()).filter(Boolean);
             if (!category) return showToast('Preencha o nome.', 'error');
             const obj = { category, icon, items };
-            if (i !== null) state.data.techStack[i] = obj;
-            else state.data.techStack.push(obj);
+            if (i !== null) state.data.techStack[i] = obj; else state.data.techStack.push(obj);
             renderTech(); closeModal(); markDirty();
         });
 }
-function delTech(i) {
-    if (!confirm('Excluir esta categoria?')) return;
-    state.data.techStack.splice(i,1);
-    renderTech(); markDirty();
-}
+function delTech(i) { if (!confirm('Excluir?')) return; state.data.techStack.splice(i,1); renderTech(); markDirty(); }
 
 /* ---------- EXPERIENCE ---------- */
 function renderExp() {
     const list = $('#expList');
     const arr = state.data.experience || [];
-    if (arr.length === 0) { list.innerHTML = '<div class="empty">Nenhuma experiência. Clique em "Adicionar".</div>'; return; }
+    if (arr.length === 0) { list.innerHTML = '<div class="empty">Nenhuma experiência.</div>'; return; }
     list.innerHTML = arr.map((e, i) => `
         <div class="list-item">
             <div class="thumb"><i class="fas fa-briefcase"></i></div>
             <div class="body">
                 <h4>${esc(e.role)}</h4>
                 <p><strong style="color:var(--accent-primary)">${esc(e.company)}</strong> • ${esc(e.date)}</p>
-                <div class="mini-tags">${(e.bullets||[]).slice(0,2).map(b => `<span>${esc(b.substring(0,60))}${b.length>60?'…':''}</span>`).join('')}</div>
             </div>
             <div class="actions">
                 <button class="btn btn-outline btn-sm btn-icon" onclick="openExpModal(${i})"><i class="fas fa-edit"></i></button>
@@ -886,33 +848,27 @@ function renderExp() {
 }
 function openExpModal(i = null) {
     const e = i !== null ? state.data.experience[i] : { date:'', role:'', company:'', bullets:[''] };
-    const bulletsHtml = (e.bullets.length ? e.bullets : ['']).map((b, idx) => `
+    const bulletsHtml = (e.bullets.length ? e.bullets : ['']).map(b => `
         <div class="bullet-row">
-            <input type="text" class="bullet-input" value="${esc(b)}" placeholder="Descrição da atividade...">
+            <input type="text" class="bullet-input" value="${esc(b)}" placeholder="Descrição...">
             <button type="button" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
         </div>`).join('');
     openModal(i !== null ? 'Editar Experiência' : 'Nova Experiência', `
         <div class="form-row">
-            <div class="form-group"><label>Período</label><input type="text" id="m_date" value="${esc(e.date)}" placeholder="Out 2025 — Presente"></div>
-            <div class="form-group"><label>Empresa</label><input type="text" id="m_company" value="${esc(e.company)}" placeholder="Nome da empresa"></div>
+            <div class="form-group"><label>Período</label><input type="text" id="m_date" value="${esc(e.date)}"></div>
+            <div class="form-group"><label>Empresa</label><input type="text" id="m_company" value="${esc(e.company)}"></div>
         </div>
-        <div class="form-group"><label>Cargo</label><input type="text" id="m_role" value="${esc(e.role)}" placeholder="Estagiário de TI"></div>
+        <div class="form-group"><label>Cargo</label><input type="text" id="m_role" value="${esc(e.role)}"></div>
         <div class="form-group">
             <label>Atividades</label>
             <div id="bulletsWrap">${bulletsHtml}</div>
-            <button type="button" class="btn btn-outline btn-sm" style="margin-top:.5rem" onclick="addBulletRow()"><i class="fas fa-plus"></i> Adicionar atividade</button>
+            <button type="button" class="btn btn-outline btn-sm" style="margin-top:.5rem" onclick="addBulletRow()"><i class="fas fa-plus"></i> Adicionar</button>
         </div>`,
         () => {
             const bullets = Array.from(document.querySelectorAll('#bulletsWrap .bullet-input')).map(x=>x.value.trim()).filter(Boolean);
-            const obj = {
-                date: $('#m_date').value.trim(),
-                company: $('#m_company').value.trim(),
-                role: $('#m_role').value.trim(),
-                bullets
-            };
+            const obj = { date: $('#m_date').value.trim(), company: $('#m_company').value.trim(), role: $('#m_role').value.trim(), bullets };
             if (!obj.role || !obj.company) return showToast('Preencha cargo e empresa.', 'error');
-            if (i !== null) state.data.experience[i] = obj;
-            else state.data.experience.push(obj);
+            if (i !== null) state.data.experience[i] = obj; else state.data.experience.push(obj);
             renderExp(); closeModal(); markDirty();
         });
 }
@@ -920,25 +876,21 @@ function addBulletRow() {
     const wrap = $('#bulletsWrap');
     const div = document.createElement('div');
     div.className = 'bullet-row';
-    div.innerHTML = `<input type="text" class="bullet-input" placeholder="Descrição da atividade...">
-        <button type="button" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
+    div.innerHTML = `<input type="text" class="bullet-input" placeholder="Descrição..."><button type="button" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
     wrap.appendChild(div);
 }
-function delExp(i) {
-    if (!confirm('Excluir esta experiência?')) return;
-    state.data.experience.splice(i,1);
-    renderExp(); markDirty();
-}
+function delExp(i) { if (!confirm('Excluir?')) return; state.data.experience.splice(i,1); renderExp(); markDirty(); }
 
-/* ---------- PROJETOS ---------- */
+/* ---------- PROJETOS (com drag-drop) ---------- */
 function renderProj() {
     const list = $('#projList');
     const arr = state.data.projects || [];
-    $('#projCount').textContent = `${arr.length} projeto(s)`;
+    $('#projCount').textContent = `${arr.length} projeto(s) — arraste para reordenar`;
     if (arr.length === 0) { list.innerHTML = '<div class="empty">Nenhum projeto.</div>'; return; }
     const labels = { rpa:'Automação & RPA', web:'Web & APIs', scripts:'Scripts & DevOps' };
     list.innerHTML = arr.map((p, i) => `
-        <div class="list-item">
+        <div class="list-item" draggable="true" data-index="${i}" style="cursor:grab">
+            <div class="thumb" style="cursor:grab"><i class="fas fa-grip-vertical" style="opacity:.5"></i></div>
             <div class="thumb"><i class="${esc(p.icon || 'fas fa-code')}"></i></div>
             <div class="body">
                 <h4>${esc(p.title)} <span style="font-size:.65rem;color:var(--accent-green);font-weight:700">${labels[p.category]||p.category}</span></h4>
@@ -950,7 +902,42 @@ function renderProj() {
                 <button class="btn btn-danger btn-sm btn-icon" onclick="delProj(${i})"><i class="fas fa-trash"></i></button>
             </div>
         </div>`).join('');
+    enableDragDrop();
 }
+
+function enableDragDrop() {
+    const items = document.querySelectorAll('#projList .list-item');
+    let dragSrc = null;
+    items.forEach(item => {
+        item.addEventListener('dragstart', e => {
+            dragSrc = item;
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            items.forEach(i => i.style.borderColor = '');
+        });
+        item.addEventListener('dragover', e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            item.style.borderColor = 'var(--accent-primary)';
+        });
+        item.addEventListener('dragleave', () => { item.style.borderColor = ''; });
+        item.addEventListener('drop', e => {
+            e.preventDefault();
+            if (dragSrc === item) return;
+            const fromIdx = parseInt(dragSrc.dataset.index);
+            const toIdx = parseInt(item.dataset.index);
+            const [moved] = state.data.projects.splice(fromIdx, 1);
+            state.data.projects.splice(toIdx, 0, moved);
+            renderProj();
+            markDirty();
+            showToast('Ordem alterada. Clique em "Salvar Tudo".', 'info');
+        });
+    });
+}
+
 function openProjModal(i = null) {
     const p = i !== null ? state.data.projects[i] : { id:uid(), title:'', desc:'', tags:[], category:'rpa', icon:'fas fa-code', link:'' };
     openModal(i !== null ? 'Editar Projeto' : 'Novo Projeto', `
@@ -965,31 +952,19 @@ function openProjModal(i = null) {
         </div>
         <div class="form-group"><label>Tecnologias (separadas por vírgula)</label><input type="text" id="m_tags" value="${esc((p.tags||[]).join(', '))}"></div>
         <div class="form-row">
-            <div class="form-group"><label>Ícone</label><input type="text" id="m_icon" value="${esc(p.icon || 'fas fa-code')}" placeholder="fas fa-robot"></div>
+            <div class="form-group"><label>Ícone</label><input type="text" id="m_icon" value="${esc(p.icon || 'fas fa-code')}"></div>
             <div class="form-group"><label>Link (opcional)</label><input type="url" id="m_link" value="${esc(p.link||'')}"></div>
         </div>`,
         () => {
             const title = $('#m_title').value.trim();
             const desc = $('#m_desc').value.trim();
             if (!title || !desc) return showToast('Preencha título e descrição.', 'error');
-            const obj = {
-                id: p.id,
-                title, desc,
-                category: $('#m_cat').value,
-                tags: $('#m_tags').value.split(',').map(x=>x.trim()).filter(Boolean),
-                icon: $('#m_icon').value.trim() || 'fas fa-code',
-                link: $('#m_link').value.trim()
-            };
-            if (i !== null) state.data.projects[i] = obj;
-            else state.data.projects.unshift(obj);
+            const obj = { id: p.id, title, desc, category: $('#m_cat').value, tags: $('#m_tags').value.split(',').map(x=>x.trim()).filter(Boolean), icon: $('#m_icon').value.trim() || 'fas fa-code', link: $('#m_link').value.trim() };
+            if (i !== null) state.data.projects[i] = obj; else state.data.projects.unshift(obj);
             renderProj(); closeModal(); markDirty();
         });
 }
-function delProj(i) {
-    if (!confirm('Excluir este projeto?')) return;
-    state.data.projects.splice(i,1);
-    renderProj(); markDirty();
-}
+function delProj(i) { if (!confirm('Excluir?')) return; state.data.projects.splice(i,1); renderProj(); markDirty(); }
 
 /* ---------- FORMAÇÃO ---------- */
 function renderEdu() {
@@ -999,10 +974,7 @@ function renderEdu() {
     list.innerHTML = arr.map((e, i) => `
         <div class="list-item">
             <div class="thumb"><i class="fas fa-graduation-cap"></i></div>
-            <div class="body">
-                <h4>${esc(e.course)}</h4>
-                <p><strong style="color:var(--accent-primary)">${esc(e.type)}</strong> • ${esc(e.institution)} • ${esc(e.period)}</p>
-            </div>
+            <div class="body"><h4>${esc(e.course)}</h4><p><strong style="color:var(--accent-primary)">${esc(e.type)}</strong> • ${esc(e.institution)} • ${esc(e.period)}</p></div>
             <div class="actions">
                 <button class="btn btn-outline btn-sm btn-icon" onclick="openEduModal(${i})"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-danger btn-sm btn-icon" onclick="delEdu(${i})"><i class="fas fa-trash"></i></button>
@@ -1023,26 +995,16 @@ function openEduModal(i = null) {
         <div class="form-group"><label>Curso</label><input type="text" id="m_course" value="${esc(e.course)}"></div>
         <div class="form-row">
             <div class="form-group"><label>Instituição</label><input type="text" id="m_inst" value="${esc(e.institution)}"></div>
-            <div class="form-group"><label>Período</label><input type="text" id="m_period" value="${esc(e.period)}" placeholder="2025 — 2026"></div>
+            <div class="form-group"><label>Período</label><input type="text" id="m_period" value="${esc(e.period)}"></div>
         </div>`,
         () => {
-            const obj = {
-                type: $('#m_type').value,
-                course: $('#m_course').value.trim(),
-                institution: $('#m_inst').value.trim(),
-                period: $('#m_period').value.trim()
-            };
+            const obj = { type: $('#m_type').value, course: $('#m_course').value.trim(), institution: $('#m_inst').value.trim(), period: $('#m_period').value.trim() };
             if (!obj.course) return showToast('Preencha o curso.', 'error');
-            if (i !== null) state.data.education[i] = obj;
-            else state.data.education.push(obj);
+            if (i !== null) state.data.education[i] = obj; else state.data.education.push(obj);
             renderEdu(); closeModal(); markDirty();
         });
 }
-function delEdu(i) {
-    if (!confirm('Excluir?')) return;
-    state.data.education.splice(i,1);
-    renderEdu(); markDirty();
-}
+function delEdu(i) { if (!confirm('Excluir?')) return; state.data.education.splice(i,1); renderEdu(); markDirty(); }
 
 /* ---------- CERTIFICAÇÕES ---------- */
 function renderCerts() {
@@ -1060,7 +1022,7 @@ function renderCerts() {
         </div>`).join('');
 }
 function addCert() {
-    openModal('Nova Certificação', `<div class="form-group"><label>Nome</label><input type="text" id="m_cert" placeholder="Ex: Excel Completo (ENAP)"></div>`,
+    openModal('Nova Certificação', `<div class="form-group"><label>Nome</label><input type="text" id="m_cert"></div>`,
         () => {
             const v = $('#m_cert').value.trim();
             if (!v) return showToast('Preencha o nome.', 'error');
@@ -1070,20 +1032,13 @@ function addCert() {
 }
 function editCert(i) {
     openModal('Editar Certificação', `<div class="form-group"><label>Nome</label><input type="text" id="m_cert" value="${esc(state.data.certifications[i])}"></div>`,
-        () => {
-            state.data.certifications[i] = $('#m_cert').value.trim();
-            renderCerts(); closeModal(); markDirty();
-        });
+        () => { state.data.certifications[i] = $('#m_cert').value.trim(); renderCerts(); closeModal(); markDirty(); });
 }
-function delCert(i) {
-    if (!confirm('Excluir?')) return;
-    state.data.certifications.splice(i,1);
-    renderCerts(); markDirty();
-}
+function delCert(i) { if (!confirm('Excluir?')) return; state.data.certifications.splice(i,1); renderCerts(); markDirty(); }
 
-/* ================================================================
-   BIND INPUTS SIMPLES
-   ================================================================ */
+/* ============================================================
+   BIND
+   ============================================================ */
 function bindSimpleInput(sel, path) {
     const el = $(sel);
     el.addEventListener('input', () => {
@@ -1094,10 +1049,7 @@ function bindSimpleInput(sel, path) {
         markDirty();
     });
 }
-function markDirty() {
-    state.dirty = true;
-    setStatus('', 'Alterações não salvas');
-}
+function markDirty() { state.dirty = true; setStatus('', 'Alterações não salvas'); }
 
 function bindAll() {
     bindSimpleInput('#p_name', 'profile.name');
@@ -1108,10 +1060,8 @@ function bindAll() {
     bindSimpleInput('#p_titleHighlight', 'profile.titleHighlight');
     bindSimpleInput('#p_badge', 'profile.badge');
     bindSimpleInput('#p_bio', 'profile.bio');
-
     bindSimpleInput('#a_p1', 'about.paragraph1');
     bindSimpleInput('#a_p2', 'about.paragraph2');
-
     bindSimpleInput('#c_email', 'contact.email');
     bindSimpleInput('#c_whatsapp', 'contact.whatsapp');
     bindSimpleInput('#c_whatsappDisplay', 'contact.whatsappDisplay');
@@ -1119,15 +1069,14 @@ function bindAll() {
     bindSimpleInput('#c_linkedin', 'contact.linkedin');
     bindSimpleInput('#c_github', 'contact.github');
     bindSimpleInput('#c_portfolioUrl', 'contact.portfolioUrl');
-
     bindSimpleInput('#f_ctaTitle', 'footer.ctaTitle');
     bindSimpleInput('#f_ctaText', 'footer.ctaText');
     bindSimpleInput('#f_ctaButtonText', 'footer.ctaButtonText');
 }
 
-/* ================================================================
-   LOGIN
-   ================================================================ */
+/* ============================================================
+   LOGIN / CONFIG / BACKUP
+   ============================================================ */
 function getStoredPassword() { return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD; }
 $('#loginBtn').onclick = () => {
     if ($('#loginPassword').value === getStoredPassword()) {
@@ -1141,9 +1090,6 @@ $('#loginBtn').onclick = () => {
 $('#loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') $('#loginBtn').click(); });
 $('#logoutBtn').onclick = () => { sessionStorage.removeItem('portfolio_admin_auth'); location.reload(); };
 
-/* ================================================================
-   CONFIG
-   ================================================================ */
 function loadConfig() {
     try {
         const raw = localStorage.getItem(CONFIG_KEY);
@@ -1158,10 +1104,8 @@ function loadConfig() {
 
 $('#saveGhConfigBtn').onclick = async () => {
     state.config = {
-        token: $('#ghToken').value.trim(),
-        owner: $('#ghOwner').value.trim(),
-        repo: $('#ghRepo').value.trim(),
-        branch: $('#ghBranch').value.trim() || 'main',
+        token: $('#ghToken').value.trim(), owner: $('#ghOwner').value.trim(),
+        repo: $('#ghRepo').value.trim(), branch: $('#ghBranch').value.trim() || 'main',
         path: $('#ghPath').value.trim() || 'data/portfolio.json'
     };
     localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
@@ -1175,15 +1119,13 @@ $('#testGhBtn').onclick = async () => {
     btn.innerHTML = '<span class="spinner"></span> Testando...';
     try {
         state.config = {
-            token: $('#ghToken').value.trim(),
-            owner: $('#ghOwner').value.trim(),
-            repo: $('#ghRepo').value.trim(),
-            branch: $('#ghBranch').value.trim() || 'main',
+            token: $('#ghToken').value.trim(), owner: $('#ghOwner').value.trim(),
+            repo: $('#ghRepo').value.trim(), branch: $('#ghBranch').value.trim() || 'main',
             path: $('#ghPath').value.trim() || 'data/portfolio.json'
         };
         localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
         const { data } = await ghGet();
-        showToast(data ? 'Conexão OK! Dados encontrados.' : 'Conexão OK! Arquivo será criado no primeiro save.', 'success');
+        showToast(data ? 'Conexão OK! Dados encontrados.' : 'Conexão OK! Arquivo será criado no 1º save.', 'success');
         setStatus('ok', 'Conectado');
     } catch (e) {
         showToast('Falha: ' + e.message, 'error');
@@ -1203,9 +1145,6 @@ $('#changePasswordBtn').onclick = () => {
     showToast('Senha alterada!', 'success');
 };
 
-/* ================================================================
-   BACKUP
-   ================================================================ */
 $('#exportBtn').onclick = () => {
     const blob = new Blob([JSON.stringify(state.data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1220,26 +1159,23 @@ $('#importInput').onchange = e => {
     r.onload = ev => {
         try {
             const parsed = JSON.parse(ev.target.result);
-            if (!confirm('Importar? Isso substituirá os dados atuais.')) return;
+            if (!confirm('Importar? Substituirá os dados atuais.')) return;
             state.data = parsed;
             renderAll(); markDirty();
-            showToast('Importado! Clique em "Salvar Tudo" para enviar ao GitHub.', 'info');
+            showToast('Importado! Clique em "Salvar Tudo".', 'info');
         } catch (err) { showToast('JSON inválido.', 'error'); }
     };
     r.readAsText(f); e.target.value = '';
 };
 
 $('#resetAllBtn').onclick = () => {
-    if (!confirm('Apagar config local (token, senha)? Os dados no GitHub permanecem.')) return;
+    if (!confirm('Apagar config local (token, senha)?')) return;
     localStorage.removeItem(CONFIG_KEY);
     localStorage.removeItem(PASSWORD_KEY);
     sessionStorage.removeItem('portfolio_admin_auth');
     location.reload();
 };
 
-/* ================================================================
-   TABS & SAVE ALL
-   ================================================================ */
 $$('.tab-btn').forEach(btn => {
     btn.onclick = () => {
         $$('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1250,14 +1186,8 @@ $$('.tab-btn').forEach(btn => {
 });
 
 $('#saveAllBtn').onclick = saveAll;
+window.addEventListener('beforeunload', e => { if (state.dirty) { e.preventDefault(); e.returnValue = ''; } });
 
-window.addEventListener('beforeunload', e => {
-    if (state.dirty) { e.preventDefault(); e.returnValue = ''; }
-});
-
-/* ================================================================
-   INIT
-   ================================================================ */
 async function initApp() {
     $('#loginScreen').style.display = 'none';
     $('#app').style.display = 'block';
