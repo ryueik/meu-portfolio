@@ -1398,30 +1398,158 @@
         </div>
     </footer>
 
-    <script>
+   <script>
 /* ================================================================
-   CARREGA DADOS E RENDERIZA TUDO
+   PORTFÓLIO DINÂMICO — Lê data/portfolio.json com fallback completo
    ================================================================ */
+
 let DATA = null;
 let currentFilter = 'all';
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+}[c]));
 
+/* ================================================================
+   DADOS PADRÃO (fallback — sempre disponíveis)
+   ================================================================ */
+function getDefaultData() {
+    return {
+        profile: {
+            name: "Matheus",
+            nameHighlight: "Macário",
+            initials: "MM",
+            badge: "Disponível para oportunidades",
+            title: "Desenvolvedor Web",
+            titleHighlight: "Especialista em RPA & Automação",
+            bio: "Tecnólogo em Gestão de TI apaixonado por criar soluções inovadoras. Especialista em automação de processos com Microsoft Power Platform, Python e desenvolvimento web full stack.",
+            avatar: ""
+        },
+        about: {
+            paragraph1: "Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
+            paragraph2: "Sólida experiência em Desenvolvimento Web (Python, PHP, JavaScript, APIs REST, JSON) e versionamento via Git/GitHub. Especialista em Automação de Processos (RPA / Low-Code / Scripting), atuando fortemente no ecossistema Microsoft Power Platform (Power Automate Cloud/Desktop, Power Apps e Dataverse) e scripts personalizados.",
+            stats: [
+                { number: "10+", label: "Projetos de Automação" },
+                { number: "2+",  label: "Anos de Experiência" },
+                { number: "7+",  label: "Certificações" },
+                { number: "15+", label: "Tecnologias" }
+            ]
+        },
+        techStack: [
+            { category: "Linguagens & Web",          icon: "fas fa-code",     items: ["Python","JavaScript (ES6+)","PHP","HTML5","CSS3","JSON","APIs RESTful"] },
+            { category: "Automação & Low-Code",       icon: "fas fa-robot",    items: ["Power Automate Cloud","Power Automate Desktop","Power Apps","Dataverse","N8N","IA / Agentes"] },
+            { category: "Scripting & System Level",   icon: "fas fa-terminal", items: ["Python","PowerShell","VBScript"] },
+            { category: "Bancos de Dados",            icon: "fas fa-database", items: ["SQL","Modelagem ERD","Dataverse","SharePoint Lists"] },
+            { category: "DevOps & Ferramentas",       icon: "fas fa-tools",    items: ["Git","GitHub","Branching Strategy","SharePoint","Excel Avançado","Teams","Metodologias Ágeis"] }
+        ],
+        experience: [
+            {
+                date: "Out 2025 — Presente",
+                role: "Estagiário de TI (GAB-AI-ESA)",
+                company: "Procuradoria-Geral do Estado do RS (PGE-RS)",
+                bullets: [
+                    "Desenvolvimento de fluxos automatizados (RPA) no Power Automate (Cloud/Desktop).",
+                    "Criação de apps operacionais no Power Apps/Dataverse.",
+                    "Programação de scripts em Python, PHP e JS para consumo de APIs REST e manipulação de payloads JSON.",
+                    "Governança de código com Git/GitHub e suporte técnico Nível 2."
+                ]
+            },
+            {
+                date: "Freelance",
+                role: "Desenvolvedor Web Full Stack & Líder de Projetos",
+                company: "Produtora Monteiro",
+                bullets: [
+                    "Concepção, programação Full Stack, otimização SEO e deploy do portal corporativo produtoramonteiro.com.",
+                    "Gestão de infraestrutura de servidores, domínios, bancos de dados e protocolos de segurança da informação."
+                ]
+            }
+        ],
+        projects: [
+            { id:"p1",  title:"Gerador e Formatador de Planilhas para Ingestão SharePoint", desc:"Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).", tags:["Power Automate Desktop","Python","Excel/CSV Engine","Data Transformation"], category:"rpa",     icon:"fas fa-file-excel",      link:"" },
+            { id:"p2",  title:"Pipeline de Importação Automática para SharePoint", desc:"Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.", tags:["Power Automate Cloud","SharePoint REST API","Graph API","Error Handling"], category:"rpa", icon:"fas fa-cloud-upload-alt", link:"" },
+            { id:"p3",  title:"Microsserviço de Consulta de Médicos via API", desc:"Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.", tags:["REST APIs","JSON Parsing","HTTP Requests","Cloud Integration"], category:"web", icon:"fas fa-user-md", link:"" },
+            { id:"p4",  title:"Web Scraper e Extrator Cadastral de Médicos (CRM)", desc:"Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.", tags:["Web Scraping","DOM Parsing","XPath","CSV Automation","Python"], category:"rpa", icon:"fas fa-spider", link:"" },
+            { id:"p5",  title:"Utilitário de Manipulação e Divisão de PDFs", desc:"Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.", tags:["Python","PowerShell","VBScript","PDF Binary Processing"], category:"scripts", icon:"fas fa-file-pdf", link:"" },
+            { id:"p6",  title:"Sistema de Governança e Limpeza Automática de Arquivos", desc:"Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.", tags:["OS Layer Automation","PowerShell","Python","File Retention Rules"], category:"scripts", icon:"fas fa-broom", link:"" },
+            { id:"p7",  title:"Módulo de Deleção em Lote para SharePoint", desc:"Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.", tags:["Power Automate Cloud","API Rate Limit Control","Batching Loops"], category:"rpa", icon:"fas fa-trash-alt", link:"" },
+            { id:"p8",  title:"Sistema Automatizado de Registro de Ponto (Híbrido)", desc:"Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.", tags:["Cloud & Desktop Integration","DateTime Logic","Dynamic Data Binding"], category:"rpa", icon:"fas fa-clock", link:"" },
+            { id:"p9",  title:"Automação Web para Gestão de Status no ZEEV (BPMS)", desc:"RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.", tags:["Web Automation","GUI Scripting","ZEEV BPMS","Data-Driven Automation"], category:"rpa", icon:"fas fa-globe", link:"" },
+            { id:"p10", title:"Script de Expurgo e Cancelamento de Solicitações no ZEEV", desc:"Robô de governança de processos que navega no ZEEV e cancela/exclui solicitações pendentes dinamicamente com base em parâmetros de tabelas de controle.", tags:["Web Scraping/Automation","Dynamic Waits (AJAX)","ZEEV BPMS"], category:"rpa", icon:"fas fa-robot", link:"" },
+            { id:"p11", title:"Portal Produtora Monteiro", desc:"Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.", tags:["Full Stack","SEO","Banco de Dados","Segurança"], category:"web", icon:"fas fa-globe", link:"" },
+            { id:"p12", title:"Repositórios e Scripts Web", desc:"Automações e utilitários em Python, JS e PHP consumindo APIs e tratando payloads JSON. Código aberto disponível no GitHub.", tags:["Python","JavaScript","PHP","APIs REST","JSON"], category:"web", icon:"fab fa-github", link:"https://github.com/ryueik/Projetos" }
+        ],
+        education: [
+            { type:"Graduação", course:"Tecnólogo em Gestão da Tecnologia da Informação", institution:"Cruzeiro do Sul Virtual",           period:"2025 — 2026" },
+            { type:"Técnico",   course:"Técnico em Informática para Internet",             institution:"ETEC Dr. Geraldo J. R. Alckmin", period:"2022 — 2024" }
+        ],
+        certifications: [
+            "Excel Completo do Básico ao Avançado (ENAP/EV.G)",
+            "Jornada Python Automação (Hashtag)",
+            "SQL & Full-Stack (Mimo)",
+            "Automação N8N & IA (Hashtag)",
+            "IA para Todos (StartSe)",
+            "LGPD (LÚMINA/UFRGS)"
+        ],
+        contact: {
+            email: "matheusmgmgdossantos@gmail.com",
+            whatsapp: "5512974117747",
+            whatsappDisplay: "(12) 97411-7747",
+            location: "Porto Alegre - RS, Brasil",
+            linkedin: "https://linkedin.com/in/dev-matheus-macário",
+            github: "https://github.com/ryueik/Projetos",
+            portfolioUrl: "https://meu-portfolio-omega-sepia.vercel.app/"
+        },
+        footer: {
+            ctaTitle: "Vamos trabalhar juntos?",
+            ctaText: "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
+            ctaButtonText: "Fale Comigo"
+        },
+        updatedAt: new Date().toISOString()
+    };
+}
+
+/* ================================================================
+   MESCLA dados do JSON com o padrão (para nunca faltar campo)
+   ================================================================ */
+function mergeWithDefault(data) {
+    const def = getDefaultData();
+    const merged = { ...def, ...data };
+    merged.profile  = { ...def.profile,  ...(data.profile  || {}) };
+    merged.about    = { ...def.about,    ...(data.about    || {}) };
+    merged.contact  = { ...def.contact,  ...(data.contact  || {}) };
+    merged.footer   = { ...def.footer,   ...(data.footer   || {}) };
+    if (!Array.isArray(merged.projects)       || merged.projects.length       === 0) merged.projects       = def.projects;
+    if (!Array.isArray(merged.techStack)      || merged.techStack.length      === 0) merged.techStack      = def.techStack;
+    if (!Array.isArray(merged.experience)     || merged.experience.length     === 0) merged.experience     = def.experience;
+    if (!Array.isArray(merged.education)      || merged.education.length      === 0) merged.education      = def.education;
+    if (!Array.isArray(merged.certifications) || merged.certifications.length === 0) merged.certifications = def.certifications;
+    if (!Array.isArray(merged.about.stats)    || merged.about.stats.length    === 0) merged.about.stats    = def.about.stats;
+    return merged;
+}
+
+/* ================================================================
+   CARREGA O JSON (com fallback)
+   ================================================================ */
 async function loadPortfolio() {
     try {
         const res = await fetch('data/portfolio.json?t=' + Date.now());
         if (!res.ok) throw new Error('JSON não encontrado');
-        DATA = await res.json();
+        const json = await res.json();
+        DATA = mergeWithDefault(json);
+        console.log('✅ Dados carregados do JSON');
     } catch (e) {
-        console.warn('Usando dados padrão:', e.message);
-        DATA = null;
+        console.warn('⚠️ Usando dados padrão:', e.message);
+        DATA = getDefaultData();
     }
-    if (!DATA) return;
     renderAll();
 }
 
+/* ================================================================
+   RENDER PRINCIPAL
+   ================================================================ */
 function renderAll() {
+    if (!DATA) return;
     renderHero();
     renderAbout();
     renderTech();
@@ -1435,45 +1563,61 @@ function renderAll() {
 
 /* ---------- HERO ---------- */
 function renderHero() {
-    const p = DATA.profile;
-    $('#hero-title').innerHTML = `${esc(p.name)} <span class="highlight">${esc(p.nameHighlight)}</span>`;
-    const sub = document.querySelector('.hero-content .subtitle');
-    if (sub) sub.innerHTML = `${esc(p.title)} <span class="separator">|</span> ${esc(p.titleHighlight)}`;
+    const p = DATA.profile || {};
+    const titleEl = $('#hero-title');
+    if (titleEl) titleEl.innerHTML = `${esc(p.name || '')} <span class="highlight">${esc(p.nameHighlight || '')}</span>`;
+
+    const subEl = document.querySelector('.hero-content .subtitle');
+    if (subEl) subEl.innerHTML = `${esc(p.title || '')} <span class="separator">|</span> ${esc(p.titleHighlight || '')}`;
+
     const badge = document.querySelector('.hero-badge');
     if (badge && p.badge) badge.innerHTML = `<span class="dot"></span> ${esc(p.badge)}`;
-    const bio = document.querySelector('.hero-content p:not(.subtitle)');
-    if (bio) bio.textContent = p.bio;
+
+    const bioEl = document.querySelector('.hero-content p:not(.subtitle)');
+    if (bioEl) bioEl.textContent = p.bio || '';
+
     const avatar = document.querySelector('.hero-image .avatar');
     if (avatar) {
-        if (p.avatar) avatar.innerHTML = `<img src="${esc(p.avatar)}" alt="Avatar" onerror="this.parentElement.innerHTML='<span class=fallback>${esc(p.initials)}</span>'">`;
-        else avatar.innerHTML = `<span class="fallback">${esc(p.initials)}</span>`;
+        if (p.avatar) {
+            avatar.innerHTML = `<img src="${esc(p.avatar)}" alt="Avatar" onerror="this.outerHTML='<span class=fallback>${esc(p.initials || 'MM')}</span>'">`;
+        } else {
+            avatar.innerHTML = `<span class="fallback">${esc(p.initials || 'MM')}</span>`;
+        }
     }
-    // Links do hero (GitHub)
+
     const ghBtn = document.querySelector('.hero-actions a[href*="github"]');
-    if (ghBtn && DATA.contact.github) ghBtn.href = DATA.contact.github;
+    if (ghBtn && DATA.contact && DATA.contact.github) ghBtn.href = DATA.contact.github;
 }
 
 /* ---------- ABOUT ---------- */
 function renderAbout() {
-    const a = DATA.about;
+    const a = DATA.about || {};
     const p1 = document.querySelector('#about .about-text p:nth-child(1)');
     const p2 = document.querySelector('#about .about-text p:nth-child(2)');
-    if (p1) p1.textContent = a.paragraph1;
-    if (p2) p2.textContent = a.paragraph2;
+    if (p1) p1.textContent = a.paragraph1 || '';
+    if (p2) p2.textContent = a.paragraph2 || '';
+
     const statsBox = document.querySelector('#about .about-stats');
-    if (statsBox) statsBox.innerHTML = a.stats.map(s => `
-        <div class="stat-card"><span class="number">${esc(s.number)}</span><span class="label">${esc(s.label)}</span></div>
-    `).join('');
+    if (statsBox && Array.isArray(a.stats)) {
+        statsBox.innerHTML = a.stats.map(s => `
+            <div class="stat-card reveal visible">
+                <span class="number">${esc(s.number)}</span>
+                <span class="label">${esc(s.label)}</span>
+            </div>
+        `).join('');
+    }
 }
 
 /* ---------- TECH STACK ---------- */
 function renderTech() {
     const box = document.querySelector('#tech .tech-categories');
-    if (!box) return;
+    if (!box || !Array.isArray(DATA.techStack)) return;
     box.innerHTML = DATA.techStack.map(c => `
         <div class="tech-category reveal visible">
-            <h3><i class="${esc(c.icon)}"></i> ${esc(c.category)}</h3>
-            <div class="tech-tags">${(c.items||[]).map(i => `<span>${esc(i)}</span>`).join('')}</div>
+            <h3><i class="${esc(c.icon || 'fas fa-code')}"></i> ${esc(c.category)}</h3>
+            <div class="tech-tags">
+                ${(c.items || []).map(i => `<span>${esc(i)}</span>`).join('')}
+            </div>
         </div>
     `).join('');
 }
@@ -1481,13 +1625,13 @@ function renderTech() {
 /* ---------- EXPERIENCE ---------- */
 function renderExperience() {
     const box = document.querySelector('#experience .timeline');
-    if (!box) return;
+    if (!box || !Array.isArray(DATA.experience)) return;
     box.innerHTML = DATA.experience.map(e => `
         <div class="timeline-item reveal visible">
             <div class="date">${esc(e.date)}</div>
             <h3>${esc(e.role)}</h3>
             <div class="company">${esc(e.company)}</div>
-            <ul>${(e.bullets||[]).map(b => `<li>${esc(b)}</li>`).join('')}</ul>
+            <ul>${(e.bullets || []).map(b => `<li>${esc(b)}</li>`).join('')}</ul>
         </div>
     `).join('');
 }
@@ -1495,22 +1639,36 @@ function renderExperience() {
 /* ---------- PROJECTS ---------- */
 function renderProjects(filter) {
     const grid = document.querySelector('#projects .projects-grid');
-    if (!grid) return;
+    if (!grid || !Array.isArray(DATA.projects)) return;
+
     const arr = DATA.projects.filter(p => filter === 'all' || p.category === filter);
-    if (arr.length === 0) { grid.innerHTML = '<div class="empty-projects"><i class="fas fa-folder-open"></i><p>Nenhum projeto.</p></div>'; return; }
-    const labels = { rpa:'Automação & RPA', web:'Web & APIs', scripts:'Scripts & DevOps' };
+
+    if (arr.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-projects">
+                <i class="fas fa-folder-open"></i>
+                <p style="font-size:1.1rem;font-weight:600;color:var(--text-primary);margin-bottom:.4rem">Nenhum projeto nesta categoria</p>
+                <p>Selecione outro filtro para ver mais projetos.</p>
+            </div>`;
+        return;
+    }
+
+    const labels = { rpa: 'Automação & RPA', web: 'Web & APIs', scripts: 'Scripts & DevOps' };
+
     grid.innerHTML = arr.map((p, i) => `
-        <div class="project-card reveal visible" style="transition-delay:${i*0.05}s">
+        <div class="project-card reveal visible" style="transition-delay:${i * 0.05}s">
             <div class="project-card-header">
                 <div class="icon"><i class="${esc(p.icon || 'fas fa-code')}"></i></div>
-                <span class="project-number">#${String(i+1).padStart(2,'0')}</span>
+                <span class="project-number">#${String(i + 1).padStart(2, '0')}</span>
             </div>
             <div class="project-card-body">
                 <h3>${esc(p.title)}</h3>
                 <p>${esc(p.desc)}</p>
-                <div class="project-tags">${(p.tags||[]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+                <div class="project-tags">
+                    ${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}
+                </div>
                 <div class="project-card-footer">
-                    <span class="category-badge">${labels[p.category]||p.category}</span>
+                    <span class="category-badge">${labels[p.category] || p.category}</span>
                     ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="btn btn-primary btn-sm"><i class="fas fa-external-link-alt"></i> Ver</a>` : ''}
                 </div>
             </div>
@@ -1530,7 +1688,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 /* ---------- EDUCAÇÃO ---------- */
 function renderEducation() {
     const grid = document.querySelector('#education .education-grid');
-    if (!grid) return;
+    if (!grid || !Array.isArray(DATA.education)) return;
     grid.innerHTML = DATA.education.map(e => `
         <div class="education-card reveal visible">
             <div class="degree">${esc(e.type)}</div>
@@ -1540,55 +1698,112 @@ function renderEducation() {
         </div>
     `).join('');
 }
+
 function renderCertifications() {
     const box = document.querySelector('#education .certifications-list');
-    if (!box) return;
-    box.innerHTML = DATA.certifications.map(c => `<span class="cert-badge"><i class="fas fa-certificate"></i> ${esc(c)}</span>`).join('');
+    if (!box || !Array.isArray(DATA.certifications)) return;
+    box.innerHTML = DATA.certifications.map(c => `
+        <span class="cert-badge"><i class="fas fa-certificate"></i> ${esc(c)}</span>
+    `).join('');
 }
 
 /* ---------- CONTATO ---------- */
 function renderContact() {
-    const c = DATA.contact;
-    // WhatsApp header
-    const waBtn = document.querySelector('.header-actions a[href*="whatsapp"]');
-    if (waBtn) waBtn.href = `https://wa.me/${c.whatsapp}`;
-    // Footer CTA
-    const ctaBtn = document.querySelector('.footer-cta a');
-    if (ctaBtn) ctaBtn.href = `https://wa.me/${c.whatsapp}`;
+    const c = DATA.contact || {};
+    if (c.whatsapp) {
+        const waBtn = document.querySelector('.header-actions a[href*="whatsapp"]');
+        if (waBtn) waBtn.href = `https://wa.me/${c.whatsapp}`;
+    }
 }
+
+/* ---------- FOOTER ---------- */
 function renderFooter() {
-    const f = DATA.footer;
+    const f = DATA.footer || {};
     const cta = document.querySelector('.footer-cta');
     if (cta) {
-        cta.querySelector('h2').textContent = f.ctaTitle;
-        cta.querySelector('p').textContent = f.ctaText;
-        cta.querySelector('a').innerHTML = `<i class="fab fa-whatsapp"></i> ${esc(f.ctaButtonText)}`;
+        const h = cta.querySelector('h2'); if (h) h.textContent = f.ctaTitle || '';
+        const p = cta.querySelector('p'); if (p) p.textContent = f.ctaText || '';
+        const a = cta.querySelector('a'); if (a) {
+            a.innerHTML = `<i class="fab fa-whatsapp"></i> ${esc(f.ctaButtonText || 'Fale Comigo')}`;
+            if (DATA.contact && DATA.contact.whatsapp) a.href = `https://wa.me/${DATA.contact.whatsapp}`;
+        }
     }
-    // Ano
-    const y = document.querySelector('#footerYear');
+
+    const y = $('#footerYear');
     if (y) y.textContent = new Date().getFullYear();
-    // Links sociais
-    const c = DATA.contact;
+
+    const c = DATA.contact || {};
     const socials = document.querySelectorAll('.footer .socials a');
-    const links = [c.github, c.linkedin, c.portfolioUrl, `mailto:${c.email}`];
+    const links = [c.github, c.linkedin, c.portfolioUrl, c.email ? `mailto:${c.email}` : ''];
     socials.forEach((a, i) => { if (links[i]) a.href = links[i]; });
 }
 
-/* ---------- HEADER NAV / MOBILE MENU ---------- */
+/* ================================================================
+   HEADER SCROLL
+   ================================================================ */
 const header = document.querySelector('.header');
-window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 60); });
+if (header) {
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+}
 
+/* ================================================================
+   MOBILE MENU
+   ================================================================ */
 const mmBtn = document.getElementById('mobileMenuBtn');
 const nav = document.getElementById('mainNav');
 if (mmBtn && nav) {
     mmBtn.addEventListener('click', () => {
-        nav.classList.toggle('open');
-        mmBtn.innerHTML = nav.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        const isOpen = nav.classList.toggle('open');
+        mmBtn.setAttribute('aria-expanded', isOpen);
+        mmBtn.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
     });
-    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); mmBtn.innerHTML = '<i class="fas fa-bars"></i>'; }));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        nav.classList.remove('open');
+        mmBtn.setAttribute('aria-expanded', 'false');
+        mmBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }));
 }
 
-/* ---------- INIT ---------- */
+/* ================================================================
+   ACTIVE NAV LINK
+   ================================================================ */
+const navLinks = document.querySelectorAll('#mainNav a');
+const sections = document.querySelectorAll('section[id]');
+
+function updateActiveLink() {
+    let current = 'hero';
+    sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 120) current = sec.id;
+    });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+        }
+    });
+}
+window.addEventListener('scroll', updateActiveLink);
+window.addEventListener('load', () => setTimeout(updateActiveLink, 100));
+
+/* ================================================================
+   REVEAL ON SCROLL (elementos estáticos)
+   ================================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+
+/* ================================================================
+   INIT
+   ================================================================ */
 loadPortfolio();
 </script>
 
