@@ -1166,7 +1166,315 @@
         .chat-input button{background:var(--accent-primary);color:var(--bg-body);border:none;width:42px;height:42px;border-radius:50%;cursor:pointer}
         .chat-input button:hover{background:var(--accent-green)}
         @media(max-width:480px){.chat-window{right:.5rem;bottom:5rem}}
-        
+
+        /* ============================================================
+   FOOTER REDESENHADO
+   ============================================================ */
+.footer {
+    background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-body) 100%);
+    border-top: 1px solid var(--border-color);
+    padding: 4rem 0 2rem;
+    margin-top: 6rem;
+    position: relative;
+    overflow: hidden;
+}
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    opacity: .5;
+}
+
+.footer-cta {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.footer-cta h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+.footer-cta p {
+    color: var(--text-secondary);
+    margin-bottom: 1.8rem;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.02rem;
+}
+.footer-cta-actions {
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.4fr 1fr;
+    gap: 2.5rem;
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.footer-col h4 {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+    margin-bottom: 1.2rem;
+    font-family: var(--font-mono);
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-col ul li { margin-bottom: .65rem; }
+.footer-col ul a,
+.footer-col ul .link-btn {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    font-weight: 500;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+.footer-col ul a:hover,
+.footer-col ul .link-btn:hover {
+    color: var(--accent-primary);
+    transform: translateX(3px);
+}
+.footer-col ul a i,
+.footer-col ul .link-btn i {
+    width: 16px;
+    font-size: .9rem;
+    color: var(--text-muted);
+    transition: color var(--transition);
+}
+.footer-col ul a:hover i,
+.footer-col ul .link-btn:hover i {
+    color: var(--accent-primary);
+}
+
+/* Brand column */
+.footer-brand .logo {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: .8rem;
+    display: inline-block;
+}
+.footer-brand .logo span { color: var(--accent-primary); }
+
+.footer-tagline {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    max-width: 320px;
+}
+
+.local-time {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    color: var(--text-secondary);
+    padding: .4rem .85rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+}
+.local-time .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    animation: pulse 2s infinite;
+}
+.local-time .tz {
+    color: var(--text-muted);
+    font-size: .72rem;
+}
+
+/* Contato */
+.footer-contact-list a,
+.footer-contact-list span {
+    color: var(--text-secondary);
+    font-size: .88rem;
+    word-break: break-word;
+    line-height: 1.5;
+}
+.footer-contact-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+}
+.footer-contact-list i {
+    color: var(--accent-primary);
+    width: 16px;
+    margin-top: 3px;
+    font-size: .9rem;
+}
+
+/* Bottom */
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+}
+.footer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+.footer-meta p {
+    color: var(--text-muted);
+    font-size: .82rem;
+    margin: 0;
+}
+.footer-updated {
+    font-family: var(--font-mono);
+    font-size: .75rem !important;
+    color: var(--text-muted) !important;
+}
+.footer-updated span { color: var(--accent-green); }
+
+.footer .socials {
+    display: flex;
+    gap: .6rem;
+}
+.footer .socials a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+    border: 1px solid var(--border-color);
+    font-size: .95rem;
+}
+.footer .socials a:hover {
+    background: var(--accent-primary);
+    color: var(--bg-body);
+    border-color: var(--accent-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 229, 255, 0.25);
+}
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+.back-to-top {
+    position: fixed;
+    bottom: 6.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9996;
+    box-shadow: var(--shadow);
+}
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    background: var(--accent-primary);
+    color: var(--bg-body);
+    border-color: var(--accent-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.35);
+}
+
+/* ============================================================
+   COPY TOAST
+   ============================================================ */
+.copy-toast {
+    position: fixed;
+    bottom: 6.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-green);
+    padding: .75rem 1.2rem;
+    border-radius: 10px;
+    font-size: .87rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    pointer-events: none;
+}
+.copy-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+.copy-toast i { color: var(--accent-green); font-size: 1rem; }
+
+/* Responsivo do footer */
+@media (max-width: 900px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 576px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    .footer-bottom {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    .footer-meta { align-items: center; }
+    .footer-cta-actions { flex-direction: column; }
+    .footer-cta-actions .btn { justify-content: center; width: 100%; }
+    .back-to-top { bottom: 5.5rem; right: 1rem; width: 44px; height: 44px; }
+}
     </style>
 </head>
 <body>
@@ -1429,26 +1737,105 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-cta reveal">
-                <h2>Vamos trabalhar juntos?</h2>
-                <p>Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.</p>
-                <a href="https://wa.me/5512974117747" target="_blank" rel="noopener" class="btn btn-green">
-                    <i class="fab fa-whatsapp"></i> Fale Comigo
+<footer class="footer" role="contentinfo">
+    <div class="container">
+
+        <!-- CTA -->
+        <div class="footer-cta reveal">
+            <h2 id="footerCtaTitle">Vamos trabalhar juntos?</h2>
+            <p id="footerCtaText">Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.</p>
+            <div class="footer-cta-actions">
+                <a href="https://wa.me/5512974117747" target="_blank" rel="noopener" class="btn btn-green" id="footerCtaBtn">
+                    <i class="fab fa-whatsapp"></i> <span>Fale Comigo</span>
                 </a>
-            </div>
-            <div class="footer-inner">
-                <p>&copy; <span id="footerYear"></span> Matheus Macário. Todos os direitos reservados.</p>
-                <div class="socials">
-                    <a href="https://github.com/ryueik/Projetos" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/dev-matheus-macário" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://dev-matheus-macario.vercel.app/" target="_blank" rel="noopener" aria-label="Portfólio"><i class="fas fa-globe"></i></a>
-                    <a href="mailto:matheusmgmgdossantos@gmail.com" aria-label="E-mail"><i class="fas fa-envelope"></i></a>
-                </div>
+                <button class="btn btn-outline" id="copyEmailBtn" type="button">
+                    <i class="fas fa-envelope"></i> Copiar e-mail
+                </button>
+                <button class="btn btn-outline" id="downloadVcardBtn" type="button">
+                    <i class="fas fa-address-card"></i> Salvar contato
+                </button>
             </div>
         </div>
-    </footer>
+
+        <!-- GRID -->
+        <div class="footer-grid">
+            <div class="footer-col footer-brand">
+                <a href="#hero" class="logo">MM<span>.</span></a>
+                <p class="footer-tagline" id="footerTagline">
+                    Desenvolvedor Web & Especialista em RPA. Transformando processos manuais em automações eficientes.
+                </p>
+                <div class="local-time">
+                    <span class="dot"></span>
+                    <span id="localTimeText">--:--</span>
+                    <span class="tz">· Porto Alegre</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#hero"><i class="fas fa-house"></i> Início</a></li>
+                    <li><a href="#about"><i class="fas fa-user"></i> Sobre</a></li>
+                    <li><a href="#tech"><i class="fas fa-code"></i> Tech Stack</a></li>
+                    <li><a href="#experience"><i class="fas fa-briefcase"></i> Experiência</a></li>
+                    <li><a href="#projects"><i class="fas fa-folder"></i> Projetos</a></li>
+                    <li><a href="#education"><i class="fas fa-graduation-cap"></i> Formação</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <ul class="footer-contact-list">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:matheusmgmgdossantos@gmail.com" id="footerEmail">matheusmgmgdossantos@gmail.com</a>
+                    </li>
+                    <li>
+                        <i class="fab fa-whatsapp"></i>
+                        <a href="https://wa.me/5512974117747" target="_blank" rel="noopener" id="footerWhats">(12) 97411-7747</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="footerLocation">Porto Alegre - RS, Brasil</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Ações</h4>
+                <ul>
+                    <li><a href="https://github.com/ryueik/Projetos" target="_blank" rel="noopener" id="footerGithub"><i class="fab fa-github"></i> GitHub</a></li>
+                    <li><a href="https://linkedin.com/in/dev-matheus-macário" target="_blank" rel="noopener" id="footerLinkedin"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                    <li><a href="https://meu-portfolio-omega-sepia.vercel.app/" target="_blank" rel="noopener" id="footerPortfolio"><i class="fas fa-globe"></i> Portfólio online</a></li>
+                    <li><button type="button" id="shareBtn" class="link-btn"><i class="fas fa-share-alt"></i> Compartilhar</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="footer-bottom">
+            <div class="footer-meta">
+                <p>&copy; <span id="footerYear"></span> Matheus Macário · Todos os direitos reservados.</p>
+                <p class="footer-updated">Última atualização: <span id="footerUpdated">—</span></p>
+            </div>
+            <div class="socials">
+                <a href="https://github.com/ryueik/Projetos" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/dev-matheus-macário" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://dev-matheus-macario.vercel.app/" target="_blank" rel="noopener" aria-label="Portfólio"><i class="fas fa-globe"></i></a>
+                <a href="mailto:matheusmgmgdossantos@gmail.com" aria-label="E-mail"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- COPY TOAST -->
+<div class="copy-toast" id="copyToast"><i class="fas fa-check-circle"></i><span id="copyToastMsg">Copiado!</span></div>
 
     <!-- CHATBOT -->
 <button class="chat-btn" id="chatBtn" aria-label="Abrir chat"><i class="fas fa-comments"></i></button>
@@ -1485,7 +1872,7 @@ const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
 /* ================================================================
    URLs DO JSON
    ================================================================ */
-const GITHUB_RAW_URL = '/api/portfolio';   // ← serverless sem cache
+const GITHUB_RAW_URL = '/api/portfolio';
 const LOCAL_JSON_URL = 'data/portfolio.json';
 
 /* ================================================================
@@ -1607,7 +1994,6 @@ function mergeWithDefault(data) {
         merged.about.stats = def.about.stats;
     }
 
-    // Garante que todo projeto tenha o campo "image" (mesmo que vazio)
     merged.projects = merged.projects.map(p => ({ image: "", ...p }));
 
     return merged;
@@ -1619,7 +2005,6 @@ function mergeWithDefault(data) {
 async function loadPortfolio() {
     console.log('%c[Portfolio] Iniciando carregamento...', 'color:#00E5FF;font-weight:bold');
 
-    // Tentativa 1: serverless (/api/portfolio) — sem cache
     try {
         console.log('[Portfolio] Tentando serverless:', GITHUB_RAW_URL);
         const res = await fetch(GITHUB_RAW_URL + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1635,7 +2020,6 @@ async function loadPortfolio() {
         console.warn('⚠️ /api/portfolio falhou:', e.message);
     }
 
-    // Tentativa 2: cópia local
     try {
         console.log('[Portfolio] Tentando arquivo local:', LOCAL_JSON_URL);
         const res = await fetch(LOCAL_JSON_URL + '?t=' + Date.now(), { cache: 'no-store' });
@@ -1649,7 +2033,6 @@ async function loadPortfolio() {
         console.warn('⚠️ Arquivo local falhou:', e.message);
     }
 
-    // Tentativa 3: dados padrão
     console.warn('%c⚠️ Usando dados padrão embutidos', 'color:#FF9F43;font-weight:bold');
     DATA = getDefaultData();
     renderAll();
@@ -1836,23 +2219,68 @@ function renderContact() {
 /* ---------- FOOTER ---------- */
 function renderFooter() {
     const f = DATA.footer || {};
-    const cta = document.querySelector('.footer-cta');
-    if (cta) {
-        const h = cta.querySelector('h2'); if (h) h.textContent = f.ctaTitle || '';
-        const p = cta.querySelector('p'); if (p) p.textContent = f.ctaText || '';
-        const a = cta.querySelector('a'); if (a) {
-            a.innerHTML = `<i class="fab fa-whatsapp"></i> ${esc(f.ctaButtonText || 'Fale Comigo')}`;
-            if (DATA.contact && DATA.contact.whatsapp) a.href = `https://wa.me/${DATA.contact.whatsapp}`;
+    const c = DATA.contact || {};
+
+    // CTA
+    const ctaTitle = document.getElementById('footerCtaTitle');
+    const ctaText  = document.getElementById('footerCtaText');
+    const ctaBtn   = document.getElementById('footerCtaBtn');
+    if (ctaTitle) ctaTitle.textContent = f.ctaTitle || 'Vamos trabalhar juntos?';
+    if (ctaText)  ctaText.textContent  = f.ctaText  || '';
+    if (ctaBtn) {
+        const span = ctaBtn.querySelector('span');
+        if (span) span.textContent = f.ctaButtonText || 'Fale Comigo';
+        if (c.whatsapp) ctaBtn.href = `https://wa.me/${c.whatsapp}`;
+    }
+
+    // Ano
+    const yearEl = document.getElementById('footerYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Última atualização
+    const upd = document.getElementById('footerUpdated');
+    if (upd) {
+        if (DATA.updatedAt) {
+            try {
+                const d = new Date(DATA.updatedAt);
+                upd.textContent = d.toLocaleDateString('pt-BR', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                });
+            } catch { upd.textContent = '—'; }
+        } else {
+            upd.textContent = '—';
         }
     }
 
-    const y = $('#footerYear');
-    if (y) y.textContent = new Date().getFullYear();
+    // Contato
+    const emailEl = document.getElementById('footerEmail');
+    if (emailEl && c.email) {
+        emailEl.textContent = c.email;
+        emailEl.href = `mailto:${c.email}`;
+    }
+    const whatsEl = document.getElementById('footerWhats');
+    if (whatsEl && c.whatsapp) {
+        whatsEl.textContent = c.whatsappDisplay || c.whatsapp;
+        whatsEl.href = `https://wa.me/${c.whatsapp}`;
+    }
+    const locEl = document.getElementById('footerLocation');
+    if (locEl && c.location) locEl.textContent = c.location;
 
-    const c = DATA.contact || {};
+    // Links externos
+    const gh = document.getElementById('footerGithub');
+    if (gh && c.github) gh.href = c.github;
+    const li = document.getElementById('footerLinkedin');
+    if (li && c.linkedin) li.href = c.linkedin;
+    const pf = document.getElementById('footerPortfolio');
+    if (pf && c.portfolioUrl) pf.href = c.portfolioUrl;
+
+    // Socials no bottom
     const socials = document.querySelectorAll('.footer .socials a');
     const links = [c.github, c.linkedin, c.portfolioUrl, c.email ? `mailto:${c.email}` : ''];
     socials.forEach((a, i) => { if (links[i]) a.href = links[i]; });
+
+    // Inicia as funções extras (uma vez só)
+    initFooterExtras();
 }
 
 /* ================================================================
@@ -1900,6 +2328,141 @@ function applySEO() {
     const ldEl = document.getElementById('jsonLd');
     if (ldEl) ldEl.textContent = JSON.stringify(ld);
 }
+
+/* ================================================================
+   FUNÇÕES EXTRAS DO FOOTER
+   ================================================================ */
+let footerExtrasInitialized = false;
+
+function initFooterExtras() {
+    if (footerExtrasInitialized) return;
+    footerExtrasInitialized = true;
+    startLocalClock();
+    initBackToTop();
+}
+
+/* --- Toast de feedback --- */
+function showCopyToast(msg) {
+    const t = document.getElementById('copyToast');
+    const m = document.getElementById('copyToastMsg');
+    if (!t || !m) return;
+    m.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* --- Relógio local (America/Sao_Paulo) --- */
+function startLocalClock() {
+    const el = document.getElementById('localTimeText');
+    if (!el) return;
+    const tick = () => {
+        try {
+            const now = new Date();
+            el.textContent = now.toLocaleTimeString('pt-BR', {
+                timeZone: 'America/Sao_Paulo',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch {
+            const d = new Date();
+            el.textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+        }
+    };
+    tick();
+    setInterval(tick, 30000);
+}
+
+/* --- Back to top --- */
+function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    const onScroll = () => btn.classList.toggle('visible', window.scrollY > 500);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+/* --- Copiar e-mail (delegação) --- */
+document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('#copyEmailBtn');
+    if (!btn) return;
+    const email = (typeof DATA !== 'undefined' && DATA?.contact?.email) || 'matheusmgmgdossantos@gmail.com';
+    try {
+        await navigator.clipboard.writeText(email);
+        showCopyToast('E-mail copiado!');
+    } catch {
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopyToast('E-mail copiado!'); }
+        catch { showCopyToast('Não foi possível copiar.'); }
+        ta.remove();
+    }
+});
+
+/* --- Compartilhar --- */
+document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('#shareBtn');
+    if (!btn) return;
+    const shareData = {
+        title: document.title,
+        text: 'Confira o portfólio de Matheus Macário',
+        url: window.location.href
+    };
+    if (navigator.share) {
+        try { await navigator.share(shareData); }
+        catch (err) { /* usuário cancelou */ }
+    } else {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            showCopyToast('Link copiado!');
+        } catch {
+            showCopyToast('Não foi possível copiar.');
+        }
+    }
+});
+
+/* --- Baixar vCard (.vcf) --- */
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#downloadVcardBtn');
+    if (!btn) return;
+    const p = (typeof DATA !== 'undefined' && DATA?.profile) || {};
+    const c = (typeof DATA !== 'undefined' && DATA?.contact) || {};
+    const fullName = `${p.name || ''} ${p.nameHighlight || ''}`.trim() || 'Matheus Macário';
+
+    const vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${fullName}`,
+        `N:${p.nameHighlight || ''};${p.name || ''};;;`,
+        p.title ? `TITLE:${p.title}${p.titleHighlight ? ' — ' + p.titleHighlight : ''}` : '',
+        c.email ? `EMAIL;TYPE=INTERNET:${c.email}` : '',
+        c.whatsapp ? `TEL;TYPE=CELL:+${c.whatsapp}` : '',
+        c.location ? `ADR;TYPE=WORK:;;;${c.location};;;;` : '',
+        c.github ? `URL:${c.github}` : '',
+        c.linkedin ? `URL:${c.linkedin}` : '',
+        c.portfolioUrl ? `URL:${c.portfolioUrl}` : '',
+        p.bio ? `NOTE:${p.bio.replace(/[\r\n]+/g, ' ')}` : '',
+        'END:VCARD'
+    ].filter(Boolean).join('\r\n');
+
+    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${fullName.replace(/\s+/g, '_')}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showCopyToast('Contato baixado (.vcf)');
+});
 
 /* ================================================================
    CHATBOT
@@ -2054,7 +2617,7 @@ window.addEventListener('scroll', updateActiveLink);
 window.addEventListener('load', () => setTimeout(updateActiveLink, 100));
 
 /* ================================================================
-   REVEAL ON SCROLL (elementos estáticos)
+   REVEAL ON SCROLL
    ================================================================ */
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
