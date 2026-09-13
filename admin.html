@@ -186,7 +186,7 @@ main{padding:2rem 0 5rem}
     <main>
         <div class="container">
             <h1 class="page-title">Gestão do Portfólio</h1>
-            <p class="page-sub">Edite qualquer parte do site. As mudanças são salvas no GitHub.</p>
+            <p class="page-sub">Edite qualquer parte do site. As mudanças são salvas no GitHub via API segura.</p>
 
             <div class="tabs">
                 <button class="tab-btn active" data-tab="perfil"><i class="fas fa-user"></i> Perfil</button>
@@ -331,32 +331,15 @@ main{padding:2rem 0 5rem}
             <!-- CONFIG -->
             <div class="tab-content" id="tab-config">
                 <div class="card">
-                    <h3><i class="fab fa-github"></i> Conexão com GitHub</h3>
-                    <div class="form-group">
-                        <label>Personal Access Token</label>
-                        <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off" />
-                        <small>Token precisa de "Contents: Read and write".</small>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Usuário</label><input type="text" id="ghOwner" /></div>
-                        <div class="form-group"><label>Repositório</label><input type="text" id="ghRepo" /></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Branch</label><input type="text" id="ghBranch" /></div>
-                        <div class="form-group"><label>Caminho JSON</label><input type="text" id="ghPath" /></div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary" id="saveGhConfigBtn"><i class="fas fa-save"></i> Salvar Configuração</button>
-                        <button class="btn btn-outline" id="testGhBtn"><i class="fas fa-vial"></i> Testar Conexão</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3><i class="fas fa-lock"></i> Senha do Painel</h3>
-                    <div class="form-row">
-                        <div class="form-group"><label>Nova senha</label><input type="password" id="newPassword" /></div>
-                        <div class="form-group"><label>Confirmar</label><input type="password" id="confirmPassword" /></div>
-                    </div>
-                    <button class="btn btn-primary" id="changePasswordBtn"><i class="fas fa-key"></i> Alterar senha</button>
+                    <h3><i class="fas fa-shield-halved"></i> Segurança</h3>
+                    <p style="color:var(--text-secondary);font-size:.9rem;line-height:1.7">
+                        A senha do painel e o token do GitHub agora ficam armazenados como
+                        <strong style="color:var(--accent-green)">variáveis de ambiente</strong> na Vercel
+                        e nunca são enviados ao navegador. Para alterá-los, edite as variáveis
+                        <code style="background:var(--bg-surface-alt);padding:.15rem .4rem;border-radius:4px;color:var(--accent-primary)">ADMIN_PASSWORD</code> e
+                        <code style="background:var(--bg-surface-alt);padding:.15rem .4rem;border-radius:4px;color:var(--accent-primary)">GH_TOKEN</code>
+                        no painel da Vercel e faça um novo deploy.
+                    </p>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-file-export"></i> Backup & Importação</h3>
@@ -370,7 +353,8 @@ main{padding:2rem 0 5rem}
                 </div>
                 <div class="card" style="border-color:rgba(255,71,87,.3)">
                     <h3 style="color:var(--accent-red)"><i class="fas fa-exclamation-triangle"></i> Zona de Perigo</h3>
-                    <button class="btn btn-danger" id="resetAllBtn"><i class="fas fa-trash-alt"></i> Limpar dados locais</button>
+                    <p style="color:var(--text-secondary);font-size:.85rem;margin-bottom:1rem">Encerra a sessão atual. Você precisará digitar a senha novamente.</p>
+                    <button class="btn btn-danger" id="resetAllBtn"><i class="fas fa-sign-out-alt"></i> Encerrar sessão</button>
                 </div>
             </div>
         </div>
@@ -407,35 +391,23 @@ main{padding:2rem 0 5rem}
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
 <script>
-const CONFIG_KEY = 'portfolio_admin_config';
-const PASSWORD_KEY = 'portfolio_admin_password';
+/* ============================================================
+   ESTADO GLOBAL
+   ============================================================ */
+const API_URL = '/api/admin';
 const ADMIN_THEME_KEY = 'portfolio_admin_theme';
-const DEFAULT_PASSWORD = '36328876';
-const DEFAULT_CONFIG = {
-    token: '', owner: 'ryueik', repo: 'meu-portfolio',
-    branch: 'main', path: 'data/portfolio.json'
-};
+const SESSION_PWD_KEY = 'portfolio_admin_pwd';
+let _pwd = sessionStorage.getItem(SESSION_PWD_KEY) || '';
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
 let state = {
-    data: null, sha: null, config: { ...DEFAULT_CONFIG },
+    data: null, sha: null,
     dirty: false, modalSave: null
 };
 
 function uid() { return 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-function toBase64(str) {
-    const bytes = new TextEncoder().encode(str);
-    let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
-    return btoa(bin);
-}
-function fromBase64(b64) {
-    const bin = atob(b64.replace(/\s/g, ''));
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return new TextDecoder().decode(bytes);
-}
 function esc(s) {
     return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -513,56 +485,37 @@ $('#previewSaveBtn').onclick = async () => { await saveAll(); setTimeout(reloadP
 $('#previewModal').addEventListener('click', e => { if (e.target.id === 'previewModal') $('#previewCloseBtn').click(); });
 
 /* ============================================================
-   GITHUB API
+   API SEGURA (serverless)
    ============================================================ */
-async function ghGet() {
-    const { token, owner, repo, branch, path } = state.config;
-    if (!token || !owner || !repo) throw new Error('Configure token, usuário e repositório.');
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&t=${Date.now()}`;
-    const res = await fetch(url, {
-        headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+async function api(action, extra = {}, passwordOverride = null) {
+    const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action,
+            password: passwordOverride !== null ? passwordOverride : _pwd,
+            ...extra
+        })
     });
-    if (res.status === 404) return { data: null, sha: null };
+    const j = await res.json().catch(() => ({}));
     if (!res.ok) {
-        const e = await res.json().catch(() => ({}));
-        throw new Error(e.message || `Erro ${res.status}`);
+        const err = new Error(j.error || `Erro ${res.status}`);
+        err.status = res.status;
+        throw err;
     }
-    const j = await res.json();
-    let parsed; try { parsed = JSON.parse(fromBase64(j.content)); } catch { parsed = null; }
-    return { data: parsed, sha: j.sha };
+    return j;
+}
+
+async function ghGet() {
+    return await api('load');
 }
 
 async function ghPut(dataObj, message) {
-    const { token, owner, repo, branch, path } = state.config;
-    const payload = {
-        message: message || 'Update portfolio',
-        content: toBase64(JSON.stringify(dataObj, null, 2)),
-        branch
-    };
-    if (state.sha) payload.sha = state.sha;
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
-    if (!res.ok) {
-        const e = await res.json().catch(() => ({}));
-        if (res.status === 409) throw new Error('Conflito: recarregue antes de salvar.');
-        if (res.status === 401) throw new Error('Token inválido ou expirado.');
-        if (res.status === 403) throw new Error('Sem permissão. Verifique "Contents: Read and write".');
-        throw new Error(e.message || `Erro ${res.status}`);
-    }
-    const j = await res.json();
-    state.sha = j.content.sha;
+    const r = await api('save', { data: dataObj, sha: state.sha, message });
+    state.sha = r.sha;
 }
 
 async function uploadFileToGitHub(file, targetPath) {
-    const { token, owner, repo, branch } = state.config;
-    if (!token || !owner || !repo) throw new Error('Configure o GitHub primeiro.');
     if (file.size > 2 * 1024 * 1024) throw new Error('Arquivo muito grande (máx 2MB).');
     const b64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -570,29 +523,8 @@ async function uploadFileToGitHub(file, targetPath) {
         reader.onerror = () => reject(new Error('Erro ao ler arquivo.'));
         reader.readAsDataURL(file);
     });
-    let sha = null;
-    try {
-        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${targetPath}?ref=${branch}&t=${Date.now()}`, {
-            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
-        });
-        if (res.ok) sha = (await res.json()).sha;
-    } catch {}
-    const payload = { message: `Upload ${targetPath}`, content: b64, branch };
-    if (sha) payload.sha = sha;
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${targetPath}`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || `Erro ${res.status}`);
-    }
-    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${targetPath}?v=${Date.now()}`;
+    const { url } = await api('upload', { path: targetPath, content: b64 });
+    return url;
 }
 
 async function loadFromGitHub(silent) {
@@ -606,7 +538,7 @@ async function loadFromGitHub(silent) {
         } else {
             state.data = mergeWithDefault(data);
             state.sha = sha;
-            showToast('Dados carregados do GitHub.', 'info');
+            showToast('Dados carregados.', 'info');
         }
         state.dirty = false;
         setStatus('ok', state.sha ? 'Sincronizado' : 'Aguardando 1º save');
@@ -615,6 +547,12 @@ async function loadFromGitHub(silent) {
     } catch (e) {
         setStatus('err', 'Erro');
         showToast(e.message, 'error');
+        if (e.status === 401) {
+            // Senha expirou/inválida → volta para login
+            sessionStorage.removeItem(SESSION_PWD_KEY);
+            _pwd = '';
+            setTimeout(() => location.reload(), 1500);
+        }
         if (!state.data) state.data = getDefaultData();
         renderAll();
         return false;
@@ -648,7 +586,7 @@ async function saveAll() {
         await ghPut(state.data, 'Update portfolio data');
         state.dirty = false;
         setStatus('ok', 'Sincronizado');
-        showToast('Tudo salvo no GitHub!', 'success');
+        showToast('Tudo salvo!', 'success');
     } catch (e) {
         setStatus('err', 'Falha');
         showToast('Erro ao salvar: ' + e.message, 'error');
@@ -987,7 +925,6 @@ function openProjModal(i = null) {
             renderProj(); closeModal(); markDirty();
         });
 
-    /* Preview + Upload da imagem */
     const imgUrl = $('#m_image');
     const prev   = $('#projImagePreview');
     const refresh = () => {
@@ -1127,74 +1064,36 @@ function bindAll() {
 }
 
 /* ============================================================
-   LOGIN / CONFIG / BACKUP
+   LOGIN / BACKUP
    ============================================================ */
-function getStoredPassword() { return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD; }
-$('#loginBtn').onclick = () => {
-    if ($('#loginPassword').value === getStoredPassword()) {
-        sessionStorage.setItem('portfolio_admin_auth', '1');
+$('#loginBtn').onclick = async () => {
+    const pwd = $('#loginPassword').value;
+    if (!pwd) return;
+    $('#loginError').textContent = '';
+    const btn = $('#loginBtn');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Verificando...';
+    try {
+        await api('login', {}, pwd);   // valida no servidor
+        _pwd = pwd;
+        sessionStorage.setItem(SESSION_PWD_KEY, pwd);
         initApp();
-    } else {
-        $('#loginError').textContent = 'Senha incorreta.';
+    } catch (e) {
+        $('#loginError').textContent = e.message;
         $('#loginPassword').value = '';
+        $('#loginPassword').focus();
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = orig;
     }
 };
 $('#loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') $('#loginBtn').click(); });
-$('#logoutBtn').onclick = () => { sessionStorage.removeItem('portfolio_admin_auth'); location.reload(); };
 
-function loadConfig() {
-    try {
-        const raw = localStorage.getItem(CONFIG_KEY);
-        if (raw) state.config = { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
-    } catch {}
-    $('#ghToken').value = state.config.token || '';
-    $('#ghOwner').value = state.config.owner || '';
-    $('#ghRepo').value = state.config.repo || '';
-    $('#ghBranch').value = state.config.branch || 'main';
-    $('#ghPath').value = state.config.path || '';
-}
-
-$('#saveGhConfigBtn').onclick = async () => {
-    state.config = {
-        token: $('#ghToken').value.trim(), owner: $('#ghOwner').value.trim(),
-        repo: $('#ghRepo').value.trim(), branch: $('#ghBranch').value.trim() || 'main',
-        path: $('#ghPath').value.trim() || 'data/portfolio.json'
-    };
-    localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
-    showToast('Configuração salva!', 'success');
-    await loadFromGitHub();
-};
-
-$('#testGhBtn').onclick = async () => {
-    const btn = $('#testGhBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Testando...';
-    try {
-        state.config = {
-            token: $('#ghToken').value.trim(), owner: $('#ghOwner').value.trim(),
-            repo: $('#ghRepo').value.trim(), branch: $('#ghBranch').value.trim() || 'main',
-            path: $('#ghPath').value.trim() || 'data/portfolio.json'
-        };
-        localStorage.setItem(CONFIG_KEY, JSON.stringify(state.config));
-        const { data } = await ghGet();
-        showToast(data ? 'Conexão OK! Dados encontrados.' : 'Conexão OK! Arquivo será criado no 1º save.', 'success');
-        setStatus('ok', 'Conectado');
-    } catch (e) {
-        showToast('Falha: ' + e.message, 'error');
-        setStatus('err', 'Erro');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-vial"></i> Testar Conexão';
-    }
-};
-
-$('#changePasswordBtn').onclick = () => {
-    const a = $('#newPassword').value, b = $('#confirmPassword').value;
-    if (!a || a.length < 4) return showToast('Mínimo 4 caracteres.', 'error');
-    if (a !== b) return showToast('As senhas não coincidem.', 'error');
-    localStorage.setItem(PASSWORD_KEY, a);
-    $('#newPassword').value = ''; $('#confirmPassword').value = '';
-    showToast('Senha alterada!', 'success');
+$('#logoutBtn').onclick = () => {
+    sessionStorage.removeItem(SESSION_PWD_KEY);
+    _pwd = '';
+    location.reload();
 };
 
 $('#exportBtn').onclick = () => {
@@ -1221,10 +1120,9 @@ $('#importInput').onchange = e => {
 };
 
 $('#resetAllBtn').onclick = () => {
-    if (!confirm('Apagar config local (token, senha)?')) return;
-    localStorage.removeItem(CONFIG_KEY);
-    localStorage.removeItem(PASSWORD_KEY);
-    sessionStorage.removeItem('portfolio_admin_auth');
+    if (!confirm('Encerrar sessão?')) return;
+    sessionStorage.removeItem(SESSION_PWD_KEY);
+    _pwd = '';
     location.reload();
 };
 
@@ -1243,13 +1141,13 @@ window.addEventListener('beforeunload', e => { if (state.dirty) { e.preventDefau
 async function initApp() {
     $('#loginScreen').style.display = 'none';
     $('#app').style.display = 'block';
-    loadConfig();
     state.data = getDefaultData();
     bindAll();
     await loadFromGitHub();
 }
 
-if (sessionStorage.getItem('portfolio_admin_auth') === '1') initApp();
+/* Auto-login se a senha estiver na sessão (fechou e reabriu a aba) */
+if (_pwd) initApp();
 </script>
 </body>
 </html>
