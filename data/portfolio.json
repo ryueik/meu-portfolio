@@ -256,15 +256,16 @@
       "id": "p11",
       "title": "Portal Produtora Monteiro",
       "desc": "Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.",
+      "category": "web",
       "tags": [
         "Full Stack",
         "SEO",
         "Banco de Dados",
         "Segurança"
       ],
-      "category": "web",
       "icon": "fas fa-globe",
-      "link": ""
+      "link": "https://produtoramonteiro.com/",
+      "image": ""
     },
     {
       "id": "p12",
@@ -318,5 +319,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T14:56:48.151Z"
+  "updatedAt": "2026-09-13T15:25:41.054Z"
 }
