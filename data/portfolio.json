@@ -117,15 +117,16 @@
       "id": "p1",
       "title": "Gerador e Formatador de Planilhas para Ingestão SharePoint",
       "desc": "Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).",
+      "category": "rpa",
       "tags": [
         "Power Automate Desktop",
         "Python",
         "Excel/CSV Engine",
         "Data Transformation"
       ],
-      "category": "rpa",
       "icon": "fas fa-file-excel",
-      "link": ""
+      "link": "",
+      "image": "https://cdn.jsdelivr.net/gh/ryueik/meu-portfolio@main/data/assets/projects/p1.jpeg?v=1789311367450"
     },
     {
       "id": "p2",
@@ -317,5 +318,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T14:41:23.027Z"
+  "updatedAt": "2026-09-13T14:56:17.416Z"
 }
