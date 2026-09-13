@@ -873,6 +873,26 @@
             font-weight: 600;
         }
 
+        .project-card-cover {
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+    background: var(--bg-surface-alt);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.project-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .project-card-cover img {
+    transform: scale(1.06);
+}
+        
         .project-card-body {
             padding: 1.2rem 1.5rem 1.5rem;
             flex: 1;
@@ -1523,18 +1543,18 @@ function getDefaultData() {
             }
         ],
         projects: [
-            { id:"p1",  title:"Gerador e Formatador de Planilhas para Ingestão SharePoint", desc:"Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).", tags:["Power Automate Desktop","Python","Excel/CSV Engine","Data Transformation"], category:"rpa",     icon:"fas fa-file-excel",      link:"" },
-            { id:"p2",  title:"Pipeline de Importação Automática para SharePoint", desc:"Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.", tags:["Power Automate Cloud","SharePoint REST API","Graph API","Error Handling"], category:"rpa", icon:"fas fa-cloud-upload-alt", link:"" },
-            { id:"p3",  title:"Microsserviço de Consulta de Médicos via API", desc:"Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.", tags:["REST APIs","JSON Parsing","HTTP Requests","Cloud Integration"], category:"web", icon:"fas fa-user-md", link:"" },
-            { id:"p4",  title:"Web Scraper e Extrator Cadastral de Médicos (CRM)", desc:"Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.", tags:["Web Scraping","DOM Parsing","XPath","CSV Automation","Python"], category:"rpa", icon:"fas fa-spider", link:"" },
-            { id:"p5",  title:"Utilitário de Manipulação e Divisão de PDFs", desc:"Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.", tags:["Python","PowerShell","VBScript","PDF Binary Processing"], category:"scripts", icon:"fas fa-file-pdf", link:"" },
-            { id:"p6",  title:"Sistema de Governança e Limpeza Automática de Arquivos", desc:"Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.", tags:["OS Layer Automation","PowerShell","Python","File Retention Rules"], category:"scripts", icon:"fas fa-broom", link:"" },
-            { id:"p7",  title:"Módulo de Deleção em Lote para SharePoint", desc:"Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.", tags:["Power Automate Cloud","API Rate Limit Control","Batching Loops"], category:"rpa", icon:"fas fa-trash-alt", link:"" },
-            { id:"p8",  title:"Sistema Automatizado de Registro de Ponto (Híbrido)", desc:"Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.", tags:["Cloud & Desktop Integration","DateTime Logic","Dynamic Data Binding"], category:"rpa", icon:"fas fa-clock", link:"" },
-            { id:"p9",  title:"Automação Web para Gestão de Status no ZEEV (BPMS)", desc:"RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.", tags:["Web Automation","GUI Scripting","ZEEV BPMS","Data-Driven Automation"], category:"rpa", icon:"fas fa-globe", link:"" },
-            { id:"p10", title:"Script de Expurgo e Cancelamento de Solicitações no ZEEV", desc:"Robô de governança de processos que navega no ZEEV e cancela/exclui solicitações pendentes dinamicamente com base em parâmetros de tabelas de controle.", tags:["Web Scraping/Automation","Dynamic Waits (AJAX)","ZEEV BPMS"], category:"rpa", icon:"fas fa-robot", link:"" },
-            { id:"p11", title:"Portal Produtora Monteiro", desc:"Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.", tags:["Full Stack","SEO","Banco de Dados","Segurança"], category:"web", icon:"fas fa-globe", link:"" },
-            { id:"p12", title:"Repositórios e Scripts Web", desc:"Automações e utilitários em Python, JS e PHP consumindo APIs e tratando payloads JSON. Código aberto disponível no GitHub.", tags:["Python","JavaScript","PHP","APIs REST","JSON"], category:"web", icon:"fab fa-github", link:"https://github.com/ryueik/Projetos" }
+            { id:"p1",  title:"Gerador e Formatador de Planilhas para Ingestão SharePoint", desc:"Programa em Power Automate Desktop (PAD) e Python para ETL e higienização de dados brutos, organizando a massa de dados para ingestão automática via nuvem no SharePoint (App Inventário Patrimonial).", tags:["Power Automate Desktop","Python","Excel/CSV Engine","Data Transformation"], category:"rpa",     icon:"fas fa-file-excel",      link:"", image:"" },
+            { id:"p2",  title:"Pipeline de Importação Automática para SharePoint", desc:"Fluxo Cloud programado para consumir arquivos de rotinas desktop, realizando parse de dados e inserção em lote nas listas do SharePoint via REST API com tratamento de erros.", tags:["Power Automate Cloud","SharePoint REST API","Graph API","Error Handling"], category:"rpa", icon:"fas fa-cloud-upload-alt", link:"", image:"" },
+            { id:"p3",  title:"Microsserviço de Consulta de Médicos via API", desc:"Integração parametrizada que recebe 'Nome', 'CRM' e 'UF', consome endpoints de validação médica externa e retorna o payload formatado em tempo real.", tags:["REST APIs","JSON Parsing","HTTP Requests","Cloud Integration"], category:"web", icon:"fas fa-user-md", link:"", image:"" },
+            { id:"p4",  title:"Web Scraper e Extrator Cadastral de Médicos (CRM)", desc:"Robô de web scraping em Python / PAD para navegação automatizada no portal de medicina, extraindo status de cadastro por estado e gerando base consolidada em CSV.", tags:["Web Scraping","DOM Parsing","XPath","CSV Automation","Python"], category:"rpa", icon:"fas fa-spider", link:"", image:"" },
+            { id:"p5",  title:"Utilitário de Manipulação e Divisão de PDFs", desc:"Script utilitário em Python, PowerShell e VBScript que lê metadados de arquivos > 4MB e executa algoritmo de divisão física das páginas para adequação a limites de upload.", tags:["Python","PowerShell","VBScript","PDF Binary Processing"], category:"scripts", icon:"fas fa-file-pdf", link:"", image:"" },
+            { id:"p6",  title:"Sistema de Governança e Limpeza Automática de Arquivos", desc:"Script de manutenção de ambiente que varre diretórios do SO, inspeciona metadados de criação/modificação e executa a exclusão segura de arquivos com retenção > 30 dias.", tags:["OS Layer Automation","PowerShell","Python","File Retention Rules"], category:"scripts", icon:"fas fa-broom", link:"", image:"" },
+            { id:"p7",  title:"Módulo de Deleção em Lote para SharePoint", desc:"Rotina automatizada para expurgo de dados em listas SharePoint. Implementa laços condicionais com controle de rate-limiting para deletar até 5.000 itens por lote sem estourar quotas da API.", tags:["Power Automate Cloud","API Rate Limit Control","Batching Loops"], category:"rpa", icon:"fas fa-trash-alt", link:"", image:"" },
+            { id:"p8",  title:"Sistema Automatizado de Registro de Ponto (Híbrido)", desc:"Aplicação em nuvem e desktop para automação de controle de jornada, comparando temporalmente datas em tempo real e gravando os horários de entrada e saída.", tags:["Cloud & Desktop Integration","DateTime Logic","Dynamic Data Binding"], category:"rpa", icon:"fas fa-clock", link:"", image:"" },
+            { id:"p9",  title:"Automação Web para Gestão de Status no ZEEV (BPMS)", desc:"RPA de interface (GUI) que lê diretivas no Excel, cruza agendamentos operacionais e automatiza login/ações no ZEEV para ativação/inativação de cadastros.", tags:["Web Automation","GUI Scripting","ZEEV BPMS","Data-Driven Automation"], category:"rpa", icon:"fas fa-globe", link:"", image:"" },
+            { id:"p10", title:"Script de Expurgo e Cancelamento de Solicitações no ZEEV", desc:"Robô de governança de processos que navega no ZEEV e cancela/exclui solicitações pendentes dinamicamente com base em parâmetros de tabelas de controle.", tags:["Web Scraping/Automation","Dynamic Waits (AJAX)","ZEEV BPMS"], category:"rpa", icon:"fas fa-robot", link:"", image:"" },
+            { id:"p11", title:"Portal Produtora Monteiro", desc:"Website institucional completo com otimização SEO, banco de dados e arquitetura segura. Desenvolvimento full stack com gestão de infraestrutura.", tags:["Full Stack","SEO","Banco de Dados","Segurança"], category:"web", icon:"fas fa-globe", link:"", image:"" },
+            { id:"p12", title:"Repositórios e Scripts Web", desc:"Automações e utilitários em Python, JS e PHP consumindo APIs e tratando payloads JSON. Código aberto disponível no GitHub.", tags:["Python","JavaScript","PHP","APIs REST","JSON"], category:"web", icon:"fab fa-github", link:"https://github.com/ryueik/Projetos", image:"" }
         ],
         education: [
             { type:"Graduação", course:"Tecnólogo em Gestão da Tecnologia da Informação", institution:"Cruzeiro do Sul Virtual",           period:"2025 — 2026" },
@@ -1586,6 +1606,10 @@ function mergeWithDefault(data) {
     if (!Array.isArray(merged.about.stats) || merged.about.stats.length === 0) {
         merged.about.stats = def.about.stats;
     }
+
+    // Garante que todo projeto tenha o campo "image" (mesmo que vazio)
+    merged.projects = merged.projects.map(p => ({ image: "", ...p }));
+
     return merged;
 }
 
@@ -1745,6 +1769,11 @@ function renderProjects(filter) {
 
     grid.innerHTML = arr.map((p, i) => `
         <div class="project-card reveal visible" style="transition-delay:${i * 0.05}s">
+            ${p.image ? `
+            <div class="project-card-cover">
+                <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy"
+                     onerror="this.closest('.project-card-cover').remove()">
+            </div>` : ''}
             <div class="project-card-header">
                 <div class="icon"><i class="${esc(p.icon || 'fas fa-code')}"></i></div>
                 <span class="project-number">#${String(i + 1).padStart(2, '0')}</span>
@@ -1966,7 +1995,7 @@ Se a pergunta não for sobre o portfólio, redirecione gentilmente. Nunca invent
             addChatMsg(data.reply, 'ai');
         } catch (err) {
             typing.remove();
-            addChatMsg('Desculpe, tive um problema técnico. Tente novamente em instantes.', 'ai');
+            addChatMsg('Desculpe, tive um problema técnico. Tente novamente em alguns instantes.', 'ai');
             console.error('[Chatbot] Erro:', err);
         }
     });
