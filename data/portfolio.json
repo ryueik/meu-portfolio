@@ -7,7 +7,7 @@
     "title": "Desenvolvedor Web",
     "titleHighlight": "Especialista em RPA & Automação",
     "bio": "Tecnólogo em Gestão de TI apaixonado por criar soluções inovadoras. Especialista em automação de processos com Microsoft Power Platform, Python e desenvolvimento web full stack.",
-    "avatar": "https://cdn.jsdelivr.net/gh/ryueik/meu-portfolio@main/data/assets/avatar.png?v=1789309246629"
+    "avatar": "https://github.com/ryueik/meu-portfolio/blob/64ffd23d2e9c14062b22e60ff06843afdb674ba9/data/assets/avatar.png"
   },
   "about": {
     "paragraph1": "Profissional de Tecnologia da Informação em fase de conclusão da graduação em Gestão de TI com formação técnica em Informática para Internet. Altamente analítico e autodidata, destacado por alta eficiência, entregas antecipadas e precisão técnica.",
@@ -321,5 +321,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T14:21:08.880Z"
+  "updatedAt": "2026-09-13T14:22:48.616Z"
 }
