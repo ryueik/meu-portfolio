@@ -110,16 +110,6 @@
         "Concepção, programação Full Stack, otimização SEO e deploy do portal corporativo produtoramonteiro.com.",
         "Gestão de infraestrutura de servidores, domínios, bancos de dados e protocolos de segurança da informação."
       ]
-    },
-    {
-      "date": "jan 2020",
-      "company": "dez 2022",
-      "role": "teste",
-      "bullets": [
-        "testes",
-        "teste",
-        "tes"
-      ]
     }
   ],
   "projects": [
@@ -327,5 +317,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T14:38:43.856Z"
+  "updatedAt": "2026-09-13T14:41:23.027Z"
 }
