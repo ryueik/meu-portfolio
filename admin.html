@@ -410,7 +410,7 @@ main{padding:2rem 0 5rem}
 const CONFIG_KEY = 'portfolio_admin_config';
 const PASSWORD_KEY = 'portfolio_admin_password';
 const ADMIN_THEME_KEY = 'portfolio_admin_theme';
-const DEFAULT_PASSWORD = 'admin123';
+const DEFAULT_PASSWORD = '36328876';
 const DEFAULT_CONFIG = {
     token: '', owner: 'ryueik', repo: 'meu-portfolio',
     branch: 'main', path: 'data/portfolio.json'
@@ -891,7 +891,9 @@ function renderProj() {
     list.innerHTML = arr.map((p, i) => `
         <div class="list-item" draggable="true" data-index="${i}" style="cursor:grab">
             <div class="thumb" style="cursor:grab"><i class="fas fa-grip-vertical" style="opacity:.5"></i></div>
-            <div class="thumb"><i class="${esc(p.icon || 'fas fa-code')}"></i></div>
+            <div class="thumb" style="overflow:hidden;padding:0">${p.image
+    ? `<img src="${esc(p.image)}" alt="" style="width:100%;height:100%;object-fit:cover">`
+    : `<i class="${esc(p.icon || 'fas fa-code')}"></i>`}</div>
             <div class="body">
                 <h4>${esc(p.title)} <span style="font-size:.65rem;color:var(--accent-green);font-weight:700">${labels[p.category]||p.category}</span></h4>
                 <p>${esc(p.desc)}</p>
@@ -939,7 +941,8 @@ function enableDragDrop() {
 }
 
 function openProjModal(i = null) {
-    const p = i !== null ? state.data.projects[i] : { id:uid(), title:'', desc:'', tags:[], category:'rpa', icon:'fas fa-code', link:'' };
+    const p = i !== null ? state.data.projects[i] : { id:uid(), title:'', desc:'', tags:[], category:'rpa', icon:'fas fa-code', link:'', image:'' };
+    const pid = p.id || uid();
     openModal(i !== null ? 'Editar Projeto' : 'Novo Projeto', `
         <div class="form-group"><label>Título</label><input type="text" id="m_title" value="${esc(p.title)}"></div>
         <div class="form-group"><label>Descrição</label><textarea id="m_desc" rows="4">${esc(p.desc)}</textarea></div>
@@ -952,17 +955,66 @@ function openProjModal(i = null) {
         </div>
         <div class="form-group"><label>Tecnologias (separadas por vírgula)</label><input type="text" id="m_tags" value="${esc((p.tags||[]).join(', '))}"></div>
         <div class="form-row">
-            <div class="form-group"><label>Ícone</label><input type="text" id="m_icon" value="${esc(p.icon || 'fas fa-code')}"></div>
+            <div class="form-group"><label>Ícone (fallback)</label><input type="text" id="m_icon" value="${esc(p.icon || 'fas fa-code')}"><small>Usado quando não há imagem.</small></div>
             <div class="form-group"><label>Link (opcional)</label><input type="url" id="m_link" value="${esc(p.link||'')}"></div>
+        </div>
+        <div class="form-group">
+            <label>Imagem do projeto (opcional)</label>
+            <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+                <input type="url" id="m_image" value="${esc(p.image||'')}" placeholder="https://... ou faça upload" style="flex:1;min-width:180px" />
+                <label class="btn btn-primary btn-sm" style="margin:0;cursor:pointer">
+                    <i class="fas fa-upload"></i> Upload
+                    <input type="file" id="projImageFile" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none" />
+                </label>
+                <button type="button" class="btn btn-danger btn-sm" id="clearProjImage" title="Remover imagem"><i class="fas fa-times"></i></button>
+            </div>
+            <small>PNG, JPG, WebP ou GIF — máx 2MB. Sem imagem, o card usa o ícone.</small>
+            <img id="projImagePreview" style="margin-top:.6rem;max-width:100%;max-height:150px;border-radius:10px;border:1px solid var(--border-color);display:none" />
         </div>`,
         () => {
             const title = $('#m_title').value.trim();
-            const desc = $('#m_desc').value.trim();
+            const desc  = $('#m_desc').value.trim();
             if (!title || !desc) return showToast('Preencha título e descrição.', 'error');
-            const obj = { id: p.id, title, desc, category: $('#m_cat').value, tags: $('#m_tags').value.split(',').map(x=>x.trim()).filter(Boolean), icon: $('#m_icon').value.trim() || 'fas fa-code', link: $('#m_link').value.trim() };
+            const obj = {
+                id: pid, title, desc,
+                category: $('#m_cat').value,
+                tags: $('#m_tags').value.split(',').map(x=>x.trim()).filter(Boolean),
+                icon:  $('#m_icon').value.trim() || 'fas fa-code',
+                link:  $('#m_link').value.trim(),
+                image: $('#m_image').value.trim()
+            };
             if (i !== null) state.data.projects[i] = obj; else state.data.projects.unshift(obj);
             renderProj(); closeModal(); markDirty();
         });
+
+    /* Preview + Upload da imagem */
+    const imgUrl = $('#m_image');
+    const prev   = $('#projImagePreview');
+    const refresh = () => {
+        const v = imgUrl.value.trim();
+        if (v) { prev.src = v; prev.style.display = 'block'; prev.onerror = () => { prev.style.display = 'none'; }; }
+        else { prev.removeAttribute('src'); prev.style.display = 'none'; }
+    };
+    refresh();
+    imgUrl.addEventListener('input', refresh);
+    $('#clearProjImage').addEventListener('click', () => { imgUrl.value = ''; refresh(); });
+
+    $('#projImageFile').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+            showToast('Enviando imagem...', 'info');
+            const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '') || 'png';
+            const url = await uploadFileToGitHub(file, `data/assets/projects/${pid}.${ext}`);
+            imgUrl.value = url;
+            refresh();
+            showToast('Imagem enviada! Clique em "Salvar Tudo".', 'success');
+        } catch (err) {
+            showToast('Erro no upload: ' + err.message, 'error');
+        } finally {
+            e.target.value = '';
+        }
+    });
 }
 function delProj(i) { if (!confirm('Excluir?')) return; state.data.projects.splice(i,1); renderProj(); markDirty(); }
 
