@@ -1643,8 +1643,8 @@ function renderAll() {
     renderCertifications();
     renderContact();
     renderFooter();
-    applySEO();       // ← SEO automático
-    initChatbot();    // ← Chatbot (só inicializa uma vez)
+    applySEO();
+    initChatbot();
 }
 
 /* ---------- HERO ---------- */
@@ -1951,7 +1951,6 @@ Se a pergunta não for sobre o portfólio, redirecione gentilmente. Nunca invent
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'gpt-4o-mini',
                     messages: [
                         { role: 'system', content: buildSystemPrompt() },
                         ...history
