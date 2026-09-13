@@ -13,17 +13,17 @@ export default async function handler(req, res) {
         const { messages } = req.body;
         if (!Array.isArray(messages)) return res.status(400).json({ error: 'messages inválido' });
 
-        // ⚠️ Forçamos o modelo da Groq, ignorando o que vier do front-end
-        const GROQ_MODEL = 'llama-3.3-70b-versatile';
+        // URL DA GROQ (não OpenAI)
+        const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        const response = await fetch(GROQ_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: GROQ_MODEL,
+                model: 'llama-3.3-70b-versatile',
                 messages: messages,
                 max_tokens: 500,
                 temperature: 0.7
@@ -32,15 +32,15 @@ export default async function handler(req, res) {
 
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
-            console.error('[Groq API Error]', response.status, err);
-            return res.status(response.status).json({ error: err.error?.message || `Erro ${response.status} na Groq API` });
+            console.error('[Groq erro]', response.status, err);
+            return res.status(response.status).json({ error: err.error?.message || `Erro ${response.status}` });
         }
 
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content || 'Sem resposta';
         return res.status(200).json({ reply });
     } catch (e) {
-        console.error('[Chat handler error]', e);
+        console.error('[Chat erro]', e);
         return res.status(500).json({ error: e.message });
     }
 }
