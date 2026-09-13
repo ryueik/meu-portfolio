@@ -126,7 +126,7 @@
       ],
       "icon": "fas fa-file-excel",
       "link": "",
-      "image": "https://cdn.jsdelivr.net/gh/ryueik/meu-portfolio@main/data/assets/projects/p1.jpeg?v=1789311367450"
+      "image": ""
     },
     {
       "id": "p2",
@@ -318,5 +318,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T14:56:17.416Z"
+  "updatedAt": "2026-09-13T14:56:48.151Z"
 }
