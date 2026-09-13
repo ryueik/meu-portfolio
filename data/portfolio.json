@@ -32,10 +32,6 @@
       {
         "number": "30+",
         "label": "Clientes"
-      },
-      {
-        "number": "1",
-        "label": "site"
       }
     ]
   },
@@ -325,5 +321,5 @@
     "ctaText": "Estou aberto a oportunidades de freelance, colaborações e posições full-time em desenvolvimento e automação.",
     "ctaButtonText": "Fale Comigo"
   },
-  "updatedAt": "2026-09-13T00:54:56.306Z"
+  "updatedAt": "2026-09-13T00:55:40.407Z"
 }
